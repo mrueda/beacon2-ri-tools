@@ -10,7 +10,7 @@ services:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: example
     networks:
-      -  my-app-network
+      - my-app-network
 
   mongo-express:
     image: mongo-express
@@ -22,4 +22,8 @@ services:
       ME_CONFIG_MONGODB_ADMINPASSWORD: example
       ME_CONFIG_MONGODB_URL: mongodb://root:example@mongo:27017/
     networks:
-      -  my-app-network
+      - my-app-network
+
+networks:
+  my-app-network:
+    driver: bridge

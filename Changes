@@ -1,8 +1,10 @@
 Revision history for beacon2-ri-tools
 
 2.0.6  2025-0X-XX
-    - Created Flask app (in development) for BFF Browser
-    - In bff2html, foo.json (ee.g., exome.json) is no longer NDJSON but JSON array
+    - Created Flask app (in development) for 'utils/bff_browser'
+    - In bff2html, foo.json (e.g., exome.json) is no longer NDJSON but JSON array
+    - Added pagination to 'utils/bff_api'
+    - Updated 'docker-compose.yaml'
 
 2.0.5  2025-01-07
     - The 'config.yaml' for the 'beacon' script is now pre-formatted for the Dockerized version
@@ -14,7 +16,7 @@ Revision history for beacon2-ri-tools
     - Reorganized repo in folders
 
 2.0.3  2024-05-24
-    - Added Unicode support to 'utils/bff-validator'
+    - Added Unicode support to 'utils/bff_validator'
 
 2.0.2  2024-02-07
     - Updated 'docker-compose.yml'.
@@ -26,7 +28,6 @@ Revision history for beacon2-ri-tools
     - 'test': Sorted 'frequencyInPopulations' by key in 'genomicVariationsVcf.json.gz'
     - Docker Hub location updated to 'manuelrueda/beacon2-ri-tools'
     - Moved 'BEACON' to 'lib/BEACON'
-    - Updated READMEs
     - Fixed 'Dockerfile':
         - Changed base image from 'ubuntu' to 'ubuntu:20.04' (thanks to SJD folks)
 
