@@ -17,6 +17,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- `Dockerfile` from ubuntu to ubuntu:20.04 thanks to SJD folks 
+
+
 ### Deprecated
 
 ### Removed
