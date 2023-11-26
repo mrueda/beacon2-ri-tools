@@ -1,7 +1,7 @@
 FROM ubuntu:20.04
 
 # File Author (Mauricio Moldes) / Maintainer
-MAINTAINER Manuel Rueda <manuel.rueda@cnag.crg.eu>
+MAINTAINER Manuel Rueda <manuel.rueda@cnag.eu>
 
 # Build env 
 ENV DEBIAN_FRONTEND=noninteractive

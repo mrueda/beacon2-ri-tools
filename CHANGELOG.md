@@ -10,21 +10,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Contact email now is @cnag.eu.
 - `utils/bff-validator` 
   * Minor changes in STDOUT print.
 - `test`
   * `genomicVariationsVcf.json.gz` file has `frequencyInPopulations` sorted by key.
+- `bin/vcf2bff.pl`
+  * Fixed typos. Added comments.
 
 ### Fixed
 
 - `Dockerfile` from ubuntu to ubuntu:20.04 thanks to SJD folks 
-
-
-### Deprecated
-
-### Removed
-
-### Security
 
 ## [2.0.0] - 2022-08-18
 

@@ -461,14 +461,14 @@ sub new {
 
 sub data2hash {
 
-    my ( $self, $verbose ) = @_;
+    my $self = shift;
     $Data::Dumper::Sortkeys = 1;    # In alphabetic order
     print Dumper ( unbless $self);  # To avoid using {$uid => {$self->{$uid}}
 }
 
 sub data2json {
 
-    my ( $self, $verbose ) = @_;
+    my $self = shift;
     say encode_json( unbless $self);    # No order
 }
 

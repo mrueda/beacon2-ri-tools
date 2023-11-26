@@ -6,7 +6,7 @@
 #       b) Standard JSON [json] (STDOUT)
 #       c) Perl hash data structure [hash] (STDOUT)
 #
-#   Last Modified: May/09/2022
+#   Last Modified: Nov/26/2023
 #
 #   Version 2.0.0
 #
@@ -120,7 +120,7 @@ sub vcf2bff {
     ) if ( !-f $filein );
     pod2usage(
         -message =>
-          "Please specify a valid reference genome --genome <hs37|hg37|hg38>\n",
+          "Please specify a valid reference genome --genome <hg19|hg38>\n",
         -exitval => 1
     ) unless ($genome);
     pod2usage(
@@ -406,6 +406,7 @@ $prompt, $param, $arrow, $param{$param}
             #  PRINTING ACCORDING TO USER PARAMETERS    #
             #############################################
 
+            # Initialize the object with data - Overhead time is negligible
             my $bff = BFF->new($hash_out);
 
             # Serialize the data structure to the desired format

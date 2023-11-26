@@ -2,6 +2,11 @@
 [![Documentation Status](https://readthedocs.org/projects/b2ri-documentation/badge/?version=latest)](https://b2ri-documentation.readthedocs.io/en/latest/?badge=latest)
 ![Maintenance status](https://img.shields.io/badge/maintenance-actively--developed-brightgreen.svg)
 [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+[![Docker Pulls](https://badgen.net/docker/pulls/beacon2ri/beacon_reference_implementation?icon=docker&label=pulls)](https://hub.docker.com/r/beacon2ri/beacon_reference_implementation/)
+![version](https://img.shields.io/badge/version-2.0.0-blue)
+
+**Documentation**: <a href="https://b2ri-documentation.readthedocs.io/" target="_blank">https://b2ri-documentation.readthedocs.io/</a>
+
 # NAME
 
 `beacon`: A script to transform **genomic variations data** (VCF) to queryable data (MongoDB)
@@ -82,6 +87,17 @@ We provide two installation options, one containerized (recommended) and another
 
 ## Containerized
 
+### Method 1: From Docker Hub
+
+Download a docker image (latest version) from [Docker Hub](https://hub.docker.com/r/beacon2ri/beacon_reference_implementation) by executing:
+
+    docker pull beacon2ri/beacon_reference_implementation:latest
+    docker image tag beacon2ri/beacon_reference_implementatio:latest crg/beacon2_ri:latest
+
+See additional instructions below.
+
+### Method 2: From Dockerfile
+
 Download the `Dockerfile` from [Github](https://github.com/EGA-archive/beacon2-ri-tools/blob/main/Dockerfile) by typing:
 
     wget https://raw.githubusercontent.com/EGA-archive/beacon2-ri-tools/main/Dockerfile
@@ -89,6 +105,8 @@ Download the `Dockerfile` from [Github](https://github.com/EGA-archive/beacon2-r
 Then execute the following commands:
 
     docker build -t crg/beacon2_ri:latest . # build the container (~1.1G)
+
+### Additional instructions for Methods 1 and 2
 
 **IMPORTANT:** Docker containers are fully isolated. If you think you'll have to mount a volume to the container please read the section [Mounting Volumes](#readme-md-mounting-volumes) before proceeding further.
 
@@ -521,7 +539,7 @@ Credits:
 
 # REPORTING BUGS
 
-For Beacon problems, questions, or suggestions, send an e-mail to manuel.rueda@crg.eu.
+For Beacon problems, questions, or suggestions, send an e-mail to manuel.rueda@cnag.eu.
 
 # COPYRIGHT and LICENSE
 

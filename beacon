@@ -297,6 +297,17 @@ We provide two installation options, one containerized (recommended) and another
 
 =head2 Containerized
 
+=head3 Method 1: From Docker Hub
+
+Download a docker image (latest version) from L<Docker Hub|https://hub.docker.com/r/beacon2ri/beacon_reference_implementation> by executing:
+
+  docker pull beacon2ri/beacon_reference_implementation:latest
+  docker image tag beacon2ri/beacon_reference_implementatio:latest crg/beacon2_ri:latest
+
+See additional instructions below.
+
+=head3 Method 2: From Dockerfile
+
 Download the C<Dockerfile> from L<Github|https://github.com/EGA-archive/beacon2-ri-tools/blob/main/Dockerfile> by typing:
 
   wget https://raw.githubusercontent.com/EGA-archive/beacon2-ri-tools/main/Dockerfile
@@ -304,6 +315,8 @@ Download the C<Dockerfile> from L<Github|https://github.com/EGA-archive/beacon2-
 Then execute the following commands:
 
   docker build -t crg/beacon2_ri:latest . # build the container (~1.1G)
+
+=head3 Additional instructions for Methods 1 and 2
 
 B<IMPORTANT:> Docker containers are fully isolated. If you think you'll have to mount a volume to the container please read the section L<Mounting Volumes|/README.md#mounting-volumes> before proceeding further.
 
@@ -748,7 +761,7 @@ Credits:
 
 =head1 REPORTING BUGS
 
-For Beacon problems, questions, or suggestions, send an e-mail to manuel.rueda@crg.eu.
+For Beacon problems, questions, or suggestions, send an e-mail to manuel.rueda@cnag.eu.
 
 =head1 COPYRIGHT and LICENSE
 
