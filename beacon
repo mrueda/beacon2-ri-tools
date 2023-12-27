@@ -46,7 +46,7 @@ use BEACON::Beacon;
 #############################################################
 
 # Beacon version
-my $version = '2.0.0';
+my $version = '2.0.1';
 
 # Initialize a few more variables
 my $prompt      = 'Info:';
@@ -323,10 +323,10 @@ We provide two installation options for C<beacon2-ri-tools>, one containerized (
 
 =head3 Method 1: From Docker Hub
 
-Download a docker image (latest version) from L<Docker Hub|https://hub.docker.com/r/beacon2ri/beacon_reference_implementation> by executing:
+Download a docker image (latest version) from L<Docker Hub|https://hub.docker.com/r/manuelrueda/beacon2-ri-tools> by executing:
 
-  docker pull beacon2ri/beacon_reference_implementation:latest
-  docker image tag beacon2ri/beacon_reference_implementatio:latest crg/beacon2_ri:latest
+  docker pull manuelrueda/beacon2-ri-tools:latest
+  docker image tag manuelrueda/beacon2-ri-tools:latest crg/beacon2_ri:latest
 
 See additional instructions below.
 

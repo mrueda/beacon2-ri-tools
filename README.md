@@ -1,9 +1,10 @@
-[![Docker build](https://github.com/EGA-archive/beacon2-ri-tools/actions/workflows/docker-build.yml/badge.svg)](https://github.com/EGA-archive/beacon2-ri-tools/actions/workflows/docker-build.yml)
+[![Docker build](https://github.com/mrueda/beacon2-ri-tools/actions/workflows/docker-build.yml/badge.svg)](https://github.com/mrueda/beacon2-ri-tools/actions/workflows/docker-build.yml)
 [![Documentation Status](https://readthedocs.org/projects/b2ri-documentation/badge/?version=latest)](https://b2ri-documentation.readthedocs.io/en/latest/?badge=latest)
 ![Maintenance status](https://img.shields.io/badge/maintenance-actively--developed-brightgreen.svg)
 [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
-[![Docker Pulls](https://badgen.net/docker/pulls/beacon2ri/beacon_reference_implementation?icon=docker&label=pulls)](https://hub.docker.com/r/beacon2ri/beacon_reference_implementation/)
-![version](https://img.shields.io/badge/version-2.0.0-blue)
+[![Docker Pulls](https://badgen.net/docker/pulls/manuelrueda/beacon2-ri-tools?icon=docker&label=pulls)](https://hub.docker.com/r/manuelrueda/beacon2-ri-tools/)
+[![Docker Pulls EGA-archive](https://badgen.net/docker/pulls/beacon2ri/beacon_reference_implementation?icon=docker&label=EGA-archive-pulls)](https://hub.docker.com/r/beacon2ri/beacon_reference_implementation/)
+![version](https://img.shields.io/badge/version-2.0.1-blue)
 
 **Documentation**: <a href="https://b2ri-documentation.readthedocs.io/" target="_blank">https://b2ri-documentation.readthedocs.io/</a>
 
@@ -102,10 +103,10 @@ We provide two installation options for `beacon2-ri-tools`, one containerized (r
 
 ### Method 1: From Docker Hub
 
-Download a docker image (latest version) from [Docker Hub](https://hub.docker.com/r/beacon2ri/beacon_reference_implementation) by executing:
+Download a docker image (latest version) from [Docker Hub](https://hub.docker.com/r/manuelrueda/beacon2-ri-tools) by executing:
 
-    docker pull beacon2ri/beacon_reference_implementation:latest
-    docker image tag beacon2ri/beacon_reference_implementatio:latest crg/beacon2_ri:latest
+    docker pull manuelrueda/beacon2-ri-tools:latest
+    docker image tag manuelrueda/beacon2-ri-tools:latest crg/beacon2_ri:latest
 
 See additional instructions below.
 
