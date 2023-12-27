@@ -187,9 +187,7 @@ Alternatively, you can use git clone to get the latest (stable) version
 
     git clone https://github.com/mrueda/beacon2-ri-tools.git
 
-`beacon` is a Perl script (no compilation needed) that runs on Linux command-line. Internally, it submits multiple pipelines via customizable Bash scripts (see example [here](https://github.com/mrueda/beacon2-ri-tools/blob/main/BEACON/bin/run_vcf2bff.sh)). Note that Perl and Bash are installed by default in Linux.
-
-Perl 5 is installed by default on Linux, but we will need to install a few CPAN modules.
+`beacon` is a Perl script (no compilation needed) that runs on Linux command-line. Internally, it submits multiple pipelines via customizable Bash scripts (see example [here](https://github.com/mrueda/beacon2-ri-tools/blob/main/BEACON/bin/run_vcf2bff.sh)). Note that Perl and Bash are installed by default in Linux, but we will need to install a few dependencies.
 
 (For Debian and its derivatives, Ubuntu, Mint, etc.)
 
@@ -205,14 +203,12 @@ Second we use `cpanm` to install the CPAN modules. You have two choose between o
 
 **Option 1:** System-level installation:
 
-    cpanm --notest --sudo Pheno::Ranker
-    pheno-ranker -h
+    cpanm --notest --sudo --installdeps .
 
 **Option 2:** Install the dependencies at `~/perl5`
 
     cpanm --local-lib=~/perl5 local::lib && eval $(perl -I ~/perl5/lib/perl5/ -Mlocal::lib)
-    cpanm --notest Pheno::Ranker
-    pheno-ranker --help
+    cpanm --notest --installdeps .
 
 To ensure Perl recognizes your local modules every time you start a new terminal, you should type:
 
