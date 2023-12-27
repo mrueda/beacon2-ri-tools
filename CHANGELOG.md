@@ -6,21 +6,26 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.0.1] - 2022-12-27
+
 ### Added
 
 ### Changed
 
-- Contact email now is @cnag.eu.
-- `utils/bff-validator` 
-  * Minor changes in STDOUT print.
+- Updated contact email to @cnag.eu
+- `utils/bff-validator`
+  * Adjusted STDOUT printout details
 - `test`
-  * `genomicVariationsVcf.json.gz` file has `frequencyInPopulations` sorted by key.
+  * Sorted `frequencyInPopulations` by key in `genomicVariationsVcf.json.gz`
 - `bin/vcf2bff.pl`
-  * Fixed typos. Added comments.
+  * Corrected typos and enhanced code comments.
+- Docker Hub location updated to `manuelrueda/beacon2-ri-tools`
+- Updated `README.md`
 
 ### Fixed
 
-- `Dockerfile` from ubuntu to ubuntu:20.04 thanks to SJD folks 
+- `Dockerfile` 
+  * from `ubuntu` to `ubuntu:20.04` thanks to SJD folks 
 
 ## [2.0.0] - 2022-08-18
 
