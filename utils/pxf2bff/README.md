@@ -1,5 +1,9 @@
 # NAME
 
+**THIS IS SCRIPT IS DEPRECATED**
+
+PLEASE USE [CONVERT\_PHENO](https://github.com/CNAG-Biomedical-Informatics/convert-pheno) INSTEAD
+
 A script that converts Phenopacket PXF (JSON) to BFF (JSON)
 
 # SYNOPSIS

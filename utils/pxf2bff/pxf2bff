@@ -221,10 +221,13 @@ EOF
 
 =head1 NAME
 
+B<THIS IS SCRIPT IS DEPRECATED>
+
+PLEASE USE L<CONVERT_PHENO|https://github.com/CNAG-Biomedical-Informatics/convert-pheno> INSTEAD
+
 A script that converts Phenopacket PXF (JSON) to BFF (JSON)
 
 =head1 SYNOPSIS
-
 
 pxf2bff -i <*.json> [-options]
 

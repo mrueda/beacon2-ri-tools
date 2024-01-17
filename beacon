@@ -46,7 +46,7 @@ use BEACON::Beacon;
 #############################################################
 
 # Beacon version
-my $version = '2.0.1';
+my $version = '2.0.1_1';
 
 # Initialize a few more variables
 my $prompt      = 'Info:';
@@ -221,7 +221,9 @@ __END__
 
 =head1 NAME
 
-C<beacon>: A script to annotate and transform B<genomic variations data> (VCF) to queryable data (MongoDB)
+C<beacon>: A script to B<annotate> and B<transform> genomic variations data (B<VCF>) to queryable data (B<MongoDB>)
+
+(Actively maintained by the original author)
 
 =head1 SYNOPSIS
 

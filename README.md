@@ -10,7 +10,9 @@
 
 # NAME
 
-`beacon`: A script to annotate and transform **genomic variations data** (VCF) to queryable data (MongoDB)
+`beacon`: A script to **annotate** and **transform** genomic variations data (**VCF**) to queryable data (**MongoDB**)
+
+(Actively maintained by the original author)
 
 # SYNOPSIS
 
