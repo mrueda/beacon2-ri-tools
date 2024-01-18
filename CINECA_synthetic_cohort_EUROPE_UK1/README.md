@@ -22,7 +22,7 @@ A [raw file](./uk1.tsv) with phenoclinic data was gently donated to us from our 
 * `uk1.tsv` - Raw file with the metadata/phenoclinic data for 2504 fake individuals.
 * `Beacon-v2-Models_CINECA_UK1.xlsx` - Excel file with the metadata/phenoclinic data (INPUT).
 * `bff/*json` - Collections (JSON arrays) created from the Excel file (OUTPUT).
-* `scripts/` - Directory with miscellanea (ad hoc) scripts used by the author to transform `uk1.tsv` to multiple `csv` (used to fill out `Beacon-v2-Models_CINECA_UK1.xlsx`) .
+* `scripts/` - Directory containing miscellaneous (ad hoc) scripts utilized by the author for converting `uk1.tsv` into multiple `csv` files, which were then used to populate `Beacon-v2-Models_CINECA_UK1.xlsx`. The primary purpose of these scripts is to demonstrate the methods used for data transformation. It's important to note that these scripts are tailored to the author's specific data set and are not directly applicable to other data sets. Users are encouraged to develop their own customized methods for transforming raw data into the CSV format.
 
 ### External files (CRG public ftp site):
 

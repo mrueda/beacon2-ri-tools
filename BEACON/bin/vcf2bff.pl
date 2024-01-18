@@ -388,7 +388,7 @@ $prompt, $param, $arrow, $param{$param}
             # an unique ref hash named $hash_out. Note that $hash_out will have information per ONE variant.
             # We CANNOT STORE ALL VARIANTS IN ONE UNIQUE HASH, AS IT WILL REQUIRE A LOT OF MEMORY
             # WE ARE PRINTING LINE-BY-LINE
-            my $hash_out = ();
+            my $hash_out = {};
 
             # The first level of the hash == VCF column level (@keys2load)
             foreach my $key (@keys2load) {
