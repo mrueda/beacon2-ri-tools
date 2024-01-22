@@ -12,7 +12,7 @@ RUN apt-get update && \
 # Download app
 RUN mkdir /usr/share/beacon-ri
 WORKDIR /usr/share/beacon-ri/
-RUN git clone https://github.com/EGA-archive/beacon2-ri-tools.git
+RUN git clone https://github.com/mrueda/beacon2-ri-tools.git
 
 # Install Perl modules
 WORKDIR /usr/share/beacon-ri/beacon2-ri-tools
