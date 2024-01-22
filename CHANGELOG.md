@@ -6,9 +6,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [2.0.1] - 2022-12-27
-
 ### Added
+
+### Changed
+
+
+## [2.0.1] - 2024-01-22
 
 ### Changed
 
@@ -17,10 +20,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   * Adjusted STDOUT printout details
 - `test`
   * Sorted `frequencyInPopulations` by key in `genomicVariationsVcf.json.gz`
-- `bin/vcf2bff.pl`
-  * Corrected typos and enhanced code comments.
 - Docker Hub location updated to `manuelrueda/beacon2-ri-tools`
-- Updated `README.md`
+- Moved `BEACON` to `lib/BEACON`
+- Updated READMEs
 
 ### Fixed
 
