@@ -132,7 +132,7 @@ Then execute the following commands:
 
 After the `docker exec` command, you will land at `/usr/share/beacon-ri/`, then execute:
 
-    nohup beacon2-ri-tools/BEACON/bin/deploy_external_tools.sh &
+    nohup beacon2-ri-tools/lib/BEACON/bin/deploy_external_tools.sh &
 
 ...that will inject the external tools and DBs into the image and modify the [configuration](#readme-md-setting-up-beacon) files. It will also run a test to check that the installation was succesful. Note that running `deploy_external_tools.sh` will take some time (and disk space!!!). You can check the status by using:
 
@@ -160,7 +160,7 @@ Now you'll need to execute:
 
 After the `docker exec` command, you will land at `/usr/share/beacon-ri/`, then execute:
 
-    nohup beacon2-ri-tools/BEACON/bin/deploy_external_tools.sh & # see above why
+    nohup beacon2-ri-tools/lib/BEACON/bin/deploy_external_tools.sh & # see above why
 
 Then, you can run commands **inside the container**, like this;
 
@@ -190,7 +190,7 @@ Alternatively, you can use git clone to get the latest (stable) version
 
     git clone https://github.com/mrueda/beacon2-ri-tools.git
 
-`beacon` is a Perl script (no compilation needed) that runs on Linux command-line. Internally, it submits multiple pipelines via customizable Bash scripts (see example [here](https://github.com/mrueda/beacon2-ri-tools/blob/main/BEACON/bin/run_vcf2bff.sh)). Note that Perl and Bash are installed by default in Linux, but we will need to install a few dependencies.
+`beacon` is a Perl script (no compilation needed) that runs on Linux command-line. Internally, it submits multiple pipelines via customizable Bash scripts (see example [here](https://github.com/mrueda/beacon2-ri-tools/blob/main/lib/BEACON/bin/run_vcf2bff.sh)). Note that Perl and Bash are installed by default in Linux, but we will need to install a few dependencies.
 
 (For Debian and its derivatives, Ubuntu, Mint, etc.)
 

@@ -156,7 +156,7 @@ sub read_config_file {
     }
 
     # Below are a few internal paramaters
-    my $beacon_bin = "$main::Bin/BEACON/bin";    # Global $::Bin variable
+    my $beacon_bin = "$main::Bin/lib/BEACON/bin";    # Global $::Bin variable
     my $java       = '/usr/bin/java';
     $config{snpeff}    = "$java -Xmx" . $config{mem} . " -jar $config{snpeff}";
     $config{snpsift}   = "$java -Xmx" . $config{mem} . " -jar $config{snpsift}";
