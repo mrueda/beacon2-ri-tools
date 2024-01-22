@@ -1,5 +1,7 @@
 # README
 
+**THIS IS SCRIPT HAS TO BE RUN ONLY BY B2RI DEVELOPERS**.
+
 This is the README file for `models2xlsx` utility.
 
 ## Motivation 
@@ -9,8 +11,6 @@ The idea of this tool is to transform the terms from Beacon v2 Models (stored hi
 We will be extracting the terms from each of the **seven entities** and converting them to **headers**.
 
 ## How to run
-
-This is script was built to be **run only by _B2RI_ developers** at [CRG](https://www.crg.eu).
 
 _NB:_ You need to have the de-referenced Beacon v2 default schemas accessible.
 

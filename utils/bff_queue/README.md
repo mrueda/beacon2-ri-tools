@@ -43,7 +43,7 @@ All the previous options are fine, but now we're going to go a bit further.
 
 We're going to be using an _open source_ queue system/task manager based on **Mojolicius** [Minion](https://metacpan.org/dist/Minion).
 
-![Minion](https://camo.githubusercontent.com/600ba3edc100f64e48559cad1088d726dfbe449013ef4b691256c114110a00dd/68747470733a2f2f7261772e6769746875622e636f6d2f6d6f6a6f6c6963696f75732f6d696e696f6e2f6d61696e2f6578616d706c65732f61646d696e2e706e673f7261773d74727565)
+![Minion](https://raw.githubusercontent.com/mojolicious/minion/main/examples/admin.png)
 
 [Minion](https://metacpan.org/dist/Minion) is a queue system written in Perl, similar to those existing for other languages (Python's [Celery](https://docs.celeryproject.org/en/stable/getting-started/introduction.html), [RQ](https://python-rq.org/docs/monitoring) or JavaScript's [Bull](https://optimalbits.github.io/bull)).
 
