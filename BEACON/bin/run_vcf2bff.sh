@@ -6,7 +6,7 @@
 #
 #   Version 2.0.0
 #
-#   Copyright (C) 2021 Manuel Rueda (manuel.rueda@crg.eu)
+#   Copyright (C) 2021-2024 Manuel Rueda (manuel.rueda@cnag.eu)
 #
 #   Credits: Dietmar Fernandez-Orth for creating bcftools/snpEff commands
 #

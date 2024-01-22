@@ -9,7 +9,7 @@
 #
 #   Version: 2.0.0
 #
-#   Copyright (C) 2021-2022 Manuel Rueda (manuel.rueda@cnag.eu)
+#   Copyright (C) 2021-2024 Manuel Rueda (manuel.rueda@cnag.eu)
 #
 #   This program is free software; you can redistribute it and/or modify
 #   it under the terms of the GNU General Public License as published by
@@ -55,7 +55,7 @@ my $error       = 'Error:';
 my $spacer      = '*' x 32;
 my $arrow       = '=>';
 my $cmd         = '';
-my $author      = '(C) 2021-2022 Manuel Rueda, PhD';
+my $author      = '(C) 2021-2024 Manuel Rueda, PhD';
 my $license     = 'GNU General Public License v3';
 my $beacon_path = abs_path($0);
 
@@ -788,6 +788,6 @@ For Beacon problems, questions, or suggestions, send an e-mail to manuel.rueda@c
 
 =head1 COPYRIGHT and LICENSE
 
-This PERL file is copyrighted, (C) 2021-2022 Manuel Rueda. See the LICENSE file included in this distribution.
+This PERL file is copyrighted, (C) 2021-2024 Manuel Rueda. See the LICENSE file included in this distribution.
 
 =cut

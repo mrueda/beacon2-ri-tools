@@ -556,4 +556,4 @@ For Beacon problems, questions, or suggestions, send an e-mail to manuel.rueda@c
 
 # COPYRIGHT and LICENSE
 
-This PERL file is copyrighted, (C) 2021-2022 Manuel Rueda. See the LICENSE file included in this distribution.
+This PERL file is copyrighted, (C) 2021-2024 Manuel Rueda. See the LICENSE file included in this distribution.

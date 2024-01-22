@@ -4,9 +4,9 @@
 #
 #   Last Modified: Apr/12/2022
 #
-#   Version: 2.0.0
+#   Version taken from $beacon
 #
-#   Copyright (C) 2021-2022 Manuel Rueda (manuel.rueda@crg.eu)
+#   Copyright (C) 2021-2024 Manuel Rueda (manuel.rueda@cnag.eu)
 #
 #   This program is free software; you can redistribute it and/or modify
 #   it under the terms of the GNU General Public License as published by
@@ -39,7 +39,7 @@ exit;
 sub json2html {
 
     # Defining a few variables
-    my $version = '2.0.0';
+    my $version = '2.0.1';
     my @browser_fields =
       qw(variantInternalId assemblyId refseqId position referenceBases alternateBases QUAL FILTER variantType genomicHGVSId geneIds molecularEffects aminoacidChanges annotationImpact conditionId dbSNP ClinVar clinicalRelevance biosampleId);
 
@@ -163,7 +163,7 @@ EOF
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Links <b class="caret"></b></a>
                                 <ul class="dropdown-menu">
                                     <li class="nav-header">Contact</li>
-                                    <li><a href="mailto:manuel.rueda\@crg.eu"><span class="icon-envelope"></span> Author</a></li>
+                                    <li><a href="mailto:manuel.rueda\@cnag.eu"><span class="icon-envelope"></span> Author</a></li>
                                     <li class="divider"></li>
                                     <li class="nav-header">CRG Links</li>
                                     <li><a href="https://www.crg.eu"><span class="icon-home"></span> CRG</a></li>
@@ -223,7 +223,7 @@ EOF
       <hr>
       <!-- FOOTER -->
       <footer>
-                    <p>&copy; 2021-2022 Centre for Genomic Regulation | Barcelona, Spain </p>
+                    <p>&copy; 2021-2024 Centre for Genomic Regulation | Barcelona, Spain </p>
 
       </footer>
 
@@ -365,7 +365,7 @@ Written by Manuel Rueda, PhD. Info about CRG can be found at L<https://www.crg.e
 
 =head1 REPORTING BUGS
 
-Report bugs or comments to <manuel.rueda@crg.eu>.
+Report bugs or comments to <manuel.rueda@cnag.eu>.
 
 =head1 COPYRIGHT
 

@@ -9,9 +9,9 @@
 #
 #   Last Modified: Apr/12/2022
 #
-#   Version 2.0.0
+#   Version taken from $beacon
 #
-#   Copyright (C) 2021-2022 Manuel Rueda (manuel.rueda@crg.eu)
+#   Copyright (C) 2021-2024 Manuel Rueda (manuel.rueda@cnag.eu)
 #
 #   This program is free software; you can redistribute it and/or modify
 #   it under the terms of the GNU General Public License as published by
@@ -384,7 +384,7 @@ Written by Manuel Rueda, PhD. Info about CRG can be found at L<https://www.crg.e
 
 =head1 REPORTING BUGS
 
-Report bugs or comments to <manuel.rueda@crg.eu>.
+Report bugs or comments to <manuel.rueda@cnag.eu>.
 
 
 =head1 COPYRIGHT

@@ -8,9 +8,9 @@
 #
 #   Last Modified: Nov/26/2023
 #
-#   Version 2.0.0
+#   Version taken from $beacon
 #
-#   Copyright (C) 2021-2022 Manuel Rueda (manuel.rueda@crg.eu)
+#   Copyright (C) 2021-2024 Manuel Rueda (manuel.rueda@cnag.eu)
 #
 #   This program is free software; you can redistribute it and/or modify
 #   it under the terms of the GNU General Public License as published by
@@ -56,7 +56,7 @@ exit;
 sub vcf2bff {
 
     # Defining a few variables
-    my $version  = '2.0.0';
+    my $version  = '2.0.1';
     my $DEFAULT  = '.';
     my $exe_path = abs_path($0);
     my $cwd      = cwd;
@@ -715,7 +715,7 @@ from which I borrowed the concept for creating vcf2bff.pl.
 
 =head1 REPORTING BUGS
 
-Report bugs or comments to L<manuel.rueda@crg.eu>.
+Report bugs or comments to L<manuel.rueda@cnag.eu>.
 
 
 =head1 COPYRIGHT
