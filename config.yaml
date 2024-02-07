@@ -30,7 +30,7 @@ tmpdir: /media/mrueda/8TB/tmp
 # MongoDB 
 mongoimport: /home/mrueda/Soft/mongodb-database-tools-ubuntu2004-x86_64-100.5.1/bin/mongoimport
 mongostat: /home/mrueda/Soft/mongodb-database-tools-ubuntu2004-x86_64-100.5.1/bin/mongostat
-mongodburi: mongodb://root:example@127.0.0.1:27017/beacon?authSource=admin
+mongodburi: mongodb://root:example@mongo:27017/beacon?authSource=admin
 mongosh: /usr/bin/mongosh
 
 # Set of fields from dbSNSFP (optional)

@@ -124,11 +124,13 @@ Download the `Dockerfile` from [Github](https://github.com/mrueda/beacon2-ri-too
 
 Then execute the following commands:
 
-    docker buildx build -t crg/beacon2_ri:latest . # build the container (~1.1G
+    docker buildx build -t crg/beacon2_ri:latest . # build the container (~1.1G)
 
 ### Additional instructions for Methods 1 and 2
 
-**IMPORTANT:** Docker containers are fully isolated. If you think you'll have to mount a volume to the container please read the section [Mounting Volumes](#readme-md-mounting-volumes) before proceeding further.
+**IMPORTANT:** Docker containers are fully isolated. If you think you'll have to mount a volume to the container please read the section [Mounting Volumes](#mounting-volumes) before proceeding further.
+
+**IMPORTANT (BIS):** If you plan to load data into MongoDB from inside `beacon2-ri-tools` container please read the section [Access MongoDB from inside the container](#access-mongodb-from-inside-the-container) before proceeding further.
 
     docker run -tid --name beacon2-ri-tools crg/beacon2_ri:latest # run the image detached
     docker ps  # list your containers, beacon2-ri-tools should be there
@@ -151,6 +153,8 @@ Please download the `docker-compose.yml` file:
 And then execute:
 
     docker-compose up -d
+
+Mongo Express will be accessible via `http://localhost:8081` with default credentials `admin` and `pass`.
 
 ### Mounting volumes
 
@@ -183,6 +187,13 @@ Alternatively, you can run commands **from the host**, like this:
     projectdir /workdir/my_fav_job_id
     # Finally we use the alias to run the command
     beacon vcf -i /workdir/my_vcf.gz -p /workdir/param.in 
+
+### Access MongoDB from inside the container
+
+If you want to load data from **inside** the `beacon2-ri-tools` directly to `mongo` container, both containers have to be on the same network:
+
+    docker network ls # find available networks
+    docker run -tid --network=mrueda_default_network --name beacon2-ri-tools crg/beacon2_ri:latest # change the network to match yours
 
 ## Non containerized
 
