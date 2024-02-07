@@ -128,6 +128,19 @@ Then execute the following commands:
 
 ### Additional instructions for Methods 1 and 2
 
+If MongoDB has not been installed alongside the `beacon2-ri-api` repository, it will be necessary to install it separately. MongoDB should be deployed outside the `beacon2-ri-tools` container.
+
+Please download the `docker-compose.yml` file:
+
+    wget https://raw.githubusercontent.com/mrueda/beacon2-ri-tools/main/docker-compose.yml
+
+And then execute:
+
+    docker network create my-app-network
+    docker-compose up -d
+
+Mongo Express will be accessible via `http://localhost:8081` with default credentials `admin` and `pass`.
+
 **IMPORTANT:** Docker containers are fully isolated. If you think you'll have to mount a volume to the container please read the section [Mounting Volumes](#mounting-volumes) before proceeding further.
 
 **IMPORTANT (BIS):** If you plan to load data into MongoDB from inside `beacon2-ri-tools` container please read the section [Access MongoDB from inside the container](#access-mongodb-from-inside-the-container) before proceeding further.
@@ -143,18 +156,6 @@ After the `docker exec` command, you will land at `/usr/share/beacon-ri/`, then 
 ...that will inject the external tools and DBs into the image and modify the [configuration](#readme-md-setting-up-beacon) files. It will also run a test to check that the installation was succesful. Note that running `deploy_external_tools.sh` will take some time (and disk space!!!). You can check the status by using:
 
     tail -f nohup.out
-
-The last step is to deploy MongoDB. We will deploy it **outside** the `beacon2-ri-tools` container so please `exit` from it.
-
-Please download the `docker-compose.yml` file: 
-
-    wget https://raw.githubusercontent.com/mrueda/beacon2-ri-tools/main/docker-compose.yml
-
-And then execute:
-
-    docker-compose up -d
-
-Mongo Express will be accessible via `http://localhost:8081` with default credentials `admin` and `pass`.
 
 ### Mounting volumes
 
@@ -192,8 +193,6 @@ Alternatively, you can run commands **from the host**, like this:
 
 If you want to load data from **inside** the `beacon2-ri-tools` directly to `mongo` container, both containers have to be on the same network:
 
-    docker network create my-app-network
-    docker network ls # find available networks
     docker run -tid --network=my-app-network --name beacon2-ri-tools crg/beacon2_ri:latest # change the network to match yours
 
 ## Non containerized
