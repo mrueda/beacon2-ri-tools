@@ -192,8 +192,9 @@ Alternatively, you can run commands **from the host**, like this:
 
 If you want to load data from **inside** the `beacon2-ri-tools` directly to `mongo` container, both containers have to be on the same network:
 
+    docker network create my-app-network
     docker network ls # find available networks
-    docker run -tid --network=mrueda_default_network --name beacon2-ri-tools crg/beacon2_ri:latest # change the network to match yours
+    docker run -tid --network=my-app-network --name beacon2-ri-tools crg/beacon2_ri:latest # change the network to match yours
 
 ## Non containerized
 
