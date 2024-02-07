@@ -8,6 +8,10 @@
 
 **Documentation**: <a href="https://b2ri-documentation.readthedocs.io/" target="_blank">https://b2ri-documentation.readthedocs.io/</a>
 
+**CLI Source Code**: <a href="https://github.com/mrueda/beacon2-ri-tools" target="_blank">https://github.com/mrueda/beacon2-ri-tools</a>
+
+**Docker Hub Image**: <a href="https://hub.docker.com/r/manuelrueda/beacon2-ri-tools/tags" target="_blank">https://hub.docker.com/r/manuelrueda/beacon2-ri-tools/tags</a>
+
 # NAME
 
 `beacon`: A script to **annotate** and **transform** genomic variations data (**VCF**) to queryable data (**MongoDB**)
@@ -120,7 +124,7 @@ Download the `Dockerfile` from [Github](https://github.com/mrueda/beacon2-ri-too
 
 Then execute the following commands:
 
-    docker build -t crg/beacon2_ri:latest . # build the container (~1.1G)
+    docker buildx build -t crg/beacon2_ri:latest . # build the container (~1.1G
 
 ### Additional instructions for Methods 1 and 2
 

@@ -46,7 +46,7 @@ use BEACON::Beacon;
 #############################################################
 
 # Beacon version
-my $version = '2.0.1';
+my $version = '2.0.1_1';
 
 # Initialize a few more variables
 my $prompt      = 'Info:';
@@ -340,7 +340,7 @@ Download the C<Dockerfile> from L<Github|https://github.com/mrueda/beacon2-ri-to
 
 Then execute the following commands:
 
-  docker build -t crg/beacon2_ri:latest . # build the container (~1.1G)
+  docker buildx build -t crg/beacon2_ri:latest . # build the container (~1.1G
 
 =head3 Additional instructions for Methods 1 and 2
 
