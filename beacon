@@ -5,9 +5,9 @@
 #   - mongodb mode: Transfers BFF data to MongoDB
 #   - full mode: Combines vcf and mongodb modes
 #
-#   Last Modified: Dec/27/2023
+#   Last Modified: Feb/07/2024
 #
-#   Version: 2.0.1
+#   Version: 2.0.2
 #
 #   Copyright (C) 2021-2024 Manuel Rueda (manuel.rueda@cnag.eu)
 #
@@ -46,7 +46,7 @@ use BEACON::Beacon;
 #############################################################
 
 # Beacon version
-my $version = '2.0.2';
+my $version = '2.0.2_1';
 
 # Initialize a few more variables
 my $prompt      = 'Info:';
@@ -721,7 +721,7 @@ I<NB>: If you don't want colors in the output use the flag C<--no-color>. If you
 
 =head2 WHAT IS THE BEACON FRIENDLY FORMAT (BFF)
 
-The Beacon Friendly Format is a data exchange format consisting up to  7 JSON files (JSON arrays consisting of multiple documents) that match the 7 schemas from L<Beacon v2 Models|https://docs.genomebeacons.org/schemas-md/analyses_defaultSchema/>.
+The Beacon Friendly Format is a data exchange format consisting up to  7 JSON files (JSON arrays) that match the 7 schemas from L<Beacon v2 Models|https://docs.genomebeacons.org/schemas-md/analyses_defaultSchema/>.
 
 Six files correspond to Metadata (C<analyses.json,biosamples.json,cohorts.json,datasets.json,individuals.json,runs.json>) and one corresponds to variations (C<genomicVariations.json>).
 

@@ -492,7 +492,7 @@ _NB_: If you don't want colors in the output use the flag `--no-color`. If you d
 
 ## WHAT IS THE BEACON FRIENDLY FORMAT (BFF)
 
-The Beacon Friendly Format is a data exchange format consisting up to  7 JSON files (JSON arrays consisting of multiple documents) that match the 7 schemas from [Beacon v2 Models](https://docs.genomebeacons.org/schemas-md/analyses_defaultSchema/).
+The Beacon Friendly Format is a data exchange format consisting up to  7 JSON files (JSON arrays) that match the 7 schemas from [Beacon v2 Models](https://docs.genomebeacons.org/schemas-md/analyses_defaultSchema/).
 
 Six files correspond to Metadata (`analyses.json,biosamples.json,cohorts.json,datasets.json,individuals.json,runs.json`) and one corresponds to variations (`genomicVariations.json`).
 
