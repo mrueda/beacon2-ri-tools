@@ -1,6 +1,6 @@
 FROM ubuntu:20.04
 
-# File Author (Mauricio Moldes) / Maintainer
+# File Maintainer
 MAINTAINER Manuel Rueda <manuel.rueda@cnag.eu>
 
 # Build env 

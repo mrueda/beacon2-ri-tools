@@ -73,9 +73,9 @@ beacon &lt;mode> \[-arguments\] \[-options\]
                 * Beacon v2 Reference Implementation *
 
                     ___________
-                    |          |
-              XLSX  | Metadata | (incl. Phenotypic data)
-                    |__________|
+              XLSX  |          |
+               or   | Metadata | (incl. Phenotypic data)
+              JSON  |__________|
                          |
                          |
                          | Validation (bff-validator)
