@@ -670,7 +670,7 @@ sub write_json {
 
     my ( $file, $json_array ) = @_;
     my $json = JSON::XS->new->utf8->canonical->pretty->encode($json_array);
-    path($file)->spew_utf8($json);
+    path($file)->spew($json);
     return 1;
 }
 
