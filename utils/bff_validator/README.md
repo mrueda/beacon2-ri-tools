@@ -58,7 +58,7 @@ Then, we can install our dependencies:
 
 Also, we're using _xlsx2csv_, which is a python script. 
 
-    $ sudo pip install xlsx2csv
+    $ pip install xlsx2csv
 
 For executing `bff-validator` you will need:
 

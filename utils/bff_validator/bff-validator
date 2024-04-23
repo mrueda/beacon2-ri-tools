@@ -785,7 +785,7 @@ Then, we can install our dependencies:
 
 Also, we're using I<xlsx2csv>, which is a python script. 
 
-   $ sudo pip install xlsx2csv
+   $ pip install xlsx2csv
 
 For executing C<bff-validator> you will need:
 
