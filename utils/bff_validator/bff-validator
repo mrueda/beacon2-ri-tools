@@ -3,9 +3,9 @@
 #   A script that validates metadata [XLSX|JSON] against
 #   Beacon v2 Models defaul schemas and serializes them to BFF (JSON)
 #
-#   Last Modified: Sep/17/2022
+#   Last Modified: May/24/2024
 #
-#   Version 2.0.0
+#   Version 2.0.3
 #
 #   Copyright (C) 2021-2022 Manuel Rueda (manuel.rueda@crg.eu)
 #
@@ -33,7 +33,7 @@ use Pod::Usage;
 use Data::Dumper;
 use FindBin qw($Bin);
 use Text::CSV_XS;
-use Text::Unidecode;
+#use Text::Unidecode;
 use JSON::XS;
 use JSON::Validator;
 use File::Basename;
@@ -47,7 +47,6 @@ $Data::Dumper::Sortkeys = 1;
 
 my $debug   = 0;
 my $verbose = 0;
-require open ":std", ":encoding(UTF-8)" if $debug;
 
 ##### Main #####
 validate_input_data();
@@ -470,7 +469,8 @@ sub row2hash {
             # Example of HoHoA: datasets => dataUseConditions.duoDatause_[]
             my $tmp_ref =
               $excel{$key} =~ m/^\[/
-              ? decode_json( unidecode( $excel{$key} ) )
+              ? decode_json(  $excel{$key} ) 
+              #? decode_json( unidecode( $excel{$key} ) ) # mrueda 052324
               : \$excel{$key};
             $json = array2hash( $json, $terms, $tmp_ref );
         }
@@ -511,7 +511,8 @@ sub row2hash {
             # NB: We store references ($values) for both <strings> and <json>
             my $values =
               $excel{$key} =~ m/^\[/
-              ? decode_json( unidecode( $excel{$key} ) )
+              ? decode_json(  $excel{$key}  )
+              #? decode_json( unidecode( $excel{$key} ) ) # mrueda 052324
               : [ split /,/, $excel{$key} ];
 
             # Finally we create a multidimensional hash inside $json
@@ -526,8 +527,6 @@ sub row2hash {
             }
         }
     }
-
-    #print Dumper $json;
 
     # STEP 2: Transform temporary hash (see $suffix) to an array
     for my $array_term (@array_terms) {
@@ -660,18 +659,19 @@ sub validate_against_json_schema {
 
 sub read_json {
 
-    my $json_file = shift;
-    my $str       = path($json_file)->slurp_utf8;
-    my $json      = decode_json($str);           # Decode to Perl data structure
-    return $json;
+    my $file = shift;
+    my $str       = path($file)->slurp;
+    my $json      = decode_json($str);
+    return decode_json($str);    # Decode (utf-8) to Perl data structure
 }
 
 sub write_json {
 
-    my ( $file, $json_array ) = @_;
-    my $json = JSON::XS->new->utf8->canonical->pretty->encode($json_array);
+    my ( $file, $json_data ) = @_;
+    my $json = JSON::XS->new->utf8->canonical->pretty->encode($json_data);
     path($file)->spew($json);
     return 1;
+
 }
 
 sub check_input_type {
@@ -830,7 +830,7 @@ B<Examples:>
 =head2 TIPS ON FILLING OUT THE EXCEL TEMPLATE
 
    * Please, before filling in any field, check out the provided template for ../../CINECA_synthetic_cohort_EUROPE_UK1/*xlsx
-   * You can use Unicode, however, the script will 'unidecode' arrays/objects (e.g., quotes from spanish keyboard) 
+   * The script accepts Unicode characters (encoded with utf-8)
    * Header fields: 
       - Dots ('.') represent objects: 
           Examples (values):
@@ -852,10 +852,6 @@ B<Examples:>
               2 - ["foo","bar","baz"]
 
 =head2 COMMON ERRORS AND SOLUTIONS
-
-   * Error message: Wide character at foo.bar
-     Solution: You have Unicode (non-ASCII) characters and they are not recognized.
-               grep -P "[\x80-\xFF]" data.csv
 
    * Error message: , or } expected while parsing object/hash, at character offset 574 (before "]")
      Solution: Make sure you have the right amount of opening or closing keys/brackets.

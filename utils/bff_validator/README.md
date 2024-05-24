@@ -97,7 +97,7 @@ For executing `bff-validator` you will need:
 ## TIPS ON FILLING OUT THE EXCEL TEMPLATE
 
     * Please, before filling in any field, check out the provided template for ../../CINECA_synthetic_cohort_EUROPE_UK1/*xlsx
-    * You can use Unicode, however, the script will 'unidecode' arrays/objects (e.g., quotes from spanish keyboard) 
+    * The script accepts Unicode characters (encoded with utf-8)
     * Header fields: 
        - Dots ('.') represent objects: 
            Examples (values):
@@ -119,10 +119,6 @@ For executing `bff-validator` you will need:
                2 - ["foo","bar","baz"]
 
 ## COMMON ERRORS AND SOLUTIONS
-
-    * Error message: Wide character at foo.bar
-      Solution: You have Unicode (non-ASCII) characters and they are not recognized.
-                grep -P "[\x80-\xFF]" data.csv
 
     * Error message: , or } expected while parsing object/hash, at character offset 574 (before "]")
       Solution: Make sure you have the right amount of opening or closing keys/brackets.
