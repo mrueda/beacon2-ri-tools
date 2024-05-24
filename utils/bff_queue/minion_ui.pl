@@ -4,9 +4,9 @@
 #
 #   Last Modified: Feb/01/2022
 #
-#   Version 2.0.0
+#   Version 2.0.3
 #
-#   Copyright (C) 2021-2022 Manuel Rueda (manuel.rueda@crg.eu)
+#   Copyright (C) 2021-2024 Manuel Rueda (manuel.rueda@cnag.eu)
 #
 #   This program is free software; you can redistribute it and/or modify
 #   it under the terms of the GNU General Public License as published by
