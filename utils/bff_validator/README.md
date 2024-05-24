@@ -121,7 +121,8 @@ For executing `bff-validator` you will need:
 ## COMMON ERRORS AND SOLUTIONS
 
     * Error message: Wide character at foo.bar
-      Solution: You have Unicode (non-ASCII) characters (likely double quotes) in a place where they should not be.
+      Solution: You have Unicode (non-ASCII) characters and they are not recognized.
+                grep -P "[\x80-\xFF]" data.csv
 
     * Error message: , or } expected while parsing object/hash, at character offset 574 (before "]")
       Solution: Make sure you have the right amount of opening or closing keys/brackets.
