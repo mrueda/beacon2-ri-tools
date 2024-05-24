@@ -727,28 +727,26 @@ EOF
 
 bff-validator: A script that validates metadata (XLSX|JSON) against Beacon v2 Models and serializes them to BFF (JSON)
 
-
 =head1 SYNOPSIS
 
+bff-validator -i <file.xlsx|*.json> [-options]
 
-bff-validator -i <file.xlsx|*json> [-options]
+   Arguments:
+     -i | --input <file.xlsx|*.json>   Metadata xlsx file or *.json files
 
-     Arguments:                       
-       -i|input                       Metadata xlsx file or *.json files
+   Options:
+     -s | --schema-dir <directory>     Directory with JSON schemas (must have JSON pointers de-referenced)
+     -o | --out-dir <directory>        Output (existing) directory for the BFF files (only to be used if input is XLSX)
+     -gv                               Set this option if you want to process <genomicVariations> entity
+     -ignore-validation                Writes JSON collection regardless of results from validation against JSON schemas (AYOR!)
+     -h | --help                       Brief help message
+     -man                              Full documentation
+     -debug <level>                    Print debugging information (from 1 to 5, with 5 being the max)
+     -verbose                          Enable verbosity
+     -nc | --no-color                  Do not print colors to STDOUT
 
-     Options:
-       -s|schema-dir                  Directory with JSON schemas (must have JSON pointers de-referenced)
-       -o|out-dir                     Output (existing) directory for the BFF files (only to be used if input => XLSX)
-       -gv                            Set this option if you want to process <genomicVariations> entity
-       -ignore-validation             Writes JSON collection regardless of results from validation against JSON schemas (AYOR!)
-       -h|help                        Brief help message
-       -man                           Full documentation
-       -debug                         Print debugging (from 1 to 5, being 5 max)
-       -verbose                       Verbosity on
-       -nc|-no-color                  Don't print colors to STDOUT
-     
-     Experimental:
-       -gv-vcf                        Set this option to read <genomicVariations.json> from <beacon vcf> (with one document x line)
+   Experimental:
+     -gv-vcf                           Set this option to read <genomicVariations.json> from <beacon vcf> (with one document per line)
 
 =head1 CITATION
 
