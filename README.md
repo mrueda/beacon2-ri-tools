@@ -20,30 +20,30 @@
 
 # SYNOPSIS
 
-beacon &lt;mode> \[-arguments\] \[-options\]
+    beacon <mode> [-arguments] [-options]
 
-    Mode:
-      vcf
-        -i | --input <file>            Requires a VCF.gz file
-                                       (May require a parameters file)
+      Mode:
+        vcf
+          -i | --input <file>            Requires a VCF.gz file
+                                         (May require a parameters file)
 
-      mongodb
-                                       (May require a parameters file)
+        mongodb
+                                         (May require a parameters file)
 
-      full (vcf + mongodb)
-        -i | --input <file>            Requires a VCF.gz file
-                                       (May require a parameters file)
+        full (vcf + mongodb)
+          -i | --input <file>            Requires a VCF.gz file
+                                         (May require a parameters file)
 
-    Options:
-        -h                             Brief help message
-        -man                           Full documentation
-        -v                             Display version information
-        -c | --config <file>           Requires a configuration file
-        -p | --param <file>            Requires a parameters file (optional)
-        -n <number>                    Number of CPUs/cores/threads (optional)
-        -debug <level>                 Print debugging information (from 1 to 5, with 5 being the max) (optional)
-        -verbose                       Enable verbosity (optional)
-        -nc | --no-color               Do not print colors to STDOUT (optional)
+      Options:
+          -h                             Brief help message
+          -man                           Full documentation
+          -v                             Display version information
+          -c | --config <file>           Requires a configuration file
+          -p | --param <file>            Requires a parameters file (optional)
+          -n <number>                    Number of CPUs/cores/threads (optional)
+          -debug <level>                 Print debugging information (from 1 to 5, with 5 being the max) (optional)
+          -verbose                       Enable verbosity (optional)
+          -nc | --no-color               Do not print colors to STDOUT (optional)
 
 # DESCRIPTION
 

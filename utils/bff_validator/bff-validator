@@ -729,7 +729,7 @@ bff-validator: A script that validates metadata (XLSX|JSON) against Beacon v2 Mo
 
 =head1 SYNOPSIS
 
-bff-validator -i <file.xlsx|*.json> [-options]
+ bff-validator -i <file.xlsx|*.json> [-options]
 
    Arguments:
      -i | --input <file.xlsx|*.json>   Metadata xlsx file or *.json files
@@ -769,17 +769,20 @@ First we install cpanminus (with sudo privileges):
 
 Second we use cpanm to install the CPAN modules:
 
-(Note that first you need to copy the following L<cpanfile|https://raw.githubusercontent.com/EGA-archive/beacon2-ri-tools/main/cpanfile> to your current directory).
+First you need to copy the following L<cpanfile|https://raw.githubusercontent.com/mrueda/beacon2-ri-tools/main/cpanfile> to your current directory.  You have two choose between one of the 2 options below:
 
-   $ cpanm --sudo --installdeps .
+B<Option 1:> System-level installation:
 
-If you prefer to have the dependencies in a "virtual environment" (i.e., install the CPAN modules in the directory of the application) we recommend using the module Carton.
+  cpanm --notest --sudo --installdeps .
 
-   $ cpanm --sudo Carton
+B<Option 2:> Install the dependencies at C<~/perl5>
 
-Then, we can install our dependencies:
+  cpanm --local-lib=~/perl5 local::lib && eval $(perl -I ~/perl5/lib/perl5/ -Mlocal::lib)
+  cpanm --notest --installdeps .
 
-   $ carton install
+To ensure Perl recognizes your local modules every time you start a new terminal, you should type:
+
+  echo 'eval $(perl -I ~/perl5/lib/perl5/ -Mlocal::lib)' >> ~/.bashrc
 
 Also, we're using I<xlsx2csv>, which is a python script. 
 

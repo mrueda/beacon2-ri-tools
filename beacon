@@ -227,7 +227,7 @@ C<beacon>: A script to B<annotate> and B<transform> genomic variations data (B<V
 
 =head1 SYNOPSIS
 
-beacon <mode> [-arguments] [-options]
+ beacon <mode> [-arguments] [-options]
 
    Mode:
      vcf

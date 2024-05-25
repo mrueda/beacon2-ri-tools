@@ -4,24 +4,24 @@ bff-validator: A script that validates metadata (XLSX|JSON) against Beacon v2 Mo
 
 # SYNOPSIS
 
-bff-validator -i &lt;file.xlsx|\*.json> \[-options\]
+    bff-validator -i <file.xlsx|*.json> [-options]
 
-    Arguments:
-      -i | --input <file.xlsx|*.json>   Metadata xlsx file or *.json files
+      Arguments:
+        -i | --input <file.xlsx|*.json>   Metadata xlsx file or *.json files
 
-    Options:
-      -s | --schema-dir <directory>     Directory with JSON schemas (must have JSON pointers de-referenced)
-      -o | --out-dir <directory>        Output (existing) directory for the BFF files (only to be used if input is XLSX)
-      -gv                               Set this option if you want to process <genomicVariations> entity
-      -ignore-validation                Writes JSON collection regardless of results from validation against JSON schemas (AYOR!)
-      -h | --help                       Brief help message
-      -man                              Full documentation
-      -debug <level>                    Print debugging information (from 1 to 5, with 5 being the max)
-      -verbose                          Enable verbosity
-      -nc | --no-color                  Do not print colors to STDOUT
+      Options:
+        -s | --schema-dir <directory>     Directory with JSON schemas (must have JSON pointers de-referenced)
+        -o | --out-dir <directory>        Output (existing) directory for the BFF files (only to be used if input is XLSX)
+        -gv                               Set this option if you want to process <genomicVariations> entity
+        -ignore-validation                Writes JSON collection regardless of results from validation against JSON schemas (AYOR!)
+        -h | --help                       Brief help message
+        -man                              Full documentation
+        -debug <level>                    Print debugging information (from 1 to 5, with 5 being the max)
+        -verbose                          Enable verbosity
+        -nc | --no-color                  Do not print colors to STDOUT
 
-    Experimental:
-      -gv-vcf                           Set this option to read <genomicVariations.json> from <beacon vcf> (with one document per line)
+      Experimental:
+        -gv-vcf                           Set this option to read <genomicVariations.json> from <beacon vcf> (with one document per line)
 
 # CITATION
 
@@ -44,17 +44,20 @@ First we install cpanminus (with sudo privileges):
 
 Second we use cpanm to install the CPAN modules:
 
-(Note that first you need to copy the following [cpanfile](https://raw.githubusercontent.com/EGA-archive/beacon2-ri-tools/main/cpanfile) to your current directory).
+First you need to copy the following [cpanfile](https://raw.githubusercontent.com/mrueda/beacon2-ri-tools/main/cpanfile) to your current directory.  You have two choose between one of the 2 options below:
 
-    $ cpanm --sudo --installdeps .
+**Option 1:** System-level installation:
 
-If you prefer to have the dependencies in a "virtual environment" (i.e., install the CPAN modules in the directory of the application) we recommend using the module Carton.
+    cpanm --notest --sudo --installdeps .
 
-    $ cpanm --sudo Carton
+**Option 2:** Install the dependencies at `~/perl5`
 
-Then, we can install our dependencies:
+    cpanm --local-lib=~/perl5 local::lib && eval $(perl -I ~/perl5/lib/perl5/ -Mlocal::lib)
+    cpanm --notest --installdeps .
 
-    $ carton install
+To ensure Perl recognizes your local modules every time you start a new terminal, you should type:
+
+    echo 'eval $(perl -I ~/perl5/lib/perl5/ -Mlocal::lib)' >> ~/.bashrc
 
 Also, we're using _xlsx2csv_, which is a python script. 
 
