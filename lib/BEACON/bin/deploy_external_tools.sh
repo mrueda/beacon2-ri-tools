@@ -2,7 +2,7 @@
 # Date       : 2022-Aug-05
 # Version    : 2.0.0
 # Author     : Mauricio Moldes (mauricio.moldes@crg.eu)
-# Revised by : Manuel Rueda (manuel.rueda@cnag.crg.eu)
+# Revised by : Manuel Rueda (manuel.rueda@cnag.eu)
 
 share_dir=/usr/share/beacon-ri
 tmp_dir=/tmp

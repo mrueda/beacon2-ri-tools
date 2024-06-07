@@ -4,7 +4,7 @@
 #
 #   Last Modified: Oct/19/2021
 #
-#   Version 2.0.0
+#   Version taken from $beacon
 #
 #   Copyright (C) 2021-2024 Manuel Rueda (manuel.rueda@cnag.eu)
 #
