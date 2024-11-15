@@ -262,6 +262,8 @@ B<beacon2-ri-tools> repository, part of the ELIXIR-CRG Beacon v2 Reference Imple
 
 =item A suite of L<utilities|https://github.com/mrueda/beacon2-ri-tools/tree/main/utils> aiding in data ingestion
 
+=item The L<CINECA_synthetic_cohort_EUROPE_UK1|https://github.com/mrueda/beacon2-ri-tools/tree/main/CINECA_synthetic_cohort_EUROPE_UK1> dataset
+
 =back
 
 =head3 C<beacon>
@@ -447,7 +449,7 @@ To ensure Perl recognizes your local modules every time you start a new terminal
 
   echo 'eval $(perl -I ~/perl5/lib/perl5/ -Mlocal::lib)' >> ~/.bashrc
 
-C<beacon> also needs that B<bcftools>, B<SnpEff> and B<MongoDB> are installed. See L<external software|https://b2ri-documentation.readthedocs.io/en/latest/download-and-installation/#non-containerized-version-data-ingestion-tools> for more info.
+C<beacon> also needs that B<bcftools>, B<SnpEff> and B<MongoDB> are installed. See L<external software|https://b2ri-documentation.readthedocs.io/en/latest/download-and-installation/#non-containerized-beacon2-ri-tools> for more info.
 
 =head3 Setting up beacon
 
