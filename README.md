@@ -47,7 +47,7 @@
 
 # DESCRIPTION
 
-**beacon2-ri-tools** repository, part of the ELIXIR-CRG Beacon v2 Reference Implementation (B2RI), includes:
+**beacon2-ri-tools** repository, part of the ELIXIR-Beacon v2 Reference Implementation (B2RI), includes:
 
 - The `beacon` script
 - A suite of [utilities](https://github.com/mrueda/beacon2-ri-tools/tree/main/utils) aiding in data ingestion
@@ -553,7 +553,7 @@ Rueda, M, Ariosa R. "Beacon v2 Reference Implementation: a toolkit to enable fed
 
 # AUTHOR
 
-Written by Manuel Rueda, PhD. Info about CRG can be found at [https://www.crg.eu](https://www.crg.eu)
+Written by Manuel Rueda, PhD. Info about CNAG can be found at [https://www.cnag.eu](https://www.cnag.eu)
 
 Credits: 
 

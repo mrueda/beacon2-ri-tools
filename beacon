@@ -254,7 +254,7 @@ C<beacon>: A script to B<annotate> and B<transform> genomic variations data (B<V
 
 =head1 DESCRIPTION
 
-B<beacon2-ri-tools> repository, part of the ELIXIR-CRG Beacon v2 Reference Implementation (B2RI), includes:
+B<beacon2-ri-tools> repository, part of the ELIXIR-Beacon v2 Reference Implementation (B2RI), includes:
 
 =over
 
@@ -783,7 +783,7 @@ Rueda, M, Ariosa R. "Beacon v2 Reference Implementation: a toolkit to enable fed
 
 =head1 AUTHOR
 
-Written by Manuel Rueda, PhD. Info about CRG can be found at L<https://www.crg.eu>
+Written by Manuel Rueda, PhD. Info about CNAG can be found at L<https://www.cnag.eu>
 
 Credits: 
 

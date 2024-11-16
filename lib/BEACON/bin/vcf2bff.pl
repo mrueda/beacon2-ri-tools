@@ -708,7 +708,7 @@ nohup $path/vcf2bf.pl -i file.vcf.gz -debug 5 --dataset-id my_id_1 --genome hg19
 
 =head1 AUTHOR 
 
-Written by Manuel Rueda, PhD. Info about CRG can be found at L<https://www.crg.eu>.
+Written by Manuel Rueda, PhD. Info about CNAG can be found at L<https://www.cnag.eu>.
 
 Credits: Toshiaki Katayamai & Dietmar Fernandez-Orth for creating an initial Ruby/R version L<https://github.com/ktym/vcftobeacon> 
 from which I borrowed the concept for creating vcf2bff.pl.
