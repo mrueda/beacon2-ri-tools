@@ -861,11 +861,11 @@ I<NB:> You can use the flag C<--ignore-validation> and check the temporary files
 
 =head1 AUTHOR 
 
-Written by Manuel Rueda, PhD. Info about CNAG can be found at L<https://www.crg.eu>.
+Written by Manuel Rueda, PhD. Info about CNAG can be found at L<https://www.cnag.eu>.
 
 =head1 REPORTING BUGS
 
-Report bugs or comments to <manuel.rueda@crg.eu>.
+Report bugs or comments to <manuel.rueda@cnag.eu>.
 
 =head1 COPYRIGHT
 

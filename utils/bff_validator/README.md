@@ -130,11 +130,11 @@ _NB:_ You can use the flag `--ignore-validation` and check the temporary files a
 
 # AUTHOR 
 
-Written by Manuel Rueda, PhD. Info about CNAG can be found at [https://www.crg.eu](https://www.crg.eu).
+Written by Manuel Rueda, PhD. Info about CNAG can be found at [https://www.cnag.eu](https://www.cnag.eu).
 
 # REPORTING BUGS
 
-Report bugs or comments to <manuel.rueda@crg.eu>.
+Report bugs or comments to <manuel.rueda@cnag.eu>.
 
 # COPYRIGHT
 
