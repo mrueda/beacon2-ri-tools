@@ -130,7 +130,7 @@ _NB:_ You can use the flag `--ignore-validation` and check the temporary files a
 
 # AUTHOR 
 
-Written by Manuel Rueda, PhD. Info about CRG can be found at [https://www.crg.eu](https://www.crg.eu).
+Written by Manuel Rueda, PhD. Info about CNAG can be found at [https://www.crg.eu](https://www.crg.eu).
 
 # REPORTING BUGS
 
