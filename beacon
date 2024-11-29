@@ -221,9 +221,7 @@ __END__
 
 =head1 NAME
 
-C<beacon>: A script to B<annotate> and B<transform> genomic variations data (B<VCF>) to queryable data (B<MongoDB>)
-
-(Actively maintained by the original author)
+C<beacon>: A script to B<annotate> and B<transform> B<VCFs> into the C<genomicVariations> entity of the Beacon v2 Models. The script also supports ingesting the data into a B<MongoDB> instance. It is part of the C<beacon2-ri-tools> repository. See the description below.
 
 =head1 SYNOPSIS
 
@@ -280,7 +278,7 @@ Converts B<genomic variation data> (VCF) into queryable MongoDB format. Extended
 
 Facilitates loading L<BFF|/#what-is-the-beacon-friendly-format-bff> data into MongoDB.
 
-=item Mode full: Combines vcf and mongodb
+=item Mode full: Combines modes C<vcf> and C<mongodb>
 
 =back
 
@@ -316,6 +314,28 @@ Facilitates loading L<BFF|/#what-is-the-beacon-friendly-format-bff> data into Mo
     
    ------------------------------------------------|||------------------------
    beacon2-ri-tools                                             beacon2-ri-api
+
+=head2 Roadmap 
+
+B<Latest Update: Nov-2024>
+
+We know that this repository has been downloaded and used in many Beacon v2 implementations, so our plan is to keep supporting it and improving it. These are our plans:
+
+=over 4
+
+=item B<Implement Beacon 2.1 changes>
+
+For C<VCF>, this will imply adopting VRS nomenclature and maybe moving away from C<LegacyVariation>. Adding support for Structural variants if present.
+
+For other entities, make sure that we follow the latest schema in C<bff-validator>, the Excel file.
+
+Update B<CINECA> synthetic dataset.
+
+=item B<Improve Genomic Variations Browser>
+
+So that it works as a web-server instead of a static web-page.
+
+=back
 
 =head1 INSTALLATION
 

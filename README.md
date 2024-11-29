@@ -12,11 +12,11 @@
 
 **Docker Hub Image**: <a href="https://hub.docker.com/r/manuelrueda/beacon2-ri-tools/tags" target="_blank">https://hub.docker.com/r/manuelrueda/beacon2-ri-tools/tags</a>
 
+**Actively maintained by the original author**
+
 # NAME
 
-`beacon`: A script to **annotate** and **transform** genomic variations data (**VCF**) to queryable data (**MongoDB**)
-
-(Actively maintained by the original author)
+`beacon`: A script to **annotate** and **transform** **VCFs** into the `genomicVariations` entity of the Beacon v2 Models. The script also supports ingesting the data into a **MongoDB** instance. It is part of the `beacon2-ri-tools` repository. See the description below.
 
 # SYNOPSIS
 
@@ -65,7 +65,7 @@
 
     Facilitates loading [BFF](#what-is-the-beacon-friendly-format-bff) data into MongoDB.
 
-- Mode full: Combines vcf and mongodb
+- Mode full: Combines modes `vcf` and `mongodb`
 
 ### B2RI diagram
 
@@ -99,6 +99,24 @@
      
     ------------------------------------------------|||------------------------
     beacon2-ri-tools                                             beacon2-ri-api
+
+## Roadmap 
+
+**Latest Update: Nov-2024**
+
+We know that this repository has been downloaded and used in many Beacon v2 implementations, so our plan is to keep supporting it and improving it. These are our plans:
+
+- **Implement Beacon 2.1 changes**
+
+    For `VCF`, this will imply adopting VRS nomenclature and maybe moving away from `LegacyVariation`. Adding support for Structural variants if present.
+
+    For other entities, make sure that we follow the latest schema in `bff-validator`, the Excel file.
+
+    Update **CINECA** synthetic dataset.
+
+- **Improve Genomic Variations Browser**
+
+    So that it works as a web-server instead of a static web-page.
 
 # INSTALLATION
 
