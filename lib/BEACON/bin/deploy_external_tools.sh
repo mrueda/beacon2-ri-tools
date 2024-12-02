@@ -1,8 +1,16 @@
 #!/usr/bin/env bash 
-# Date       : 2022-Aug-05
-# Version    : 2.0.0
-# Author     : Mauricio Moldes (mauricio.moldes@crg.eu)
-# Revised by : Manuel Rueda (manuel.rueda@cnag.eu)
+#########################################
+# Script Name: deploy_external_tools.sh
+# Description: Manages annotation files for Beacon-RI tools
+#
+# Author: Mauricio Moldes (mauricio.moldes@crg.eu)
+# Revised by: Manuel Rueda (manuel.rueda@cnag.eu)
+# Date: 2022-Aug-05
+# Version: 2.0.0
+# Last Modified: 2024-Dec-02
+#########################################
+
+set -euo pipefail
 
 share_dir=/usr/share/beacon-ri
 tmp_dir=/tmp
@@ -17,10 +25,22 @@ cd $tmp_dir
 
 echo "##### Downloading external files from $ftp_site #####"
 
-aria2c -x 1 -s 1 $ftp_site/beacon2_data.md5 
-for i in {1..5}
-do
- aria2c -x $n_connect -s $n_connect $ftp_site/beacon2_data.part$i 
+# Download the MD5 checksum file
+if ! aria2c -x 1 -s 1 "$ftp_site/beacon2_data.md5"; then
+  echo "Error: Failed to download beacon2_data.md5"
+  exit 1
+fi
+
+# Download the data parts in a loop
+for i in $(seq 1 5); do
+  retries=3
+  while ! aria2c -x "$n_connect" -s "$n_connect" "$ftp_site/beacon2_data.part$i" && ((retries-- > 0)); do
+    echo "Retrying download for beacon2_data.part$i..."
+  done
+  if ((retries == 0)); then
+    echo "Error: Failed to download beacon2_data.part$i after multiple attempts"
+    exit 1
+  fi
 done
 
 ##########################
@@ -30,10 +50,11 @@ done
 echo "##### Verifying the integrity of the files #####"
 
 md5sum beacon2_data.part? > my_beacon2_data.md5 
-DIFF_MD5=$(cmp -s my_beacon2_data.md5 beacon2_data.md5)
-if [ "$DIFF_MD5" != "" ] 
-then
- echo "MD5 sum issue"
+if ! cmp -s my_beacon2_data.md5 beacon2_data.md5; then
+  echo "MD5 sum issue: Checksums do not match"
+  exit 1
+else
+  echo "MD5 sum verification passed"
 fi
 
 ##########################
@@ -60,8 +81,7 @@ cd $share_dir/databases/snpeff/v5.0 && ln -s GRCh38.99 hg38
 
 echo "##### Deleting auxiliary files #####"
 
-rm $tmp_dir/beacon2_data.tar.gz 
-rm $tmp_dir/beacon2_data.md5
+rm $tmp_dir/beacon2_data.tar.gz $tmp_dir/beacon2_data.md5
 
 #########################
 ## Set config file 
@@ -87,22 +107,44 @@ done
 sed -i -e "s|/media/mrueda/4TBT/NGSutils/snpEff|$share_dir/pro/snpEff|g" \
        -e "s|/media/mrueda/4TBT/NGSutils|$share_dir/pro/NGSutils|g" \
        -e 's|/media/mrueda/4TBT/tmp|/tmp|g' \
-       -e "s|/home/mrueda/Soft/mongodb-database-tools-ubuntu2004-x86_64-100.5.1/bin|$share_dir/pro/mongodb-database-tools-ubuntu2004-x86_64-100.5.1/bin|g" \
+       -e "s|/media/mrueda/4TBT/Soft/mongodb-database-tools-ubuntu2004-x86_64-100.5.1/bin|$share_dir/pro/mongodb-database-tools-ubuntu2004-x86_64-100.5.1/bin|g" \
        -e "s|/usr/bin/mongosh|$share_dir/pro/mongosh|g" config.yaml
 
 #######################
-## Test deployment 
+## Test Deployment
 #######################
 
 echo "##### Running integration test #####"
 
-bin/beacon vcf -i test/test_1000G.vcf.gz -p test/param.in 
+# Ensure the test file and binary exist
+if [[ ! -x bin/beacon ]]; then
+  echo "Error: beacon executable not found or not executable"
+  exit 1
+fi
 
-test_result=$( ls -t . | head -1) 
+if [[ ! -f test/test_1000G.vcf.gz || ! -f test/param.in ]]; then
+  echo "Error: Required test files (test_1000G.vcf.gz or param.in) are missing"
+  exit 1
+fi
 
-DIFF_DEPLOYMENT=$(diff <(zcat "$test_result"/vcf/genomicVariationsVcf.json.gz | jq 'del(.[]._info)' -S) <(zcat test/beacon_166403275914916/vcf/genomicVariationsVcf.json.gz | jq 'del(.[]._info)' -S) )
+# Run the test command
+bin/beacon vcf -i test/test_1000G.vcf.gz -p test/param.in
 
-if [ "$DIFF_DEPLOYMENT" == "" ] 
-then
- echo "Congratulations! <beacon2-ri-tools> are deployed"
+# Identify the latest result directory
+test_result=$(ls -td -- */ | head -n 1)
+
+if [[ -z "$test_result" ]]; then
+  echo "Error: No test result directory created"
+  exit 1
+fi
+
+# Compare the outputs
+DIFF_DEPLOYMENT=$(diff <(zcat "$test_result/vcf/genomicVariationsVcf.json.gz" | jq 'del(.[]._info)' -S) \
+                       <(zcat test/beacon_166403275914916/vcf/genomicVariationsVcf.json.gz | jq 'del(.[]._info)' -S))
+
+if [[ -z "$DIFF_DEPLOYMENT" ]]; then
+  echo "Congratulations! <beacon2-ri-tools> are deployed"
+else
+  echo "Error: Deployment test failed. Differences detected in test output"
+  exit 1
 fi
