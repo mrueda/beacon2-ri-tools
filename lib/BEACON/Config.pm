@@ -6,7 +6,7 @@ use autodie;
 use feature qw(say);
 use List::Util qw(any);
 use Sys::Hostname;
-use File::Spec::Functions qw(catdir catfile);
+use File::Spec::Functions qw(catdir catfile updir);
 use Data::Dumper;
 use YAML::XS qw(LoadFile DumpFile);
 
@@ -71,12 +71,13 @@ sub read_config_file {
       'mongodb://root:example@127.0.0.1:27017/beacon?authSource=admin';
 
     # Default values
+    my $root_dir = catdir( $main::Bin, File::Spec->updir );
     my $RAM         = '4G';
     my $db_dir      = '/media/mrueda/4TBT/Databases';
     my $genomes_dir = catdir( $db_dir, 'genomes' );
     my $snpeff_dir  = catdir( $db_dir, 'snpeff/v5.0' );
     my $tmpdir      = '/media/mrueda/4TBT/tmp';
-    my $browser_dir = catdir( $main::Bin, 'browser' );  # Global $::Bin variable
+    my $browser_dir = catdir( $root_dir, 'browser' );
     my $panel_dir   = catdir( $browser_dir, 'data' );
 
     # Load "databases" in 2D-hash (w/ autovivification) to simplify nomenclature
@@ -127,7 +128,7 @@ sub read_config_file {
     my $user     = $ENV{LOGNAME} || $ENV{USER} || getpwuid($<);
 
     # Definining options for config
-    my $beacon_config = catfile( $main::Bin, 'config.yaml' ); # Global $::Bin variable
+    my $beacon_config = catfile( $root_dir, 'config.yaml' ); # Global $::Bin variable
     $config_file =
       ( $user eq 'mrueda' && $hostname =~ 'mrueda-ws1' ) ? $config_file : # debug
       defined $config_file ? $config_file :    # -c arg
@@ -156,7 +157,7 @@ sub read_config_file {
     }
 
     # Below are a few internal paramaters
-    my $beacon_bin = "$main::Bin/lib/BEACON/bin";    # Global $::Bin variable
+    my $beacon_bin = "$root_dir/lib/BEACON/bin";    # Global $::Bin variable
     my $java       = '/usr/bin/java';
     $config{snpeff}    = "$java -Xmx" . $config{mem} . " -jar $config{snpeff}";
     $config{snpsift}   = "$java -Xmx" . $config{mem} . " -jar $config{snpsift}";

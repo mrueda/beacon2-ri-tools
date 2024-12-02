@@ -155,7 +155,7 @@ Then, you can run commands **inside the container**, like this;
     # We go to the mounting point
     cd /workdir 
     # We run the executable
-    /usr/share/beacon-ri/beacon2-ri-tools/beacon vcf -i example.vcf.gz -p param.in
+    /usr/share/beacon-ri/beacon2-ri-tools/bin/beacon vcf -i example.vcf.gz -p param.in
 
 Alternatively, you can run commands **from the host**, like this:
 

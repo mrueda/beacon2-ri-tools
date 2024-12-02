@@ -1,35 +1,35 @@
 ---
 # Reference assemblies (genomes)
-hs37fasta: /media/mrueda/8TB/Databases/genomes/hs37d5.fa.gz
-hg19fasta: /media/mrueda/8TB/Databases/genomes/ucsc.hg19.fasta.gz
-hg38fasta: /media/mrueda/8TB/Databases/genomes/hg38.fa.gz
+hs37fasta: /media/mrueda/4TBT/Databases/genomes/hs37d5.fa.gz
+hg19fasta: /media/mrueda/4TBT/Databases/genomes/ucsc.hg19.fasta.gz
+hg38fasta: /media/mrueda/4TBT/Databases/genomes/hg38.fa.gz
 
 # ClinVar
-hg19clinvar: /media/mrueda/8TB/Databases/snpeff/v5.0/hg19/clinvar_20211218.vcf.gz
-hg38clinvar: /media/mrueda/8TB/Databases/snpeff/v5.0/hg38/clinvar_20211218.vcf.gz
+hg19clinvar: /media/mrueda/4TBT/Databases/snpeff/v5.0/hg19/clinvar_20211218.vcf.gz
+hg38clinvar: /media/mrueda/4TBT/Databases/snpeff/v5.0/hg38/clinvar_20211218.vcf.gz
 
 # Cosmic 
-hg19cosmic: /media/mrueda/8TB/Databases/snpeff/v5.0/hg19/CosmicCodingMuts.normal.hg19.vcf.gz
-hg38cosmic: /media/mrueda/8TB/Databases/snpeff/v5.0/hg38/CosmicCodingMuts.normal.hg38.vcf.gz
+hg19cosmic: /media/mrueda/4TBT/Databases/snpeff/v5.0/hg19/CosmicCodingMuts.normal.hg19.vcf.gz
+hg38cosmic: /media/mrueda/4TBT/Databases/snpeff/v5.0/hg38/CosmicCodingMuts.normal.hg38.vcf.gz
 
 # dbSNSFP Academic
-hg19dbnsfp: /media/mrueda/8TB/Databases/snpeff/v5.0/hg19/dbNSFP4.1a_hg19.txt.gz
-hg38dbnsfp: /media/mrueda/8TB/Databases/snpeff/v5.0/hg38/dbNSFP4.1a_hg38.txt.gz
+hg19dbnsfp: /media/mrueda/4TBT/Databases/snpeff/v5.0/hg19/dbNSFP4.1a_hg19.txt.gz
+hg38dbnsfp: /media/mrueda/4TBT/Databases/snpeff/v5.0/hg38/dbNSFP4.1a_hg38.txt.gz
 
 # Miscellanea software
-snpeff: /pro/NGSutils/snpEff/snpEff.jar
-snpsift: /pro/NGSutils/snpEff/SnpSift.jar
-bcftools: /pro/NGSutils/bcftools-1.15.1/bcftools
+snpeff: /media/mrueda/4TBT/NGSutils/snpEff/snpEff.jar
+snpsift: /media/mrueda/4TBT/NGSutils/snpEff/SnpSift.jar
+bcftools: /media/mrueda/4TBT/NGSutils/bcftools-1.15.1/bcftools
 
 # Max RAM memory for snpeff (optional)
 mem: 8G
 
 # Temporary directory (optional)
-tmpdir: /media/mrueda/8TB/tmp
+tmpdir: /media/mrueda/4TBT/tmp
 
 # MongoDB 
-mongoimport: /home/mrueda/Soft/mongodb-database-tools-ubuntu2004-x86_64-100.5.1/bin/mongoimport
-mongostat: /home/mrueda/Soft/mongodb-database-tools-ubuntu2004-x86_64-100.5.1/bin/mongostat
+mongoimport: /media/mrueda/4TBT/Soft/mongodb-database-tools-ubuntu2004-x86_64-100.5.1/bin/mongoimport
+mongostat: /media/mrueda/4TBT/Soft/mongodb-database-tools-ubuntu2004-x86_64-100.5.1/bin/mongostat
 mongodburi: mongodb://root:example@mongo:27017/beacon?authSource=admin
 mongosh: /usr/bin/mongosh
 

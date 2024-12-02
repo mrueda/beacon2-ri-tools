@@ -677,6 +677,13 @@ The output can be:
        c) Perl hash data structure [hash]
 
 
+=head1 INSTALLATION
+
+This script should come preinstalled with C<beacon2-ri-tools>. Otherwise use the C<cpanfile> from ..
+
+$ sudo apt-get install libperlio-gzip-perl
+$ cpanm --installideps ..
+
 =head1 HOW TO RUN VCF2BFF
 
 For executing vcf2bff you will need:
