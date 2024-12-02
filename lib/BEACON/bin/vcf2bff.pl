@@ -682,7 +682,8 @@ The output can be:
 This script should come preinstalled with C<beacon2-ri-tools>. Otherwise use the C<cpanfile> from ..
 
 $ sudo apt-get install libperlio-gzip-perl
-$ cpanm --installideps ..
+
+$ cpanm --installdeps ..
 
 =head1 HOW TO RUN VCF2BFF
 

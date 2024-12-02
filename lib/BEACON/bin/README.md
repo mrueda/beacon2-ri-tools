@@ -40,7 +40,8 @@ The output can be:
 This script should come preinstalled with `beacon2-ri-tools`. Otherwise use the `cpanfile` from ..
 
 $ sudo apt-get install libperlio-gzip-perl
-$ cpanm --installideps ..
+
+$ cpanm --installdeps ..
 
 # HOW TO RUN VCF2BFF
 
