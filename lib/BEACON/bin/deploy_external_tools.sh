@@ -96,7 +96,7 @@ sed -i -e "s|/pro/NGSutils/snpEff|$share_dir/pro/snpEff|g" \
 
 echo "##### Running integration test #####"
 
-./beacon vcf -i test/test_1000G.vcf.gz -p test/param.in 
+bin/beacon vcf -i test/test_1000G.vcf.gz -p test/param.in 
 
 test_result=$( ls -t . | head -1) 
 

@@ -1,0 +1,791 @@
+#!/usr/bin/env perl
+#
+#   Script with multiple functions:
+#   - vcf mode: Annotates VCF, serializes to BFF
+#   - mongodb mode: Transfers BFF data to MongoDB
+#   - full mode: Combines vcf and mongodb modes
+#
+#   Last Modified: May/24/2024
+#
+#   Version: 2.0.3
+#
+#   Copyright (C) 2021-2024 Manuel Rueda (manuel.rueda@cnag.eu)
+#
+#   This program is free software; you can redistribute it and/or modify
+#   it under the terms of the GNU General Public License as published by
+#   the Free Software Foundation; either version 3 of the License, or
+#   (at your option) any later version.
+#
+#   This program is distributed in the hope that it will be useful,
+#   but WITHOUT ANY WARRANTY; without even the implied warranty of
+#   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+#   GNU General Public License for more details.
+#
+#   You should have received a copy of the GNU General Public License
+#   along with this program; if not, see <https://www.gnu.org/licenses/>.
+#
+#   If this program helps you in your research, please cite.
+
+use strict;
+use warnings;
+use autodie;
+use feature qw(say);
+use Cwd qw(abs_path);
+use Term::ANSIColor qw(:constants);
+use JSON::XS;
+use Path::Tiny;
+use Data::Dumper;
+use FindBin qw($Bin);
+use lib "$Bin/../lib";
+use BEACON::Help;
+use BEACON::Config;
+use BEACON::Beacon;
+
+#############################################################
+#            Variables definition                           #
+#############################################################
+
+# Beacon version
+my $version = '2.0.3_1';
+
+# Initialize a few more variables
+my $prompt      = 'Info:';
+my $warn        = 'Warn:';
+my $error       = 'Error:';
+my $spacer      = '*' x 32;
+my $arrow       = '=>';
+my $cmd         = '';
+my $author      = '(C) 2021-2024 Manuel Rueda, PhD';
+my $license     = 'GNU General Public License v3';
+my $beacon_path = abs_path($0);
+
+# We personalize the STDERR (warn/die) messages
+$SIG{__WARN__} = sub { warn BOLD YELLOW "$warn ", @_ };
+$SIG{__DIE__} =
+  sub { die BOLD RED "$error ", scalar localtime, "\n$error $arrow ", @_ };
+
+# We tell Perl to flush right away STDOUT data
+$| = 1;
+
+# Format for Data::Dumper
+$Data::Dumper::Terse = 1;
+
+##############################################################
+#                 Code starts here                           #
+##############################################################
+
+# Parsing arguments/options and getting help if needed
+my $arg = Help::usage($version);
+
+# Reading the configuration values from the config file
+# NB: We'll avoid assigning $param->{foo} to vars unless their value changes often
+my $config = Config::read_config_file( $arg->{configfile} );
+
+# Reading the parameters from the paramaters file.
+my $param = Config::read_param_file($arg);
+
+# Start printing information
+say $prompt;
+say BOLD CYAN "$prompt Beacon $version", RESET;
+say "$prompt Beacon exe: $beacon_path";
+say "$prompt $author";
+say "$prompt $license\n$prompt";
+
+# Print arguments to stdout
+say BOLD YELLOW, "$prompt ARGUMENTS USED:", RESET;
+say WHITE "$prompt mode: $arg->{mode}";
+my @tmp_keys = qw (inputfile configfile paramfile ncpu debug verbose nocolor);
+my @tmp_vals = qw ( i c p n debug verbose nc);
+my %argument;
+@argument{@tmp_keys} = @tmp_vals;
+for my $argument ( sort keys %argument ) {
+    say WHITE "$prompt --$argument{$argument} $arg->{$argument}"
+      if $arg->{$argument};
+}
+
+# Printing the config values to stdout according to the format below
+say WHITE "$prompt";
+say BOLD BLUE, "$prompt CONFIGURATION VALUES:", RESET;
+
+$~ = "CONFIG";
+my $l_config = '';
+foreach $l_config ( sort keys %{$config} ) {
+    write;
+}
+
+format CONFIG =
+@|||||@<<<<<<<<<<<<<<<< @<< @<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+$prompt, $l_config, $arrow, $config->{$l_config}
+.
+
+# Printing the params to stdout according to the format below
+say WHITE "$prompt";
+say BOLD GREEN, "$prompt BEACON PARAMETERS:", RESET;
+
+# Creating a tmp hash to deal with 2D hash
+my %tmp_param = %{$param};
+
+for my $nested (qw (pipeline bff ega)) {
+    $tmp_param{$nested} = 'See ' . $tmp_param{log};
+}
+$~ = "PARAMS";
+my $l_param = '';
+foreach $l_param ( sort keys %tmp_param ) {
+    write;
+}
+
+format PARAMS =
+@|||||@<<<<<<<<<<<<<<<< @<< @<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+$prompt, $l_param, $arrow, $tmp_param{$l_param}
+.
+
+# Start Beacon
+say $prompt;
+say BOLD CYAN "$prompt STARTING BEACON FUN";
+say RESET "$prompt $spacer";
+
+# Create the working dir
+mkdir $param->{projectdir};
+
+# Creating a log file in JSON
+my $coder = JSON::XS->new->utf8->canonical->pretty;
+my $json =
+  $coder->encode( { arg => $arg, config => $config, param => $param } ); # keys created on the fly with anonymous hash
+my $job_log = $param->{log};
+path($job_log)->spew($json);
+
+# We'll use a ref to an anonymous hash to load the object $beacon
+my $genome     = $param->{genome};    # To alleviate nomenclature
+my $rah_beacon = {
+    jobid        => $param->{jobid},
+    datasetid    => $param->{datasetid},
+    inputfile    => $arg->{inputfile},
+    projectdir   => $param->{projectdir},
+    bcftools     => $config->{bcftools},
+    snpeff       => $config->{snpeff},
+    snpsift      => $config->{snpsift},
+    tmpdir       => $config->{tmpdir},
+    genome       => $genome,
+    clinvar      => $config->{"${genome}clinvar"},
+    cosmic       => $config->{"${genome}cosmic"},
+    dbnsfp       => $config->{"${genome}dbnsfp"},
+    reference    => $config->{"${genome}fasta"},
+    dbnsfpset    => $config->{dbnsfpset},
+    vcf2bff      => $config->{vcf2bff},
+    zip          => $param->{zip},
+    bff2json     => $config->{bff2json},
+    json2html    => $config->{json2html},
+    bash4bff     => $config->{bash4bff},
+    bash4html    => $config->{bash4html},
+    bash4mongodb => $config->{bash4mongodb},
+    browserdir   => $config->{browserdir},
+    paneldir     => $config->{paneldir},
+    gvvcfjson    => $param->{gvvcfjson},
+    mongoimport  => $config->{mongoimport},
+    mongodburi   => $config->{mongodburi},
+    mongosh      => $config->{mongosh},
+    bff          => $param->{bff},
+    debug        => $arg->{debug},
+    verbose      => $arg->{verbose}
+};
+
+# Loading the object
+my $beacon = Beacon->new($rah_beacon);
+
+# Now submitting the pipelines (order matters) through bash scripts
+my @pipelines = ( 'vcf2bff', 'bff2html', 'bff2mongodb' );
+for my $pipeline (@pipelines) {
+    if ( $param->{pipeline}{$pipeline} ) {
+        say "$prompt Running the pipeline ", uc($pipeline), '...';
+        $beacon->$pipeline();
+    }
+}
+
+# End Beacon
+say "$prompt $spacer";
+say BOLD GREEN, "$prompt BEACON FINISHED OK", RESET;
+
+# Optional message
+say "$prompt Date: ",            scalar localtime if $arg->{verbose};
+say "$prompt Running time(s): ", time - $^T       if $arg->{verbose};
+
+# Say goodbye message
+my $goodbye = GoodBye->new();
+say WHITE, $prompt, ' ', $goodbye->say_goodbye();
+
+##############################################################
+#                   Code ends here                           #
+##############################################################
+
+__END__
+
+=head1 NAME
+
+C<beacon>: A script to B<annotate> and B<transform> B<VCFs> into the C<genomicVariations> entity of the Beacon v2 Models. The script also supports ingesting the data into a B<MongoDB> instance. It is part of the C<beacon2-ri-tools> repository.
+
+=head1 SYNOPSIS
+
+ beacon <mode> [-arguments] [-options]
+
+   Mode:
+     vcf
+       -i | --input <file>            Requires a VCF.gz file
+                                      (May require a parameters file)
+
+     mongodb
+                                      (May require a parameters file)
+
+     full (vcf + mongodb)
+       -i | --input <file>            Requires a VCF.gz file
+                                      (May require a parameters file)
+
+   Options:
+       -h                             Brief help message
+       -man                           Full documentation
+       -v                             Display version information
+       -c | --config <file>           Requires a configuration file
+       -p | --param <file>            Requires a parameters file (optional)
+       -n <number>                    Number of CPUs/cores/threads (optional)
+       -debug <level>                 Print debugging information (from 1 to 5, with 5 being the max) (optional)
+       -verbose                       Enable verbosity (optional)
+       -nc | --no-color               Do not print colors to STDOUT (optional)
+
+=head1 DESCRIPTION
+
+=head3 C<beacon>
+
+C<beacon>, a script with three operational modes for diverse actions:
+
+=over
+
+=item Mode vcf
+
+Converts B<genomic variation data> (VCF) into queryable MongoDB format. Extended documentation is available L<here|https://b2ri-documentation.readthedocs.io/en/latest/data-ingestion>. The VCF data are annotated and serialized into C<genomicVariationsVcf.json.gz>.
+
+=item Mode mongodb
+
+Facilitates loading L<BFF|/#what-is-the-beacon-friendly-format-bff> data into MongoDB.
+
+=item Mode full: Combines modes C<vcf> and C<mongodb>
+
+=back
+
+=head3 B2RI diagram
+
+               * Beacon v2 Reference Implementation *
+
+                   ___________
+             XLSX  |          |
+              or   | Metadata | (incl. Phenotypic data)
+             JSON  |__________|
+                        |
+                        |
+                        | Validation (bff-validator)
+                        |
+    _________       ____v____        __________         ______
+    |       |       |       |       |          |        |     | <---- Request
+    |  VCF  | ----> |  BFF  | ----> | Database | <----> | API | 
+    |_______|       |_ _____|       |__________|        |_____| ----> Response
+                        |             MongoDB             
+             beacon     |    beacon                       
+                        |    
+                        |
+                     Optional
+                        |
+                  ______v_______
+                  |            |
+                  | BFF        |
+                  | Genomic    | Visualization
+                  | Variations |
+                  | Browser    |
+                  |____________|
+    
+   ------------------------------------------------|||------------------------
+   beacon2-ri-tools                                             beacon2-ri-api
+
+=head1 INSTALLATION
+
+We provide two installation options for C<beacon2-ri-tools>, one containerized (recommended) and another non-containerized.
+
+=head2 Containerized
+
+=head3 Method 1: From Docker Hub
+
+Download a docker image (latest version) from L<Docker Hub|https://hub.docker.com/r/manuelrueda/beacon2-ri-tools> by executing:
+
+  docker pull manuelrueda/beacon2-ri-tools:latest
+  docker image tag manuelrueda/beacon2-ri-tools:latest crg/beacon2_ri:latest
+
+See additional instructions below.
+
+=head3 Method 2: From Dockerfile
+
+Download the C<Dockerfile> from L<Github|https://github.com/mrueda/beacon2-ri-tools/blob/main/Dockerfile> by typing:
+
+  wget https://raw.githubusercontent.com/mrueda/beacon2-ri-tools/main/Dockerfile
+
+Then execute the following commands:
+
+  docker buildx build -t crg/beacon2_ri:latest . # build the container (~1.1G)
+
+=head3 Additional instructions for Methods 1 and 2
+
+If MongoDB has not been installed alongside the C<beacon2-ri-api> repository, it will be necessary to install it separately. MongoDB should be deployed outside the C<beacon2-ri-tools> container.
+
+Please download the C<docker-compose.yml> file:
+
+  wget https://raw.githubusercontent.com/mrueda/beacon2-ri-tools/main/docker-compose.yml
+
+And then execute:
+
+  docker network create my-app-network
+  docker-compose up -d
+
+Mongo Express will be accessible via C<http://localhost:8081> with default credentials C<admin> and C<pass>.
+
+B<IMPORTANT:> Docker containers are fully isolated. If you think you'll have to mount a volume to the container please read the section L<Mounting Volumes|/#mounting-volumes> before proceeding further.
+          
+B<IMPORTANT (BIS):> If you plan to load data into MongoDB from inside C<beacon2-ri-tools> container please read the section L<Access MongoDB from inside the container|/#access-mongodb-from-inside-the-container> before proceeding further.
+
+
+  docker run -tid --name beacon2-ri-tools crg/beacon2_ri:latest # run the image detached
+  docker ps  # list your containers, beacon2-ri-tools should be there
+  docker exec -ti beacon2-ri-tools bash # connect to the container interactively
+
+After the C<docker exec> command, you will land at C</usr/share/beacon-ri/>, then execute:
+
+  nohup beacon2-ri-tools/lib/BEACON/bin/deploy_external_tools.sh &
+
+...that will inject the external tools and DBs into the image and modify the L<configuration|/README.md#setting-up-beacon> files. It will also run a test to check that the installation was succesful. Note that running C<deploy_external_tools.sh> will take some time (and disk space!!!). You can check the status by using:
+
+  tail -f nohup.out
+
+=head3 Mounting volumes
+
+It's simpler to mount a volume when starting a container than to add it to an existing one. If you need the mount a volume to the container please use the following syntax (C<-v host:container>). Find an example below (note that you need to change the paths to match yours):
+
+  docker run -tid --volume /media/mrueda/4TBT/workdir:/workdir --name beacon2-ri-tools crg/beacon2_ri:latest
+
+Now you'll need to execute:
+
+  docker exec -ti beacon2-ri-tools bash # connect to the container interactively
+
+After the C<docker exec> command, you will land at C</usr/share/beacon-ri/>, then execute:
+
+  nohup beacon2-ri-tools/lib/BEACON/bin/deploy_external_tools.sh & # see above why
+
+Then, you can run commands B<inside the container>, like this;
+
+  # We connect to the container interactively
+  docker exec -ti beacon2-ri-tools bash
+  # We go to the mounting point
+  cd /workdir 
+  # We run the executable
+  /usr/share/beacon-ri/beacon2-ri-tools/beacon vcf -i example.vcf.gz -p param.in
+
+Alternatively, you can run commands B<from the host>, like this:
+
+  # First we create an alias to simplify invocation
+  alias beacon='docker exec -ti beacon2-ri-tools /usr/share/beacon-ri/beacon2-ri-tools/beacon'
+  # Now we use a text editor to edit the file <params.in> to include the parameter 'projectdir'
+  projectdir /workdir/my_fav_job_id
+  # Finally we use the alias to run the command
+  beacon vcf -i /workdir/my_vcf.gz -p /workdir/param.in 
+
+=head3 Access MongoDB from inside the container
+
+If you want to load data from B<inside> the C<beacon2-ri-tools> directly to C<mongo> container, both containers have to be on the same network:
+
+  docker run -tid --network=my-app-network --name beacon2-ri-tools crg/beacon2_ri:latest # change the network to match yours
+
+=head2 Non containerized
+
+Download the latest version from L<Github|https://github.com/mrueda/beacon2-ri-tools>:
+
+  tar -xvf beacon2-ri-tools-2.0.0.tar.gz    # Note that naming may be different
+
+Alternatively, you can use git clone to get the latest (stable) version
+
+  git clone https://github.com/mrueda/beacon2-ri-tools.git
+
+C<beacon> is a Perl script (no compilation needed) that runs on Linux command-line. Internally, it submits multiple pipelines via customizable Bash scripts (see example L<here|https://github.com/mrueda/beacon2-ri-tools/blob/main/lib/BEACON/bin/run_vcf2bff.sh>). Note that Perl and Bash are installed by default in Linux, but we will need to install a few dependencies.
+
+(For Debian and its derivatives, Ubuntu, Mint, etc.)
+
+First we install C<cpmanminus> utility:
+
+  sudo apt-get install cpanminus
+
+Also, to read the documentation you'll need C<perldoc> that may or may not be installed in your Linux distribution:
+
+  sudo apt-get install perl-doc
+
+Second we use C<cpanm> to install the CPAN modules. You have two choose between one of the 2 options below. Change directory into the C<beacon2-ri-tools> folder and run:
+
+B<Option 1:> System-level installation:
+
+  cpanm --notest --sudo --installdeps .
+
+B<Option 2:> Install the dependencies at C<~/perl5>
+
+  cpanm --local-lib=~/perl5 local::lib && eval $(perl -I ~/perl5/lib/perl5/ -Mlocal::lib)
+  cpanm --notest --installdeps .
+
+To ensure Perl recognizes your local modules every time you start a new terminal, you should type:
+
+  echo 'eval $(perl -I ~/perl5/lib/perl5/ -Mlocal::lib)' >> ~/.bashrc
+
+C<beacon> also needs that B<bcftools>, B<SnpEff> and B<MongoDB> are installed. See L<external software|https://b2ri-documentation.readthedocs.io/en/latest/download-and-installation/#non-containerized-beacon2-ri-tools> for more info.
+
+=head3 Setting up beacon
+
+Before running anything you need to set-up the B<configuration file>:
+
+The configuration file is a L<YAML|https://es.wikipedia.org/wiki/YAML> text file with locations for executables and files needed for the job (e.g., SnpEff jar files, dbSNSFP database).
+
+You have two options here:
+
+  * RECOMMENDED: You set the config file ONCE. This file will serve for all your jobs.
+    To set it up go to the installation directory and modify the file 'config.yaml' with your paths.
+
+  * You provide the config file with the argument -c when you run a
+    job. This is useful if you want to override the "main" file (see above).
+
+Below are parameters that can be modified by the user along with their default values.
+Please remember to leave a blank space between the parameter and the value.
+
+B<Configuration file> (YAML)
+
+ ---
+ # Reference assemblies (genomes)
+ hs37fasta: /path
+ hg19fasta: /path
+ hg38fasta: /path
+
+ # ClinVar
+ hg19clinvar: /path
+ hg38clinvar: /path
+
+ # Cosmic 
+ hg19cosmic: /path
+ hg38cosmic: /path
+
+ # dbSNSFP Academic
+ hg19dbnsfp: /path
+ hg38dbnsfp: /path
+
+ # Miscellanea software
+ snpeff: /path
+ snpsift: /path
+ bcftools: /path
+
+ # Max RAM memory for snpeff (optional)
+ mem: 8G
+
+ # MongoDB 
+ mongoimport: /path
+ mongostat: /path
+ mongosh: /path
+ mongodburi: string
+
+ # Temporary directory (optional)
+ tmpdir: /path
+
+Please find below a detailed description of all parameters (alphabetical order):
+
+=over
+
+=item B<bcftools>
+
+Location of the bcftools exe (e.g., /home/foo/bcftools_1.11/bcftools).
+
+=item B<dbnsfpset>
+
+The set of fields to be taken from dbNSFP database.
+
+Values: <all> or <ega>
+
+=item B<genome>
+
+Your reference genome.
+
+Accepted values: hg19, hg38 and hs37.
+
+If you used GATKs GRCh37/b37 set it to hg19.
+
+Not supported  : NCBI36/hg18, NCBI35/hg17, NCBI34/hg16, hg15 and older.
+
+=item B<hg19{clinvar,cosmic,dbnsfp,fasta}>
+
+Path for each of these files. COSMIC annotations are added but not used (v2.0.0).
+
+=item B<hg38{clinvar,cosmic,dbnsfp,fasta}>
+
+Path for each of these files. COSMIC annotations are added but not used (v2.0.0).
+
+=item B<hs37>
+
+Path for ithe reference genome hs37.
+
+=item B<mem>
+
+RAM memory for the Java processes (e.g., 8G).
+
+=item B<mongoXYZ>
+
+Parameters needed for MongoDB.
+
+=item B<paneldir>
+
+A directory where you can store text files (consisting of a column with a lists of genes) to be displayed by the BFF Genomic Variations Browser.
+
+=item B<snpeff>
+
+Location of the java archive dir (e.g., /home/foo/snpEff/snpEff.jar).
+
+=item B<snpsift>
+
+Location of the java archive dir (e.g., /home/foo/snpEff/snpSift.jar).
+
+=item B<tmpdir>
+
+Use if you a have a preferred tmpdir.
+
+=back
+
+=head3 System requirements
+
+  * Ideally a Debian-based distribution (Ubuntu or Mint), but any other (e.g., CentOs, OpenSuse) should do as well (untested).
+  * Perl 5 (>= 5.10 core; installed by default in most Linux distributions). Check the version with "perl -v"
+  * 4GB of RAM (ideally 16GB).
+  * >= 1 cores (ideally i7 or Xeon).
+  * At least 200GB HDD.
+  * bcftools, SnpEff and MongoDB
+
+The Perl itself does not need a lot of RAM (max load will reach 400MB) but external tools do (e.g., process C<mongod> [MongoDB's daemon]).
+
+=head3 Testing the code
+
+I am not using any CPAN's module to perform unit tests. When I modify the code my "integration tests" are done by comparing to reference files. You can validate the installation using the files included in the L<test|https://github.com/mrueda/beacon2-ri-tools/tree/main/test> directory.
+
+=head1 HOW TO RUN C<beacon>
+
+We recommend following this L<tutorial|https://b2ri-documentation.readthedocs.io/en/latest/tutorial-data-beaconization>.
+
+This script has three B<modes>: C<vcf, mongodb> and C<full>
+
+B<* Mode C<vcf>>
+
+Annotating and serializing a VCF file into a BFF file for genomic variations.
+
+B<* Mode C<mongodb>>
+
+Loading BFF data into MongoDB.
+
+B<* Mode C<full>>
+
+Mode vcf + mode mongodb.
+
+To perform all these taks you'll need: 
+
+=over
+
+=item * A gzipped VCF 
+
+Note that it does not need to be bgzipped.
+
+=item * (Optional) A parameters file
+
+A parameters text file that will contain specific values needed for the job.
+
+=item * BFF files (only for modes: mongodb and full)
+
+(see explanation of BFF format L<here|/#what-is-the-beacon-friendly-format-bff>)
+
+=item * (Optional) Specify the number of cores (only for VCF processing!)
+
+The number of threads/cores you want to use for the job. In this regard (since SnpEff does not deal well with parallelization) we recommend using C<-n 1> and running multiple simultaneous jobs with GNU C<parallel> or the included L<queue system|https://github.com/mrueda/beacon2-ri-tools/tree/main/utils/bff_queue>). The software scales linearly {O}(n) with the number of variations present in the input file. The easiest way is to run one job per chromosome, but if you are in a hurry and have many cores you can split each chromosome into smaller vcfs.
+
+=back
+
+C<beacon> will create an independent project directory C<projectdir> and store all needed information needed there. Thus, many concurrent calculations are supported.
+Note that C<beacon> will treat your data as I<read-only> (i.e., will not modify your original files).
+
+B<Annex: Parameters file>  (YAML)
+
+ --
+ bff:
+   metadatadir: .
+   analyses: analyses.json
+   biosamples: biosamples.json
+   cohorts: cohorts.json
+   datasets: datasets.json
+   individuals: individuals.json
+   runs: runs.json
+   # Note that genomicVariationsVcf is not affected by <metadatadir>
+   genomicVariationsVcf: beacon_XXXX/vcf/genomicVariationsVcf.json.gz
+ datasetid: crg_beacon_test
+ genome: hs37
+ bff2html: true
+ projectdir: my_project
+
+Please find below a detailed description of all parameters (alphabetical order):
+
+=over
+
+=item B<bff>
+
+Location for the Beacon Friendly Format JSON files.
+
+=item B<center>
+
+Experimental feature. Not used for now.
+
+=item B<datasetid>
+
+An unique identifier for the dataset present in the input VCF. Default value is 'id_1'
+
+=item B<ega>
+
+(For EGA internal use only)
+
+egac: EGA DAC Accession ID.
+
+egad: EGA Dataset Accession ID.
+
+egas: EGA Study Accession ID.
+
+=item B<genome>
+
+Your reference genome.
+
+Accepted values: hg19, hg38 and hs37.
+
+If you used GATKs GRCh37/b37 set it to hg19.
+
+Not supported: NCBI36/hg18, NCBI35/hg17, NCBI34/hg16, hg15 and older.
+
+=item B<organism>
+
+Experimental feature. Not used for now.
+
+=item B<bff2html>
+
+Set bff2html to C<true> to activate BFF Genomic Variations Browser.
+
+=item B<projectdir>
+
+The prefix for dir name (e.g., 'cancer_sample_001'). Note that it can also contain a path (e.g., /workdir/cancer_sample_001).
+The script will automatically add an unique identifier to each job.
+
+=item B<technology>
+
+Experimental feature. Not used for now.
+
+=back
+
+B<Optional:> The user has the option of turning on the B<BFF Genomic Variatons Browser>. With this option enabled, an HTML file will be created to be used with a web browser.
+The purpose of such HTML file is to provide a preliminary exploration of the genomic variations data. See the full documentation L<here|https://b2ri-documentation.readthedocs.io/en/latest/data-ingestion/#bff-genomic-variations-browser>.
+
+B<Examples:>
+
+  $ ./beacon vcf -i input.vcf.gz 
+
+  $ ./beacon mongodb -p param_file  # MongoDB load only
+
+  $ ./beacon full -n 1 --i input.vcf.gz -p param_file  > log 2>&1
+
+  $ ./beacon full -n 1 --i input.vcf.gz -p param_file -c config_file > log 2>&1
+
+  $ nohup $path_to_beacon/beacon full -i input.vcf.gz -verbose
+
+  $ parallel "./beacon vcf -n 1 -i chr{}.vcf.gz  > chr{}.log 2>&1" ::: {1..22} X Y
+
+I<NB>: If you don't want colors in the output use the flag C<--no-color>. If you did not use the flag and want to get rid off the colors in your printed log file use this command to parse ANSI colors:
+
+  perl -pe 's/\x1b\[[0-9;]*[mG]//g'
+
+=head2 WHAT IS THE BEACON FRIENDLY FORMAT (BFF)
+
+The Beacon Friendly Format is a data exchange format consisting up to  7 JSON files (JSON arrays) that match the 7 schemas from L<Beacon v2 Models|https://docs.genomebeacons.org/schemas-md/analyses_defaultSchema/>.
+
+Six files correspond to Metadata (C<analyses.json,biosamples.json,cohorts.json,datasets.json,individuals.json,runs.json>) and one corresponds to variations (C<genomicVariations.json>).
+
+Normally, C<beacon> script is used to create C<genomicVariations> JSON file. The other 6 files are created with L<this utility|https://github.com/mrueda/beacon2-ri-tools/tree/main/utils/bff_validator> (part of the distribution). See instructions L<here|https://github.com/mrueda/beacon2-ri-tools/tree/main/utils/bff_validator/README.md>.
+
+Once we have all seven files, then we can proceed to load the data into MongoDB.
+
+=head1 COMMON ERRORS: SYMPTOMS AND TREATMENT
+
+  * Dockerfile:
+          * DNS errors
+            - Error: Temporary failure resolving 'foo'
+              Solution: https://askubuntu.com/questions/91543/apt-get-update-fails-to-fetch-files-temporary-failure-resolving-error
+  * Perl: 
+          * Compilation errors:
+            - Error: Unknown PerlIO layer "gzip" at (eval 10) line XXX
+              Solution: cpanm --sudo PerlIO::gzip
+                           ... or ...
+                    sudo apt-get install libperlio-gzip-perl
+          * Execution errors:
+            - Error with YAML::XS
+              Solution: Make sure the YAML (config.yaml or parameters file) is well formatted (e.g., space after param:' ').
+
+  * Bash: 
+          (Possible errors that can happen when the embeded Bash scripts are executed)
+          * bcftools errors: bcftools is nit-picky about VCF fields and nomenclature of contigs/chromosomes in reference genome
+                 => Failed to execute: beacon_161855926405757/run_vcf2bff.sh
+                    Please check this file beacon_161855926405757/run_vcf2bff.log
+            - Error: 
+                   # Running bcftools
+                   [E::faidx_adjust_position] The sequence "22" was not found
+              Solution: Make sure you have set the correct genome (e.g., hg19, hg38 or hs37) in parameters_file.
+                        In this case bcftools was expecting to find 22 in the <*.fa.gz> file from reference genome, but found 'chr22' instead.
+                  Tips:
+                       - hg{19,38} use 'chr' in chromosome naming (e.g., chr1)
+                       - hs37 does not use 'chr' in chromosome naming (e.g., 1)
+        
+             - Error
+                  # Running bcftools
+                  INFO field IDREP only contains 1 field, expecting 2
+               Solution: Please Fix VCF info field manually (or get rid of problematic fields with bcftools)
+                         e.g., bcftools annotate -x INFO/IDREP input.vcf.gz | gzip > output.vcf.gz
+                               bcftools annotate -x INFO/MLEAC,INFO/MLEAF,FMT/AD,FMT/PL input.vcf.gz  | gzip > output.vcf.gz
+             
+                   
+    NB: The bash scripts can be executed "manually" in the beacon_XXX dir. You must provide the 
+        input vcf as an argument. This is a good option for debugging. 
+
+=head2 KNOWN ISSUES
+
+  * Some Linux distributions do not include perldoc and thus Perl's library Pod::Usage will complain.
+    Please, install it (sudo apt-get install perl-doc) if needed.
+
+=head1 CITATION
+
+The author requests that any published work that utilizes B<B2RI> includes a cite to the the following reference:
+
+Rueda, M, Ariosa R. "Beacon v2 Reference Implementation: a toolkit to enable federated sharing of genomic and phenotypic data". I<Bioinformatics>, btac568, https://doi.org/10.1093/bioinformatics/btac568
+
+=head1 AUTHOR
+
+Written by Manuel Rueda, PhD. Info about CNAG can be found at L<https://www.cnag.eu>
+
+Credits: 
+
+  * Sabela De La Torre (SDLT) created a Bash script for Beacon v1 to parse vcf files L<https://github.com/ga4gh-beacon/beacon-elixir>.
+  * Toshiaki Katayamai re-implemented the Beacon v1 script in Ruby.
+  * Later Dietmar Fernandez-Orth (DFO) modified the Ruby for Beacon v2 L<https://github.com/ktym/vcftobeacon and added post-processing with R, from which I borrowed ideas to implement vcf2bff.pl.
+  * DFO for usability suggestions and for creating bcftools/snpEff commands.
+  * Roberto Ariosa for help with MongoDB implementation.
+  * Mauricio Moldes helped with the containerization.
+
+=head1 REPORTING BUGS
+
+For Beacon problems, questions, or suggestions, send an e-mail to manuel.rueda@cnag.eu.
+
+=head1 COPYRIGHT and LICENSE
+
+This PERL file is copyrighted, (C) 2021-2024 Manuel Rueda. See the LICENSE file included in this distribution.
+
+=cut
