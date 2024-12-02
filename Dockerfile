@@ -1,7 +1,7 @@
 FROM ubuntu:20.04
 
 # File Maintainer
-MAINTAINER Manuel Rueda <manuel.rueda@cnag.eu>
+LABEL maintainer="Manuel Rueda <manuel.rueda@cnag.eu>"
 
 # Build env 
 ENV DEBIAN_FRONTEND=noninteractive
