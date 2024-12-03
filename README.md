@@ -27,15 +27,13 @@
   - [B2RI Diagram](#b2ri-diagram)
   - [Roadmap](#roadmap)
 - [Installation](#installation)
-  - [Containerized](#containerized)
-  - [Non-Containerized](#non-containerized)
+  - [Containerized](#containerized-installation-recommended)
+  - [Non-Containerized](#non-containerized-installation)
 - [Citation](#citation)
   - [Author](#author)
 - [License](#license)
 
 # DESCRIPTION
-
-# Description
 
 **beacon2-ri-tools** is part of the ELIXIR-Beacon v2 Reference Implementation (B2RI). It provides essential tools for ingesting, validating, and visualizing genomic and phenotypic data.
 
@@ -44,7 +42,7 @@
 - A suite of [utilities](https://github.com/mrueda/beacon2-ri-tools/tree/main/utils) aiding in data ingestion.
 - The [CINECA_synthetic_cohort_EUROPE_UK1](https://github.com/mrueda/beacon2-ri-tools/tree/main/CINECA_synthetic_cohort_EUROPE_UK1) dataset.
 
-### B2RI diagram
+### B2RI Diagram
 
                 * Beacon v2 Reference Implementation *
 
