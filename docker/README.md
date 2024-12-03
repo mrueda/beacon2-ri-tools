@@ -105,6 +105,16 @@ If you want to load data from **inside** the `beacon2-ri-tools` directly to `mon
 
 The Perl itself does not need a lot of RAM (max load will reach 400MB), but external tools do (e.g., process `mongod` [MongoDB's daemon]).
 
+### Common errors: Symptoms and treatment
+
+  * Dockerfile:
+
+          * DNS errors
+
+            - Error: Temporary failure resolving 'foo'
+
+              Solution: https://askubuntu.com/questions/91543/apt-get-update-fails-to-fetch-files-temporary-failure-resolving-error
+
 ## References
 
 1. BCFtools

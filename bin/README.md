@@ -35,15 +35,15 @@
 
 `beacon`, a script with three operational modes for diverse actions:
 
-- Mode vcf
+- Mode `vcf`
 
     Converts **genomic variation data** (VCF) into queryable MongoDB format. Extended documentation is available [here](https://b2ri-documentation.readthedocs.io/en/latest/data-ingestion). The VCF data are annotated and serialized into `genomicVariationsVcf.json.gz`.
 
-- Mode mongodb
+- Mode `mongodb`
 
     Facilitates loading [BFF](#what-is-the-beacon-friendly-format-bff) data into MongoDB.
 
-- Mode full: Combines modes `vcf` and `mongodb`
+- Mode `full`: Combines modes `vcf` and `mongodb`
 
 # HOW TO RUN `beacon`
 
@@ -186,16 +186,7 @@ Once we have all seven files, then we can proceed to load the data into MongoDB.
 
 # COMMON ERRORS: SYMPTOMS AND TREATMENT
 
-    * Dockerfile:
-            * DNS errors
-              - Error: Temporary failure resolving 'foo'
-                Solution: https://askubuntu.com/questions/91543/apt-get-update-fails-to-fetch-files-temporary-failure-resolving-error
     * Perl: 
-            * Compilation errors:
-              - Error: Unknown PerlIO layer "gzip" at (eval 10) line XXX
-                Solution: cpanm --sudo PerlIO::gzip
-                             ... or ...
-                      sudo apt-get install libperlio-gzip-perl
             * Execution errors:
               - Error with YAML::XS
                 Solution: Make sure the YAML (config.yaml or parameters file) is well formatted (e.g., space after param:' ').
