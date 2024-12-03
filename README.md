@@ -1,11 +1,12 @@
+<div align="center">
+    <a href="https://github.com/mrueda/beacon2-ri-tools">
+        <img src="https://raw.githubusercontent.com/mrueda/beacon2-ri-tools/main/browser/web/img/logo.png" width="200" alt="beacon2-ri-tools">
+    </a>
+</div>
 
-<p align="center">
-    <em>beacon2-ri-tools</em>
-</p>
-
-<p align="left">
-  <a href="https://github.com/mrueda/beacon2-ri-tools"><img src="https://raw.githubusercontent.com/cnag-biomedical-informatics/convert-pheno/main/docs/img/CP-logo.png" width="220" alt="Convert-Pheno"></a>
-</p>
+<div align="center" style="font-family: Consolas, monospace;">
+    <h1>beacon2-ri-tools</h1>
+</div>
 
 [![Docker build](https://github.com/mrueda/beacon2-ri-tools/actions/workflows/docker-build.yml/badge.svg)](https://github.com/mrueda/beacon2-ri-tools/actions/workflows/docker-build.yml)
 [![Documentation Status](https://readthedocs.org/projects/b2ri-documentation/badge/?version=latest)](https://b2ri-documentation.readthedocs.io/en/latest/?badge=latest)
