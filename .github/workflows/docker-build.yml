@@ -24,7 +24,7 @@ jobs:
 
       - name: Build Docker image
         run: |
-          docker build -t manuelrueda/beacon2-ri-tools:${{ steps.get_version.outputs.VERSION }} .
+          docker build -t manuelrueda/beacon2-ri-tools:${{ steps.get_version.outputs.VERSION }} -f docker/Dockerfile .
           docker tag manuelrueda/beacon2-ri-tools:${{ steps.get_version.outputs.VERSION }} manuelrueda/beacon2-ri-tools:latest
 
       - name: Login to Docker Hub
