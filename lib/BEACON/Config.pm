@@ -46,98 +46,25 @@ sub read_config_file {
 
     my $config_file = shift;
 
-    # NGS-utils will be stored in a hash
-    my $NGSutils_dir = '/media/mrueda/4TBT/NGSutils';
-    my %NGSutils     = (
-        snpeff   => catfile( $NGSutils_dir, 'snpEff/snpEff.jar' ),
-        snpsift  => catfile( $NGSutils_dir, 'snpEff/SnpSift.jar' ),
-        bcftools => catfile( $NGSutils_dir, 'bcftools-1.15.1/bcftools' )
-    );
-
-    # Mongo-DB
-    # Database tools
-    my $mongodb_db_tools_dir =
-'/media/mrueda/4TBT/Soft/mongodb-database-tools-ubuntu2004-x86_64-100.5.1/bin/';
-    my %mongodb_db_tools = (
-        mongostat   => catfile( $mongodb_db_tools_dir, 'mongostat' ),
-        mongoimport => catfile( $mongodb_db_tools_dir, 'mongoimport' ),
-        mongoexport => catfile( $mongodb_db_tools_dir, 'mongoexport' )
-    );
-
-    # Mongo shell
-    my $mongosh = '/usr/bin/mongosh';
-
-    # Login URI
-    my $mongodb_uri =
-      'mongodb://root:example@127.0.0.1:27017/beacon?authSource=admin';
-
-    # Default values
-    my $root_dir    = realpath( catdir( $main::Bin, File::Spec->updir ) );
-    my $RAM         = '4G';
-    my $db_dir      = '/media/mrueda/4TBT/Databases';
-    my $genomes_dir = catdir( $db_dir, 'genomes' );
-    my $snpeff_dir  = catdir( $db_dir, 'snpeff/v5.0' );
-    my $tmpdir      = '/media/mrueda/4TBT/tmp';
-    my $browser_dir = catdir( $root_dir,    'browser' );
-    my $panel_dir   = catdir( $browser_dir, 'data' );
-
-    # Load "databases" in 2D-hash (w/ autovivification) to simplify nomenclature
-    my %data = ();
-
-    # GRCh37/hg19, GRCh38/hg38 and hs37
-    my @assemblies = qw(hg19 hg38 hs37);
-    $data{hg19}{fasta} = catfile( $genomes_dir, 'ucsc.hg19.fasta.gz' );
-    $data{hg38}{fasta} = catfile( $genomes_dir, 'hg38.fa.gz' );
-    $data{hs37}{fasta} = catfile( $genomes_dir, 'hs37d5.fa.gz' );
-
-    for my $ref (@assemblies) {
-        my $ref_tmp = $ref eq 'hs37' ? 'hg19' : $ref;    # hs37 shares files with hg19
-        $data{$ref}{cosmic} =
-          "$snpeff_dir/$ref_tmp/CosmicCodingMuts.normal.$ref_tmp.vcf.gz";
-        $data{$ref}{dbnsfp4} =
-          "$snpeff_dir/$ref_tmp/dbNSFP4.1a_$ref_tmp.txt.gz";
-        $data{$ref}{clinvar} = "$snpeff_dir/$ref_tmp/clinvar_20211218.vcf.gz";
-    }
-
-    # We load %config with the default values
-    my %config = (
-        mem         => $RAM,
-        bcftools    => $NGSutils{bcftools},
-        snpeff      => $NGSutils{snpeff},
-        snpsift     => $NGSutils{snpsift},
-        hg19cosmic  => $data{hg19}{cosmic},
-        hg19clinvar => $data{hg19}{clinvar},
-        hg19dbnsfp  => $data{hg19}{dbnsfp4},
-        hg19fasta   => $data{hg19}{fasta},
-        hg38cosmic  => $data{hg38}{cosmic},
-        hg38clinvar => $data{hg38}{clinvar},
-        hg38dbnsfp  => $data{hg38}{dbnsfp4},
-        hg38fasta   => $data{hg38}{fasta},
-        hs37cosmic  => $data{hs37}{cosmic},              # From hg19
-        hs37dbnsfp  => $data{hs37}{dbnsfp4},             # From hg19
-        hs37fasta   => $data{hs37}{fasta},
-        mongoimport => $mongodb_db_tools{mongoimport},
-        mongostat   => $mongodb_db_tools{mongostat},
-        mongosh     => $mongosh,
-        mongodburi  => $mongodb_uri,
-        dbnsfpset   => 'all',
-        paneldir    => $panel_dir,
-        tmpdir      => $tmpdir
-    );
-    my @keys     = keys %config;
-    my $hostname = hostname;
-    my $user     = $ENV{LOGNAME} || $ENV{USER} || getpwuid($<);
+    # Load variables
+    my $root_dir = realpath( catdir( $main::Bin, File::Spec->updir ) );    # Global $::Bin variable
 
     # Definining options for config
-    my $beacon_config = catfile( $root_dir, 'config.yaml' );    # Global $::Bin variable
-    $config_file =
-      ( $user eq 'mrueda' && $hostname =~ 'mrueda-ws1' ) ? $config_file :    # debug
-      defined $config_file                               ? $config_file :    # -c arg
-      $beacon_config;                                                        # default location
+    my $beacon_config =
+      defined $config_file
+      ? $config_file
+      : catfile( $root_dir, 'bin', 'config.yaml' );
+
+    # Ensure that all necessary configuration values are present
+    my @required_keys = qw(
+      hs37fasta hg19fasta hg38fasta hg19clinvar hg38clinvar hg19cosmic hg38cosmic hg19dbnsfp hg38dbnsfp snpeff snpsift bcftools mem tmpdir mongoimport mongostat mongodburi mongosh dbnsfpset
+    );
 
     # Parsing config file
-    %config = ( %config, parse_yaml_file( $config_file, \@keys ) )
-      if $config_file;                                                       # merging two hashes in one
+    my %config = parse_yaml_file( $beacon_config, \@required_keys );
+
+    # Validating config
+    validate_config( \%config, \@required_keys );
 
     # **** Important note about <hs37> *******
     # We loaded default values for hs37cosmic or hs37dbnsfp, which are good for development
@@ -168,7 +95,7 @@ sub read_config_file {
     $config{vcf2bff}      = catfile( $beacon_bin, 'vcf2bff.pl' );
     $config{bff2json}     = catfile( $beacon_bin, 'bff2json.pl' );
     $config{json2html}    = catfile( $beacon_bin, 'bff2html.pl' );
-    $config{browserdir}   = $browser_dir;
+    $config{browserdir}   = catfile( $root_dir,   'browser' );
 
     # Check if the scripts exist and have +x permission
     my @scripts =
@@ -303,23 +230,31 @@ sub read_param_file {
 
 sub parse_yaml_file {
 
-    my ( $yaml_file, $ra_keys ) = @_;
+    my $yaml_file = shift;
 
     # Keeping booleans as 'true' or 'false'. Perl still handles 0 and 1 internally.
     $YAML::XS::Boolean = 'JSON::PP';
 
-    # Decoding the YAML into a Perl data structure (Hash)
+    # Load YAML file into a Perl hash
     my $yaml = LoadFile($yaml_file);
 
-    # Check user typos in parameters name
-    for my $key ( keys %$yaml ) {
+    return wantarray ? %$yaml : $yaml;    # Return hash or hashref based on context
+}
 
-        # Forcing lc($key) to allow case-typos
-        # Note: We modify the original value in $yaml!
-        $key = lc($key);
-        my $param_syntax_ok = any { $_ eq $key } @$ra_keys;    #Note scalar context
-        die "Parameter <$key> does not exist (typo?)" unless $param_syntax_ok;
+sub validate_config {
+
+    my ( $config, $required_keys ) = @_;
+
+    # Ensure required_keys is an array reference
+    die "Required keys must be an array reference"
+      unless ref $required_keys eq 'ARRAY';
+
+    # Ensure all required keys are present in the configuration hash
+    for my $key (@$required_keys) {
+        die "Missing required parameter <$key> in the configuration file"
+          unless exists $config->{$key};
     }
-    return wantarray ? %$yaml : $yaml;
+
+    return 1;    # Return true if validation passes
 }
 1;

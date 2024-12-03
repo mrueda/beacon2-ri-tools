@@ -78,9 +78,7 @@ cd snpeff/v5.0 ; ln -s GRCh38.99 hg38 # In case the symbolic link does not exist
 
 Great! now we recommend moving the directories to your favourite location and keep the path. We will be using the paths to **set up** some variables for **SnpEff** and for **beacon** configuration files.
 
-!!! Warning "About `java`"
-    SnpEff runs with `java` which you may need to install separately. See how [here](https://ubuntu.com/tutorials/install-jre).
-
+*NB*: SnpEff runs with `java` which you may need to install separately. See how [here](https://ubuntu.com/tutorials/install-jre).
 
 For **SnpEff**:
 

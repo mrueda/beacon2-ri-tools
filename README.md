@@ -75,7 +75,7 @@ We know that this repository has been downloaded and used in many Beacon v2 impl
 
 # INSTALLATION
 
-We provide two installation options for `beacon2-ri-tools`, one containerized **(recommended)** and another non-containerized.
+We provide two installation options for `beacon2-ri-tools`, containerized **(recommended)** and non-containerized.
 
 ## Containerized
 
