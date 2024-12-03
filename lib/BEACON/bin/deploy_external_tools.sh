@@ -95,20 +95,21 @@ sed -i "s|data.dir = ./data/|data.dir = $share_dir/databases/snpeff/v5.0|g" snpE
 
 cd $share_dir/beacon2-ri-tools
 
-echo "##### Fixing paths at <$share_dir/beacon2-ri-tools/config.yaml> #####"
+echo "##### Fixing paths at <$share_dir/beacon2-ri-tools/bin/config.yaml> #####"
 
 old_dir=/media/mrueda/4TBT/Databases
 new_dir=$share_dir/databases
+beacon_config=bin/config.yaml
 for name in genomes snpeff 
 do
- sed -i "s|$old_dir/$name|$new_dir/$name|g" config.yaml
+ sed -i "s|$old_dir/$name|$new_dir/$name|g" $beacon_config
 done
 
 sed -i -e "s|/media/mrueda/4TBT/NGSutils/snpEff|$share_dir/pro/snpEff|g" \
        -e "s|/media/mrueda/4TBT/NGSutils|$share_dir/pro/NGSutils|g" \
        -e 's|/media/mrueda/4TBT/tmp|/tmp|g' \
        -e "s|/media/mrueda/4TBT/Soft/mongodb-database-tools-ubuntu2004-x86_64-100.5.1/bin|$share_dir/pro/mongodb-database-tools-ubuntu2004-x86_64-100.5.1/bin|g" \
-       -e "s|/usr/bin/mongosh|$share_dir/pro/mongosh|g" config.yaml
+       -e "s|/usr/bin/mongosh|$share_dir/pro/mongosh|g" $beacon_config
 
 #######################
 ## Test Deployment

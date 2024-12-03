@@ -1,3 +1,12 @@
+
+<p align="center">
+    <em>beacon2-ri-tools</em>
+</p>
+
+<p align="left">
+  <a href="https://github.com/mrueda/beacon2-ri-tools"><img src="https://raw.githubusercontent.com/cnag-biomedical-informatics/convert-pheno/main/docs/img/CP-logo.png" width="220" alt="Convert-Pheno"></a>
+</p>
+
 [![Docker build](https://github.com/mrueda/beacon2-ri-tools/actions/workflows/docker-build.yml/badge.svg)](https://github.com/mrueda/beacon2-ri-tools/actions/workflows/docker-build.yml)
 [![Documentation Status](https://readthedocs.org/projects/b2ri-documentation/badge/?version=latest)](https://b2ri-documentation.readthedocs.io/en/latest/?badge=latest)
 ![Maintenance status](https://img.shields.io/badge/maintenance-actively--developed-brightgreen.svg)
@@ -8,19 +17,31 @@
 
 **Documentation**: <a href="https://b2ri-documentation.readthedocs.io/" target="_blank">https://b2ri-documentation.readthedocs.io/</a>
 
-**CLI Source Code**: <a href="https://github.com/mrueda/beacon2-ri-tools" target="_blank">https://github.com/mrueda/beacon2-ri-tools</a>
-
 **Docker Hub Image**: <a href="https://hub.docker.com/r/manuelrueda/beacon2-ri-tools/tags" target="_blank">https://hub.docker.com/r/manuelrueda/beacon2-ri-tools/tags</a>
 
 **Actively maintained by the original author**
 
+# Table of Contents
+- [Description](#description)
+  - [B2RI Diagram](#b2ri-diagram)
+  - [Roadmap](#roadmap)
+- [Installation](#installation)
+  - [Containerized](#containerized)
+  - [Non-Containerized](#non-containerized)
+- [Citation](#citation)
+  - [Author](#author)
+- [License](#license)
+
 # DESCRIPTION
 
-**beacon2-ri-tools** repository, part of the ELIXIR-Beacon v2 Reference Implementation (B2RI), includes:
+# Description
 
-- The [beacon](https://github.com/mrueda/beacon2-ri-tools/tree/main/bin/README.md) script
-- A suite of [utilities](https://github.com/mrueda/beacon2-ri-tools/tree/main/utils) aiding in data ingestion
-- The [CINECA_synthetic_cohort_EUROPE_UK1](https://github.com/mrueda/beacon2-ri-tools/tree/main/CINECA_synthetic_cohort_EUROPE_UK1) dataset
+**beacon2-ri-tools** is part of the ELIXIR-Beacon v2 Reference Implementation (B2RI). It provides essential tools for ingesting, validating, and visualizing genomic and phenotypic data.
+
+### Tools Included:
+- The [beacon](https://github.com/mrueda/beacon2-ri-tools/tree/main/bin/README.md) script (located at `bin/beacon`): Command-line tool for genomic data ingestion and validation.
+- A suite of [utilities](https://github.com/mrueda/beacon2-ri-tools/tree/main/utils) aiding in data ingestion.
+- The [CINECA_synthetic_cohort_EUROPE_UK1](https://github.com/mrueda/beacon2-ri-tools/tree/main/CINECA_synthetic_cohort_EUROPE_UK1) dataset.
 
 ### B2RI diagram
 
@@ -75,15 +96,15 @@ We know that this repository has been downloaded and used in many Beacon v2 impl
 
 # INSTALLATION
 
-We provide two installation options for `beacon2-ri-tools`, containerized **(recommended)** and non-containerized.
+You can install `beacon2-ri-tools` using one of two methods:
 
-## Containerized
+### Containerized Installation (Recommended)
 
-See information [here](docker/README.md).
+Follow the guide [here](docker/README.md) to use Docker for a streamlined setup.
 
-## Non-Containerized
+### Non-Containerized Installation
 
-See information [here](non-containerized/README.md).
+See [here](non-containerized/README.md) for manual installation instructions.
 
 # CITATION
 
@@ -94,15 +115,6 @@ Rueda, M, Ariosa R. "Beacon v2 Reference Implementation: a toolkit to enable fed
 # AUTHOR
 
 Written by Manuel Rueda, PhD. Info about CNAG can be found at [https://www.cnag.eu](https://www.cnag.eu)
-
-Credits:
-
-    * Sabela De La Torre (SDLT) created a Bash script for Beacon v1 to parse vcf files L<https://github.com/ga4gh-beacon/beacon-elixir>.
-    * Toshiaki Katayamai re-implemented the Beacon v1 script in Ruby.
-    * Later Dietmar Fernandez-Orth (DFO) modified the Ruby for Beacon v2 L<https://github.com/ktym/vcftobeacon and added post-processing with R, from which I borrowed ideas to implement vcf2bff.pl.
-    * DFO for usability suggestions and for creating bcftools/snpEff commands.
-    * Roberto Ariosa for help with MongoDB implementation.
-    * Mauricio Moldes helped with the containerization.
 
 # COPYRIGHT and LICENSE
 
