@@ -482,10 +482,6 @@ Credits:
   * Roberto Ariosa for help with MongoDB implementation.
   * Mauricio Moldes helped with the containerization.
 
-=head1 REPORTING BUGS
-
-For Beacon problems, questions, or suggestions, send an e-mail to manuel.rueda@cnag.eu.
-
 =head1 COPYRIGHT and LICENSE
 
 This PERL file is copyrighted, (C) 2021-2024 Manuel Rueda. See the LICENSE file included in this distribution.

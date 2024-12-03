@@ -74,10 +74,6 @@ Written by Manuel Rueda, PhD. Info about CNAG can be found at [https://www.cnag.
 Credits: Toshiaki Katayamai & Dietmar Fernandez-Orth for creating an initial Ruby/R version [https://github.com/ktym/vcftobeacon](https://github.com/ktym/vcftobeacon) 
 from which I borrowed the concept for creating vcf2bff.pl.
 
-# REPORTING BUGS
-
-Report bugs or comments to [manuel.rueda@cnag.eu](https://metacpan.org/pod/manuel.rueda%40cnag.eu).
-
 # COPYRIGHT
 
 This PERL file is copyrighted. See the LICENSE file included in this distribution.

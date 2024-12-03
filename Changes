@@ -1,26 +1,27 @@
 Revision history for beacon2-ri-tools
 
-2.0.4  2024-12-02
+2.0.4  2024-12-03
     - Moved `beacon` script to `bin/beacon` and updated paths.
+    - Reorganized repo in folders
 
 2.0.3  2024-05-24
-    - Added Unicode support to `utils/bff-validator`.
+    - Added Unicode support to `utils/bff-validator`
 
 2.0.2  2024-02-07
     - Updated `docker-compose.yml`.
-    - Changed `config.yml` to enable connecting to @mongo from within `beacon2-ri-tools` container.
+    - Changed `config.yml` to enable connecting to @mongo from within `beacon2-ri-tools` container
 
 2.0.1  2024-01-22
     - Updated contact email to @cnag.eu.
-    - `utils/bff-validator`: Adjusted STDOUT printout details.
-    - `test`: Sorted `frequencyInPopulations` by key in `genomicVariationsVcf.json.gz`.
-    - Docker Hub location updated to `manuelrueda/beacon2-ri-tools`.
-    - Moved `BEACON` to `lib/BEACON`.
-    - Updated READMEs.
+    - `utils/bff-validator`: Adjusted STDOUT printout details
+    - `test`: Sorted `frequencyInPopulations` by key in `genomicVariationsVcf.json.gz`
+    - Docker Hub location updated to `manuelrueda/beacon2-ri-tools`
+    - Moved `BEACON` to `lib/BEACON`
+    - Updated READMEs
     - Fixed `Dockerfile`:
-        - Changed base image from `ubuntu` to `ubuntu:20.04` (thanks to SJD folks).
+        - Changed base image from `ubuntu` to `ubuntu:20.04` (thanks to SJD folks)
 
 2.0.0  2022-08-18
     - Stable version released along with the accompanying paper:
-        * _Bioinformatics_, btac568, https://doi.org/10.1093/bioinformatics/btac568.
-    - Works with [Beacon v2.0.0](https://github.com/ga4gh-beacon/beacon-v2/releases/tag/v2.0.0) specification.
+        * _Bioinformatics_, btac568, https://doi.org/10.1093/bioinformatics/btac568
+    - Works with [Beacon v2.0.0](https://github.com/ga4gh-beacon/beacon-v2/releases/tag/v2.0.0) specification

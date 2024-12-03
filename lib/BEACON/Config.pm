@@ -3,10 +3,11 @@ package Config;
 use strict;
 use warnings;
 use autodie;
-use feature qw(say);
+use feature    qw(say);
 use List::Util qw(any);
 use Sys::Hostname;
 use File::Spec::Functions qw(catdir catfile updir);
+use Cwd                   qw(realpath);
 use Data::Dumper;
 use YAML::XS qw(LoadFile DumpFile);
 
@@ -71,13 +72,13 @@ sub read_config_file {
       'mongodb://root:example@127.0.0.1:27017/beacon?authSource=admin';
 
     # Default values
-    my $root_dir = catdir( $main::Bin, File::Spec->updir );
+    my $root_dir    = realpath( catdir( $main::Bin, File::Spec->updir ) );
     my $RAM         = '4G';
     my $db_dir      = '/media/mrueda/4TBT/Databases';
     my $genomes_dir = catdir( $db_dir, 'genomes' );
     my $snpeff_dir  = catdir( $db_dir, 'snpeff/v5.0' );
     my $tmpdir      = '/media/mrueda/4TBT/tmp';
-    my $browser_dir = catdir( $root_dir, 'browser' );
+    my $browser_dir = catdir( $root_dir,    'browser' );
     my $panel_dir   = catdir( $browser_dir, 'data' );
 
     # Load "databases" in 2D-hash (w/ autovivification) to simplify nomenclature
@@ -90,7 +91,7 @@ sub read_config_file {
     $data{hs37}{fasta} = catfile( $genomes_dir, 'hs37d5.fa.gz' );
 
     for my $ref (@assemblies) {
-        my $ref_tmp = $ref eq 'hs37' ? 'hg19' : $ref; # hs37 shares files with hg19
+        my $ref_tmp = $ref eq 'hs37' ? 'hg19' : $ref;    # hs37 shares files with hg19
         $data{$ref}{cosmic} =
           "$snpeff_dir/$ref_tmp/CosmicCodingMuts.normal.$ref_tmp.vcf.gz";
         $data{$ref}{dbnsfp4} =
@@ -128,15 +129,15 @@ sub read_config_file {
     my $user     = $ENV{LOGNAME} || $ENV{USER} || getpwuid($<);
 
     # Definining options for config
-    my $beacon_config = catfile( $root_dir, 'config.yaml' ); # Global $::Bin variable
+    my $beacon_config = catfile( $root_dir, 'config.yaml' );    # Global $::Bin variable
     $config_file =
-      ( $user eq 'mrueda' && $hostname =~ 'mrueda-ws1' ) ? $config_file : # debug
-      defined $config_file ? $config_file :    # -c arg
-      $beacon_config;                          # default location
+      ( $user eq 'mrueda' && $hostname =~ 'mrueda-ws1' ) ? $config_file :    # debug
+      defined $config_file                               ? $config_file :    # -c arg
+      $beacon_config;                                                        # default location
 
     # Parsing config file
     %config = ( %config, parse_yaml_file( $config_file, \@keys ) )
-      if $config_file;                         # merging two hashes in one
+      if $config_file;                                                       # merging two hashes in one
 
     # **** Important note about <hs37> *******
     # We loaded default values for hs37cosmic or hs37dbnsfp, which are good for development
@@ -159,10 +160,10 @@ sub read_config_file {
     # Below are a few internal paramaters
     my $beacon_bin = "$root_dir/lib/BEACON/bin";    # Global $::Bin variable
     my $java       = '/usr/bin/java';
-    $config{snpeff}    = "$java -Xmx" . $config{mem} . " -jar $config{snpeff}";
-    $config{snpsift}   = "$java -Xmx" . $config{mem} . " -jar $config{snpsift}";
-    $config{bash4bff}  = catfile( $beacon_bin, 'run_vcf2bff.sh' );
-    $config{bash4html} = catfile( $beacon_bin, 'run_bff2html.sh' );
+    $config{snpeff}  = "$java -Xmx" . $config{mem} . " -jar $config{snpeff}";
+    $config{snpsift} = "$java -Xmx" . $config{mem} . " -jar $config{snpsift}";
+    $config{bash4bff}     = catfile( $beacon_bin, 'run_vcf2bff.sh' );
+    $config{bash4html}    = catfile( $beacon_bin, 'run_bff2html.sh' );
     $config{bash4mongodb} = catfile( $beacon_bin, 'run_bff2mongodb.sh' );
     $config{vcf2bff}      = catfile( $beacon_bin, 'vcf2bff.pl' );
     $config{bff2json}     = catfile( $beacon_bin, 'bff2json.pl' );
@@ -229,14 +230,14 @@ sub read_param_file {
     chomp( my $ncpuhost = qx{/usr/bin/nproc} ) // 1;
     $param{jobid} = time . substr( "00000$$", -5 );
     $param{date}  = localtime();
-    $param{projectdir} =~ tr/ /_/;    # Transform white spaces to _
+    $param{projectdir} =~ tr/ /_/;                                        # Transform white spaces to _
     $param{projectdir} .= '_' . $param{jobid};
     $param{log}      = catfile( $param{projectdir}, 'log.json' );
     $param{hostname} = hostname;
     $param{user}     = $ENV{LOGNAME} || $ENV{USER} || getpwuid($<);
-    $param{ncpuhost} = 0 + $ncpuhost;    # coercing it to be a number
+    $param{ncpuhost} = 0 + $ncpuhost;                                     # coercing it to be a number
     $param{ncpuless} = $param{ncpuhost} > 1 ? $param{ncpuhost} - 1 : 1;
-    my $str_ncpuless = $param{ncpuless}; # We copy it (otherwise it will get "stringified" below and printed with "" in log.json)
+    my $str_ncpuless = $param{ncpuless};                                  # We copy it (otherwise it will get "stringified" below and printed with "" in log.json)
     $param{zip} =
       ( -x '/usr/bin/pigz' )
       ? "/usr/bin/pigz -p $str_ncpuless"
@@ -316,7 +317,7 @@ sub parse_yaml_file {
         # Forcing lc($key) to allow case-typos
         # Note: We modify the original value in $yaml!
         $key = lc($key);
-        my $param_syntax_ok = any { $_ eq $key } @$ra_keys; #Note scalar context
+        my $param_syntax_ok = any { $_ eq $key } @$ra_keys;    #Note scalar context
         die "Parameter <$key> does not exist (typo?)" unless $param_syntax_ok;
     }
     return wantarray ? %$yaml : $yaml;
