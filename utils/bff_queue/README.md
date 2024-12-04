@@ -55,7 +55,7 @@ Ok, no more talking. Let's get started:
 
 Here, to simplify things we will be using [SQLite](https://www.sqlite.org/index.html) as a _back-end_. Note, however, that Minion accepts many other back-ends (PosgreSQL, MongoDB, Redis, etc).
 
-    $ cpanm --sudo Minion Minion::Backend::SQLite
+    $ cpanm Minion Minion::Backend::SQLite
 
 ### Usage
 

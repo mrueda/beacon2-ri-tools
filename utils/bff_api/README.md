@@ -18,7 +18,7 @@ Here we provide a light API to enable basic queries to MongoDB. This API was cre
     
 ## Installation
 
-    $ cpanm --sudo Mojolicious MongoDB
+    $ cpanm Mojolicious MongoDB
 
 ## How to run
 
