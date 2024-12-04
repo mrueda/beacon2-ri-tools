@@ -1,5 +1,8 @@
 Revision history for beacon2-ri-tools
 
+2.0.5  2024-XX-XX
+    - Foo
+
 2.0.4  2024-12-03
     - Moved `beacon` script to `bin/beacon` and updated paths.
     - Reorganized repo in folders

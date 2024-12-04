@@ -23,19 +23,17 @@ bff-validator: A script that validates metadata (XLSX|JSON) against Beacon v2 Mo
       Experimental:
         -gv-vcf                           Set this option to read <genomicVariations.json> from <beacon vcf> (with one document per line)
 
-# CITATION
-
-The author requests that any published work that utilizes **B2RI** includes a cite to the the following reference:
-
-Rueda, M, Ariosa R. "Beacon v2 Reference Implementation: a toolkit to enable federated sharing of genomic and phenotypic data". _Bioinformatics_, btac568, https://doi.org/10.1093/bioinformatics/btac568
-
 # SUMMARY
 
 bff-validator: A script that validates metadata (XLSX|JSON) against Beacon v2 Models and serializes it to BFF (JSON)
 
-# HOW TO RUN BFF-VALIDATOR
+# INSTALLATION
 
-The script runs on command-line Linux (tested on Debian-based distribution). Perl 5 is installed by default on Linux, 
+If you got this script from `beacon2-ri-tools` no action is required from you.
+
+If you want to install ONLY this script then:
+
+The script runs on command-line Linux (tested on Debian-based distribution). Perl 5 is installed by default on Linux,
 but we will need to install a few CPAN modules.
 
 First we install cpanminus (with sudo privileges):
@@ -59,9 +57,11 @@ To ensure Perl recognizes your local modules every time you start a new terminal
 
     echo 'eval $(perl -I ~/perl5/lib/perl5/ -Mlocal::lib)' >> ~/.bashrc
 
-Also, we're using _xlsx2csv_, which is a python script. 
+Also, we're using _xlsx2csv_, which is a python script.
 
     $ pip install xlsx2csv
+
+# HOW TO RUN BFF-VALIDATOR
 
 For executing `bff-validator` you will need:
 
@@ -69,7 +69,7 @@ For executing `bff-validator` you will need:
 
     You have two options:
 
-    **A)** A XLSX file consisting of multiple sheets. A template version of this file is provided with this installation.
+    **A)** A XLSX file consisting of multiple sheets. A [template](https://metacpan.org/pod/Beacon-v2-Models_template.xlsx) version of this file is provided with this installation.
 
     Currently, the file consists of 7 sheets that match the Beacon v2 Models.
 
@@ -91,11 +91,10 @@ For executing `bff-validator` you will need:
 
      $ $path/bff-validator -i file.xlsx -o my_bff_outdir
 
-     $ $path/bff-validator -i my_bff_indir/*json -s deref_schemas -o my_bff_outdir 
+     $ $path/bff-validator -i my_bff_in_dir/*json -s deref_schemas -o my_bff_out_dir 
 
-     $ $path/bff-validator -i file.xlsx --gv --schema-dir deref_schemas --out-dir my_bff_outdir
+     $ $path/bff-validator -i file.xlsx --gv --schema-dir deref_schemas --out-dir my_bff_out_dir
     
-     $ carton exec -- ./bff-validator -i file.xlsx # If using Carton
 
 ## TIPS ON FILLING OUT THE EXCEL TEMPLATE
 
@@ -128,13 +127,15 @@ For executing `bff-validator` you will need:
 
 _NB:_ You can use the flag `--ignore-validation` and check the temporary files at `-o` directory.
 
+# CITATION
+
+The author requests that any published work that utilizes **B2RI** includes a cite to the the following reference:
+
+Rueda, M, Ariosa R. "Beacon v2 Reference Implementation: a toolkit to enable federated sharing of genomic and phenotypic data". _Bioinformatics_, btac568, https://doi.org/10.1093/bioinformatics/btac568
+
 # AUTHOR 
 
 Written by Manuel Rueda, PhD. Info about CNAG can be found at [https://www.cnag.eu](https://www.cnag.eu).
-
-# REPORTING BUGS
-
-Report bugs or comments to <manuel.rueda@cnag.eu>.
 
 # COPYRIGHT
 
