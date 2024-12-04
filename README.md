@@ -38,7 +38,7 @@
 **beacon2-ri-tools** is part of the ELIXIR-Beacon v2 Reference Implementation (B2RI). It provides essential tools for ingesting, validating, and visualizing genomic and phenotypic data.
 
 ### Tools Included:
-- **[Beacon Script](https://github.com/mrueda/beacon2-ri-tools/tree/main/bin/README.md)** (`bin/beacon`): A command-line tool for converting genomic data into BFF format.
+- **[Beacon Script](https://github.com/mrueda/beacon2-ri-tools/tree/main/bin/README.md)** (`bin/beacon`): A command-line tool for converting VCF data into BFF format. The tool also enables loading BFF (metadata + genomicVariations] into a MongoDB instance.
 - **[Utility Suite](https://github.com/mrueda/beacon2-ri-tools/tree/main/utils)**: A collection of tools to aid in data ingestion. Key among them:
   - **[BFF Validator](https://github.com/mrueda/beacon2-ri-tools/tree/main/utils/bff_validator)**: Includes an Excel template for completing Beacon v2 models and a validator tool for validating and serializing data into BFF format.
 - **[CINECA Synthetic Cohort - EUROPE_UK1](https://github.com/mrueda/beacon2-ri-tools/tree/main/CINECA_synthetic_cohort_EUROPE_UK1)**: A synthetic dataset for testing and demonstration purposes.
