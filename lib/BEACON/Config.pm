@@ -49,10 +49,14 @@ sub read_config_file {
     # Load variables
     my $root_dir = realpath( catdir( $main::Bin, File::Spec->updir ) );    # Global $::Bin variable
 
+    my $hostname = hostname;
+    my $user     = $ENV{LOGNAME} || $ENV{USER} || getpwuid($<);
+
     # Definining options for config
     my $beacon_config =
-      defined $config_file
-      ? $config_file
+      defined $config_file ? $config_file
+      : ( $user eq 'mrueda' && $hostname eq 'mrueda-ws1' )
+      ? catfile( $root_dir, 'bin', 'mrueda_ws1_config.yaml' )
       : catfile( $root_dir, 'bin', 'config.yaml' );
 
     # Ensure that all necessary configuration values are present

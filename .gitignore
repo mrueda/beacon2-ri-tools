@@ -1,0 +1,7 @@
+*.bck
+*.old
+*.swp
+*.pyc
+bck/
+old/
+/bin/mrueda_ws1_config.yaml
