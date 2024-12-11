@@ -7,7 +7,7 @@
 Download a docker image (latest version) from [Docker Hub](https://hub.docker.com/r/manuelrueda/beacon2-ri-tools) by executing:
 
     docker pull manuelrueda/beacon2-ri-tools:latest
-    docker image tag manuelrueda/beacon2-ri-tools:latest crg/beacon2_ri:latest
+    docker image tag manuelrueda/beacon2-ri-tools:latest cnag/beacon2-ri-tools:latest
 
 See additional instructions below.
 
@@ -20,10 +20,10 @@ Download the `Dockerfile` from [Github](https://github.com/mrueda/beacon2-ri-too
 Then execute the following commands:
 
     # Docker Version 19.03 and Above (Supports buildx)
-    docker buildx build -t crg/beacon2_ri:latest . # build the container (~1.1G)
+    docker buildx build -t cnag/beacon2-ri-tools:latest . # build the container (~1.1G)
 
     # Docker Version Older than 19.03 (Does Not Support buildx)
-    docker build -t crg/beacon2_ri:latest . # build the container (~1.1G)
+    docker build -t cnag/beacon2-ri-tools:latest . # build the container (~1.1G)
 
 ### Additional instructions for Methods 1 and 2
 
@@ -44,7 +44,7 @@ Mongo Express will be accessible via `http://localhost:8081` with default creden
 
 **IMPORTANT (BIS):** If you plan to load data into MongoDB from inside `beacon2-ri-tools` container please read the section [Access MongoDB from inside the container](#access-mongodb-from-inside-the-container) before proceeding further.
 
-    docker run -tid --name beacon2-ri-tools crg/beacon2_ri:latest # run the image detached
+    docker run -tid --name beacon2-ri-tools cnag/beacon2-ri-tools:latest # run the image detached
     docker ps  # list your containers, beacon2-ri-tools should be there
     docker exec -ti beacon2-ri-tools bash # connect to the container interactively
 
@@ -60,7 +60,7 @@ After the `docker exec` command, you will land at `/usr/share/beacon-ri/`, then 
 
 It's simpler to mount a volume when starting a container than to add it to an existing one. If you need to mount a volume to the container please use the following syntax (`-v host:container`). Find an example below (note that you need to change the paths to match yours):
 
-    docker run -tid --volume /media/mrueda/4TBT/workdir:/workdir --name beacon2-ri-tools crg/beacon2_ri:latest
+    docker run -tid --volume /media/mrueda/4TBT/workdir:/workdir --name beacon2-ri-tools cnag/beacon2-ri-tools:latest
 
 Now you'll need to execute:
 
@@ -92,7 +92,7 @@ Alternatively, you can run commands **from the host**, like this:
 
 If you want to load data from **inside** the `beacon2-ri-tools` directly to `mongo` container, both containers have to be on the same network:
 
-    docker run -tid --network=my-app-network --name beacon2-ri-tools crg/beacon2_ri:latest # change the network to match yours
+    docker run -tid --network=my-app-network --name beacon2-ri-tools cnag/beacon2-ri-tools:latest # change the network to match yours
 
 ### System requirements
 

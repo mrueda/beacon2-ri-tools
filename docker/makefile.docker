@@ -1,0 +1,19 @@
+#!/usr/bin/env make
+
+SHELL := /bin/bash
+
+install:
+	docker build -t cnag/beacon2-ri-tools:latest .
+
+run:
+	docker run -tid --name beacon2-ri-tools cnag/beacon2-ri-tools:latest
+
+enter:
+	docker exec -ti beacon2-ri-tools bash
+
+stop:	
+	docker stop beacon2-ri-tools
+
+clean: 
+	docker rm -f beacon2-ri-tools
+	docker rmi cnag/beacon2-ri-tools:latest
