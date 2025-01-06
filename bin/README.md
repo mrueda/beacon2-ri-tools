@@ -242,4 +242,4 @@ Credits:
 
 # COPYRIGHT and LICENSE
 
-This PERL file is copyrighted, (C) 2021-2024 Manuel Rueda. See the LICENSE file included in this distribution.
+This PERL file is copyrighted, (C) 2021-2025 Manuel Rueda. See the LICENSE file included in this distribution.

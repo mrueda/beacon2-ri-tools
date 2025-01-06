@@ -16,9 +16,13 @@
 [![Docker Pulls EGA-archive](https://badgen.net/docker/pulls/beacon2ri/beacon_reference_implementation?icon=docker\&label=EGA-archive-pulls)](https://hub.docker.com/r/beacon2ri/beacon_reference_implementation/)
 ![version](https://img.shields.io/badge/version-2.0.4-blue)
 
+---
+
 **Documentation**: <a href="https://b2ri-documentation.readthedocs.io/" target="_blank">https://b2ri-documentation.readthedocs.io/</a>
 
 **Docker Hub Image**: <a href="https://hub.docker.com/r/manuelrueda/beacon2-ri-tools/tags" target="_blank">https://hub.docker.com/r/manuelrueda/beacon2-ri-tools/tags</a>
+
+---
 
 **Actively maintained by the original author**
 
@@ -118,5 +122,5 @@ Written by Manuel Rueda, PhD. Info about CNAG can be found at [https://www.cnag.
 
 # COPYRIGHT and LICENSE
 
-This repository is copyrighted, (C) 2021-2024 Manuel Rueda. See the LICENSE file included in this distribution.
+This repository is copyrighted, (C) 2021-2025 Manuel Rueda. See the LICENSE file included in this distribution.
 

@@ -10,7 +10,7 @@
 #
 #   Version taken from $beacon
 #
-#   Copyright (C) 2021-2024 Manuel Rueda (manuel.rueda@cnag.eu)
+#   Copyright (C) 2021-2025 Manuel Rueda (manuel.rueda@cnag.eu)
 #
 #   This program is free software; you can redistribute it and/or modify
 #   it under the terms of the GNU General Public License as published by
@@ -56,7 +56,7 @@ exit;
 sub vcf2bff {
 
     # Defining a few variables
-    my $version  = '2.0.1';
+    my $version  = '2.0.4';
     my $DEFAULT  = '.';
     my $exe_path = abs_path($0);
     my $cwd      = cwd;
