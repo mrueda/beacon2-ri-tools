@@ -101,6 +101,9 @@ sub read_config_file {
     $config{json2html}    = catfile( $beacon_bin, 'bff2html.pl' );
     $config{browserdir}   = catfile( $root_dir,   'browser' );
 
+    # Ensure $config{paneldir} is defined or default to config{browserdir}/data
+    $config{paneldir} //= catdir($config{browserdir}, 'data');
+
     # Check if the scripts exist and have +x permission
     my @scripts =
       qw(bash4bff bash4html bash4mongodb vcf2bff bff2json json2html);

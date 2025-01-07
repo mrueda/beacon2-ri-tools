@@ -2,11 +2,11 @@
 #
 #   Script that generates HTML format from BFF
 #
-#   Last Modified: Dec/14/02021
+#   Last Modified: Dec/14/2021
 #
 #   Version taken from $beacon
 #
-#   Copyright (C) 2021-2024 Manuel Rueda (manuel.rueda@cnag.eu)
+#   Copyright (C) 2021-2025 Manuel Rueda (manuel.rueda@cnag.eu)
 #
 #   This program is free software; you can redistribute it and/or modify
 #   it under the terms of the GNU General Public License as published by

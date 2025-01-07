@@ -11,7 +11,7 @@
 #
 #   Version taken from $beacon
 #
-#   Copyright (C) 2021-2024 Manuel Rueda (manuel.rueda@cnag.eu)
+#   Copyright (C) 2021-2025 Manuel Rueda (manuel.rueda@cnag.eu)
 #
 #   This program is free software; you can redistribute it and/or modify
 #   it under the terms of the GNU General Public License as published by
@@ -380,7 +380,7 @@ B<Examples:>
 
 =head1 AUTHOR 
 
-Written by Manuel Rueda, PhD. Info about CRG can be found at L<https://www.crg.eu>.
+Written by Manuel Rueda, PhD. Info about CNAG can be found at L<https://www.cnag.eu>.
 
 =head1 REPORTING BUGS
 

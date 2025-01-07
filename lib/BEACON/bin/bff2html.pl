@@ -2,11 +2,11 @@
 #
 #   Script to transform dataTables-JSON to HTML
 #
-#   Last Modified: Apr/12/2022
+#   Last Modified: Jan/07/2025
 #
 #   Version taken from $beacon
 #
-#   Copyright (C) 2021-2024 Manuel Rueda (manuel.rueda@cnag.eu)
+#   Copyright (C) 2021-2025 Manuel Rueda (manuel.rueda@cnag.eu)
 #
 #   This program is free software; you can redistribute it and/or modify
 #   it under the terms of the GNU General Public License as published by
@@ -39,7 +39,7 @@ exit;
 sub json2html {
 
     # Defining a few variables
-    my $version = '2.0.1';
+    my $version = '2.0.4';
     my @browser_fields =
       qw(variantInternalId assemblyId refseqId position referenceBases alternateBases QUAL FILTER variantType genomicHGVSId geneIds molecularEffects aminoacidChanges annotationImpact conditionId dbSNP ClinVar clinicalRelevance biosampleId);
 
@@ -165,9 +165,7 @@ EOF
                                     <li class="nav-header">Contact</li>
                                     <li><a href="mailto:manuel.rueda\@cnag.eu"><span class="icon-envelope"></span> Author</a></li>
                                     <li class="divider"></li>
-                                    <li class="nav-header">CRG Links</li>
-                                    <li><a href="https://www.crg.eu"><span class="icon-home"></span> CRG</a></li>
-                                    <li><a href="https://ega-archive.org"><span class="icon-home"></span> EGA</a></li>
+                                    <li class="nav-header">Links</li>
                                     <li><a href="https://www.cnag.crg.eu"><span class="icon-home"></span> CNAG</a></li>
                                 </ul>
                             </li>
@@ -219,11 +217,11 @@ EOF
 
       </div>
 
-      <br /><p class="pagination-centered">Beacon Friendly Format Genomic Variations Browser</p> 
+      <br /><p class="pagination-centered">Beacon-Friendly-Format Genomic Variations Browser</p> 
       <hr>
       <!-- FOOTER -->
       <footer>
-                    <p>&copy; 2021-2024 Centre for Genomic Regulation | Barcelona, Spain </p>
+                    <p>&copy; 2021-2025 CNAG | Barcelona, Spain </p>
 
       </footer>
 
@@ -361,7 +359,7 @@ B<Examples:>
 
 =head1 AUTHOR 
 
-Written by Manuel Rueda, PhD. Info about CRG can be found at L<https://www.crg.eu>.
+Written by Manuel Rueda, PhD. Info about CNAG can be found at L<https://www.cnag.eu>.
 
 =head1 REPORTING BUGS
 
