@@ -66,8 +66,13 @@ $json2html --id $id --web-dir web --panel-dir $panel_dir > $id.html
 
 cat <<EOF > README.txt
 # To visualize <$id.html>
-# chromium-browser --allow-file-access-from-files $id.html
-# firefox => about:config url and then uncheck 'privacy.file_unique_origin' boolean value
+
+# 1. Run Python’s built-in HTTP server
+python3 -m http.server
+
+# 2. Open a browser at http://0.0.0.0:8000/
+
+# 3. Load <$id.html>
 EOF
 
 # All done

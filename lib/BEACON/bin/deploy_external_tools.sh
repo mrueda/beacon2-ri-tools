@@ -105,13 +105,13 @@ if [[ ! -x bin/beacon ]]; then
   exit 1
 fi
 
-if [[ ! -f test/test_1000G.vcf.gz || ! -f test/param.in ]]; then
-  echo "Error: Required test files (test_1000G.vcf.gz or param.in) are missing"
+if [[ ! -f test/test_1000G.vcf.gz || ! -f test/param.yaml ]]; then
+  echo "Error: Required test files (test_1000G.vcf.gz or param.yaml) are missing"
   exit 1
 fi
 
 # Run the test command
-bin/beacon vcf -i test/test_1000G.vcf.gz -p test/param.in
+bin/beacon vcf -i test/test_1000G.vcf.gz -p test/param.yaml
 
 # Identify the latest result directory
 test_result=$(ls -td -- */ | head -n 1)

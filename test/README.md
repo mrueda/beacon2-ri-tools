@@ -10,7 +10,7 @@ The test file included (`test_1000G.vcf.gz`) comes from the 1000 Genomes Project
 To test your installation please execute the command below:
 (It will take < 1 min to finish) 
 
-    $ $path_to_beacon/beacon vcf -i test_1000G.vcf.gz -p param.in  # Note that here we used hs37 as a reference genome
+    $ $path_to_beacon/beacon vcf -i test_1000G.vcf.gz -p param.yaml  # Note that here we used hs37 as a reference genome
 
 Once done, check that your file `genomicVariationsVcf.json.gz` and the provided one match:
 

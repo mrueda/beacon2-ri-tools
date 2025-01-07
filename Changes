@@ -2,6 +2,7 @@ Revision history for beacon2-ri-tools
 
 2.0.5  2024-XX-XX
     - The 'config.yaml' for the 'beacon' script is pre-formatted for the Dockerized version.
+    - Renamed 'test/param.in' to test/param.in'
 
 2.0.4  2024-12-03
     - Moved 'beacon' script to 'bin/beacon' and updated paths.

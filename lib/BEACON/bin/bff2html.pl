@@ -153,7 +153,7 @@ EOF
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Help <b class="caret"></b></a>
                                 <ul class="dropdown-menu">
                                     <li class="nav-header">Help</li>
-                                    <li><a href="https://b2ri-documentation.readthedocs.io/en/latest/bff-gv-browser/"><span class="icon-question-sign"></span> Help Page</a>
+                                    <li><a href="https://b2ri-documentation.readthedocs.io/en/latest/data-ingestion/"><span class="icon-question-sign"></span> Help Page</a>
                                     <li class="divider"></li>
                                     <li class="nav-header">FAQs</li>
                                     <li><a href="https://b2ri-documentation.readthedocs.io/en/latest/faq"><span class="icon-question-sign"></span> FAQs Page</a></a></li>
