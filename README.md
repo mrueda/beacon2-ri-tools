@@ -94,9 +94,9 @@ We know that this repository has been downloaded and used in many Beacon v2 impl
 
     Update **CINECA** synthetic dataset.
 
-- **Improve Genomic Variations Browser**
+- **Improve BFF Genomic Variations Browser**
 
-    So that it works as a web-server instead of a static web-page.
+    So that it becomes a new stand-alone utility.
 
 # INSTALLATION
 
