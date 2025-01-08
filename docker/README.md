@@ -44,7 +44,7 @@ Mongo Express will be accessible via `http://localhost:8081` with default creden
 
 **IMPORTANT (BIS):** If you plan to load data into MongoDB from inside `beacon2-ri-tools` container please read the section [Access MongoDB from inside the container](#access-mongodb-from-inside-the-container) before proceeding further.
 
-    docker run -tid --name beacon2-ri-tools cnag/beacon2-ri-tools:latest # run the image detached
+    docker run -tid --name beacon2-ri-tools -p 8080:8000 cnag/beacon2-ri-tools:latest # run the image detached / open port 8000
     docker ps  # list your containers, beacon2-ri-tools should be there
     docker exec -ti beacon2-ri-tools bash # connect to the container interactively
 

@@ -68,7 +68,7 @@ cat <<EOF > README.txt
 # To visualize <$id.html>
 
 # 1. Run Python’s built-in HTTP server
-python3 -m http.server
+python3 -m http.server 8000 --bind 0.0.0.0
 
 # 2. Open a browser at http://0.0.0.0:8000/
 

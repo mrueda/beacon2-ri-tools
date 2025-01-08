@@ -6,7 +6,7 @@ install:
 	docker build -t cnag/beacon2-ri-tools:latest .
 
 run:
-	docker run -tid --name beacon2-ri-tools cnag/beacon2-ri-tools:latest
+	docker run -tid --name beacon2-ri-tools -p 8080:8000 cnag/beacon2-ri-tools:latest
 
 enter:
 	docker exec -ti beacon2-ri-tools bash
