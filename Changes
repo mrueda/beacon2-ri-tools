@@ -1,8 +1,11 @@
 Revision history for beacon2-ri-tools
 
+2.0.5  2025-0X-XX
+    - Foo
+
 2.0.5  2025-01-07
     - The 'config.yaml' for the 'beacon' script is now pre-formatted for the Dockerized version
-    - Renamed 'test/param.in' to 'test/param.in'
+    - Renamed 'test/param.in' to 'test/param.yaml'
     - Enforced Browser HTML display using Python3's default HTTP server
 
 2.0.4  2024-12-03
