@@ -52,9 +52,11 @@ After the `docker exec` command, you will land at `/usr/share/beacon-ri/`, then 
 
     nohup beacon2-ri-tools/lib/BEACON/bin/deploy_external_tools.sh &
 
-...that will inject the external tools and DBs into the image and modify the [configuration](#readme-md-setting-up-beacon) files. It will also run a test to check that the installation was successful. Note that running `deploy_external_tools.sh` will take some time (and disk space!!!). You can check the status by using:
+...that will inject the external tools and DBs into the image and modify the [configuration](#readme-md-setting-up-beacon) files. It will also run a test to check that the installation was successful. Note that running `deploy_external_tools.sh` will take around 30 min (and disk space!!!). You can check the status by using:
 
     tail -f nohup.out
+
+Unfortunately, you will need to **deploy external tools each time you pull** the latest version of the container. We may change this behavior in the future, as we understand it can be inconvenient.
 
 ### Mounting volumes
 
