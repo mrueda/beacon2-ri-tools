@@ -45,6 +45,8 @@
 - **[Beacon Script](https://github.com/mrueda/beacon2-ri-tools/tree/main/bin/README.md)** (`bin/beacon`): A command-line tool for converting VCF data into BFF format. The tool also enables loading BFF (metadata + genomicVariations] into a MongoDB instance.
 - **[Utility Suite](https://github.com/mrueda/beacon2-ri-tools/tree/main/utils)**: A collection of tools to aid in data ingestion. Key among them:
   - **[BFF Validator](https://github.com/mrueda/beacon2-ri-tools/tree/main/utils/bff_validator)**: This tool includes an Excel template for converting your metadata (including phenotypic and clinical data) into Beacon v2 models, along with a validator for verifying and serializing the data into BFF format.
+  - **[BFF Browser](https://github.com/mrueda/beacon2-ri-tools/tree/main/utils/bff_browser)**: Web App to display interactively BFF, in particular `genomicVariations` and `individuals`.
+
 - **[CINECA Synthetic Cohort - EUROPE_UK1](https://github.com/mrueda/beacon2-ri-tools/tree/main/CINECA_synthetic_cohort_EUROPE_UK1)**: A synthetic dataset for testing and demonstration purposes.
 
 ### B2RI Diagram
@@ -71,8 +73,9 @@
                          |
                     _____v_____
                     |         |
-                    |   BFF   | Visualization
-                    | Browser |
+                    |   BFF   |
+                    | Browser | Visualization
+                    |  (beta) |
                     |_________|
 
     ------------------------------------------------|||------------------------
@@ -92,9 +95,9 @@ We know that this repository has been downloaded and used in many Beacon v2 impl
 
     Update **CINECA** synthetic dataset.
 
-- **Improve BFF Genomic Variations Browser**
+- **Improve BFF Browser**
 
-    So that it becomes a new stand-alone utility.
+    So that it can handle multiple entities.
 
 # INSTALLATION
 
