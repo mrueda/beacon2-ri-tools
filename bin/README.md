@@ -142,7 +142,7 @@ Please find below a detailed description of all parameters (alphabetical order):
 
 - **bff2html**
 
-    Set bff2html to `true` to activate BFF Genomic Variations Browser.
+    Set bff2html to `true` to create HTML for the BFF Genomic Variations Browser.
 
 - **projectdir**
 
@@ -152,9 +152,6 @@ Please find below a detailed description of all parameters (alphabetical order):
 - **technology**
 
     Experimental feature. Not used for now.
-
-**Optional:** The user has the option of turning on the **BFF Genomic Variatons Browser**. With this option enabled, an HTML file will be created to be used with a web browser.
-The purpose of such HTML file is to provide a preliminary exploration of the genomic variations data. See the full documentation [here](https://b2ri-documentation.readthedocs.io/en/latest/data-ingestion/#bff-genomic-variations-browser).
 
 **Examples:**
 

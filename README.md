@@ -69,13 +69,11 @@
                          |
                       Optional
                          |
-                   ______v_______
-                   |            |
-                   | BFF        |
-                   | Genomic    | Visualization
-                   | Variations |
-                   | Browser    |
-                   |____________|
+                    _____v_____
+                    |         |
+                    |   BFF   | Visualization
+                    | Browser |
+                    |_________|
 
     ------------------------------------------------|||------------------------
     beacon2-ri-tools                                             beacon2-ri-api

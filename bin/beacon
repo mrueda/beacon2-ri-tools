@@ -373,7 +373,7 @@ Experimental feature. Not used for now.
 
 =item B<bff2html>
 
-Set bff2html to C<true> to activate BFF Genomic Variations Browser.
+Set bff2html to C<true> to create HTML for the BFF Genomic Variations Browser.
 
 =item B<projectdir>
 
@@ -385,9 +385,6 @@ The script will automatically add an unique identifier to each job.
 Experimental feature. Not used for now.
 
 =back
-
-B<Optional:> The user has the option of turning on the B<BFF Genomic Variatons Browser>. With this option enabled, an HTML file will be created to be used with a web browser.
-The purpose of such HTML file is to provide a preliminary exploration of the genomic variations data. See the full documentation L<here|https://b2ri-documentation.readthedocs.io/en/latest/data-ingestion/#bff-genomic-variations-browser>.
 
 B<Examples:>
 
