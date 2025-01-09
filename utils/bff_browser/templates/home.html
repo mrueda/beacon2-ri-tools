@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>BFF Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Include Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <style>
+    .logo {
+      max-width: 200px;
+      margin: auto;
+      display: block;
+    }
+    .section-card {
+      margin-bottom: 30px;
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation Bar -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
+    <a class="navbar-brand" href="{{ url_for('home') }}">BFF Browser Dashboard</a>
+    <div class="collapse navbar-collapse">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item {% if request.endpoint == 'home' %}active{% endif %}">
+          <a class="nav-link" href="{{ url_for('home') }}">Home</a>
+        </li>
+        <li class="nav-item {% if request.endpoint == 'help_page' %}active{% endif %}">
+          <a class="nav-link" href="{{ url_for('help_page') }}">Help</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <div class="container text-center">
+    <!-- Centered Logo -->
+    <h2>beacon2-ri-tools</h2>
+    <img src="{{ url_for('static', filename='images/logo.png') }}" alt="App Logo" class="logo mb-4 img-fluid">
+
+    <div class="row">
+      <!-- Genomic Variations BFF Section -->
+      <div class="col-md-6 section-card">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Genomic Variations BFF Browser</h5>
+            <p class="card-text">Access examples (chr22 CINECA_synthetic_cohort_EUROPE_UK1) and upload your HTML for genomic variations.</p>
+            <a href="{{ url_for('example') }}" class="btn btn-primary mb-2">See Example Job</a>
+            <br>
+            <a href="{{ url_for('view_by_path') }}" class="btn btn-secondary">View HTML by Path</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Individuals BFF Section -->
+      <div class="col-md-6 section-card">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Individuals BFF Browser</h5>
+            <p class="card-text">Access examples (CINECA_synthetic_cohort_EUROPE_UK1) and upload your HTML for individuals data.</p>
+            <a href="{{ url_for('individuals_example') }}" class="btn btn-primary mb-2">See Individuals Example</a>
+            <br>
+            <a href="{{ url_for('individuals_view_by_path') }}" class="btn btn-secondary">View Individuals JSON by Path</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Include Bootstrap JS and dependencies -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

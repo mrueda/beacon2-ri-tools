@@ -1,0 +1,138 @@
+{
+   "_info" : {
+      "datasetId" : "CINECA_synthetic_cohort_EUROPE_UK1",
+      "genome" : "hg19",
+      "vcf2bff" : {
+         "cwd" : "/home/mrueda/beacon/cineca_uk1_173625581783940/vcf",
+         "filein" : "chr22.Test.1000G.phase3.joint.norm.ann.dbnsfp.clinvar.cosmic.vcf.gz",
+         "fileout" : "genomicVariationsVcf.json.gz",
+         "hostname" : "mrueda-ws1",
+         "ncpuhost" : "4",
+         "projectDir" : "cineca_uk1_173625581783940",
+         "user" : "mrueda",
+         "version" : "2.0.4"
+      }
+   },
+   "_position" : {
+      "assemblyId" : "hg19",
+      "end" : [
+         40056443
+      ],
+      "endInteger" : 40056443,
+      "refseqId" : "22",
+      "start" : [
+         40056442
+      ],
+      "startInteger" : 40056442
+   },
+   "caseLevelData" : [
+      {
+         "biosampleId" : "NA12400",
+         "zygosity" : {
+            "id" : "GENO:GENO_0000458",
+            "label" : "0/1"
+         }
+      }
+   ],
+   "frequencyInPopulations" : [
+      {
+         "frequencies" : [
+            {
+               "alleleFrequency" : 0,
+               "population" : "AFR"
+            },
+            {
+               "alleleFrequency" : 0,
+               "population" : "AMR"
+            },
+            {
+               "alleleFrequency" : 0,
+               "population" : "EAS"
+            },
+            {
+               "alleleFrequency" : 0,
+               "population" : "SAS"
+            }
+         ],
+         "source" : "The 1000 Genomes Project Phase 3",
+         "sourceReference" : "https://www.internationalgenome.org",
+         "version" : "Extracted from dbNSFP4.1a"
+      },
+      {
+         "frequencies" : [
+            {
+               "alleleFrequency" : 1.802e-05,
+               "population" : "NFE"
+            }
+         ],
+         "source" : "The Exome Aggregation Consortium (ExAC)",
+         "sourceReference" : "https://gnomad.broadinstitute.org",
+         "version" : "Extracted from dbNSFP4.1a"
+      }
+   ],
+   "identifiers" : {
+      "genomicHGVSId" : "ENSG00000100346:g.40056443G>A",
+      "transcriptHGVSIds" : [
+         "ENST00000407673:c.2593+1G>A",
+         "ENST00000401624:c.2698+1G>A",
+         "ENST00000404898:c.2593+1G>A",
+         "ENST00000402142:c.2698+1G>A"
+      ],
+      "variantAlternativeIds" : [
+         {
+            "id" : "dbSNP:rs573244518",
+            "notes" : "dbSNP id",
+            "reference" : "https://www.ncbi.nlm.nih.gov/snp/rs573244518"
+         }
+      ]
+   },
+   "molecularAttributes" : {
+      "aminoacidChanges" : [
+         ".",
+         "."
+      ],
+      "annotationImpact" : [
+         "HIGH",
+         "HIGH"
+      ],
+      "geneIds" : [
+         "CACNA1I",
+         "CACNA1I"
+      ],
+      "molecularEffects" : [
+         {
+            "id" : "ENSGLOSSARY:0000142",
+            "label" : "splice_donor_variant&intron_variant"
+         },
+         {
+            "id" : "ENSGLOSSARY:0000142",
+            "label" : "splice_donor_variant&intron_variant"
+         }
+      ]
+   },
+   "variantInternalId" : "chr22_40056443_G_A",
+   "variantQuality" : {
+      "FILTER" : "PASS",
+      "QUAL" : 100
+   },
+   "variation" : {
+      "alternateBases" : "A",
+      "location" : {
+         "interval" : {
+            "end" : {
+               "type" : "Number",
+               "value" : 40056443
+            },
+            "start" : {
+               "type" : "Number",
+               "value" : 40056442
+            },
+            "type" : "SequenceInterval"
+         },
+         "sequence_id" : "HGVSid:ENSG00000100346:g.40056443G>A",
+         "type" : "SequenceLocation"
+      },
+      "referenceBases" : "G",
+      "variantType" : "SNP"
+   }
+}

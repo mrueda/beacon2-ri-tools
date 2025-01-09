@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Enter Individuals JSON File Path</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Include Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+  <div class="container mt-4">
+    <h1>View Individuals JSON File</h1>
+    <form method="POST" action="{{ url_for('individuals_view_by_path') }}">
+      <div class="form-group">
+        <label for="filepath">Full Path (e.g., ./static/jobs/.../yourfile.json):</label>
+        <input type="text" class="form-control" id="filepath" name="filepath" required size="100">
+      </div>
+      <button type="submit" class="btn btn-primary">View File</button>
+    </form>
+  </div>
+</body>
+</html>
