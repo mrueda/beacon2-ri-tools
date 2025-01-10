@@ -25,19 +25,19 @@ def list_to_cell_text(lst):
     html += "</ul>"
     return html
 
-def merge_individuals_variants(individuals_data, genomic_data, limit=None):
+def merge_individuals_variations(individuals_data, genomic_data, limit=None):
     """
-    Merges individuals and genomic variants into a combined data structure.
+    Merges individuals and genomic variations into a combined data structure.
     Optionally limits the number of individuals processed.
     """
-    sample_variants_map = defaultdict(list)
+    sample_variations_map = defaultdict(list)
     for variant in genomic_data:
         # Handle multiple caseLevelData entries per variant
         for case_item in variant.get("caseLevelData", []):
             bs_id = case_item.get("biosampleId")
             if bs_id:
                 variant_id = variant.get("variantInternalId", "unknown_variant")
-                sample_variants_map[bs_id].append(variant_id)
+                sample_variations_map[bs_id].append(variant_id)
 
     individuals_map = {}
     for ind in individuals_data:
@@ -50,7 +50,7 @@ def merge_individuals_variants(individuals_data, genomic_data, limit=None):
     for bs_id, ind_obj in individuals_map.items():
         if limit and count >= limit:
             break
-        variant_list = sample_variants_map.get(bs_id, [])
+        variant_list = sample_variations_map.get(bs_id, [])
         variant_csv = ", ".join(variant_list)
         combined_data.append({
             "biosampleId": bs_id,
@@ -189,7 +189,7 @@ def combined_view_by_path():
                 individuals_data = json.load(inf)
         except Exception as e:
             abort(500, description=f"Error reading individuals JSON: {e}")
-        combined_data = merge_individuals_variants(individuals_data, genomic_data)
+        combined_data = merge_individuals_variations(individuals_data, genomic_data)
         return render_template("combined_bff.html", data_rows=combined_data)
     return render_template('combined_path_input.html')
 
@@ -204,7 +204,7 @@ def combined_example():
         genomic_data = json.load(f)
 
     # Limit to first 50 individuals as needed
-    combined_data = merge_individuals_variants(individuals_data, genomic_data, limit=50)
+    combined_data = merge_individuals_variations(individuals_data, genomic_data, limit=50)
     return render_template("combined_bff.html", data_rows=combined_data)
 
 if __name__ == "__main__":

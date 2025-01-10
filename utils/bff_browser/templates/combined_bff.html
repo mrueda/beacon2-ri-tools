@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Combined BFF (Individuals + Variants)</title>
+  <title>Combined BFF (Individuals + Genomic Variations)</title>
   <!-- Include Bootstrap CSS -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
   <!-- Include DataTables CSS -->
@@ -11,15 +11,15 @@
 <body>
 
 <div class="container mt-4">
-  <h1>Combined BFF (Individuals + Variants)</h1>
+  <h1>Combined BFF (Individuals + Genomic Variations)</h1>
   <p>
     This table lists each biosample/individual on one row.
-    All merged variants are displayed in the last column, which is hidden by default.
+    All merged variations are displayed in the last column, which is hidden by default.
   </p>
 
-  <!-- Button to toggle the hidden "Variants" column -->
+  <!-- Button to toggle the hidden "variations" column -->
   <button id="toggleVariantsBtn" class="btn btn-secondary mb-3">
-    Show/Hide Variants Column
+    Show/Hide Variations Column
   </button>
 
   <div class="table-responsive">
@@ -28,7 +28,7 @@
         <tr>
           <th>Individual ID</th>
           <th>Individual Info</th>
-          <th>Variants (Hidden by Default)</th>
+          <th>Variations (Hidden by Default)</th>
         </tr>
       </thead>
       <tbody>
@@ -56,13 +56,13 @@
       pageLength: 10, // default rows per page
       lengthMenu: [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]], 
       columnDefs: [
-        { targets: [2], visible: false } // Hide the Variants column
+        { targets: [2], visible: false } // Hide the Variations column
       ],
       // Enable deferred rendering for performance with large data
       deferRender: true  
     });
 
-    // Toggle button to show/hide the Variants column
+    // Toggle button to show/hide the Variations column
     $('#toggleVariantsBtn').on('click', function() {
       var col = table.column(2);
       col.visible(!col.visible());

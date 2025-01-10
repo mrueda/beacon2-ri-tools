@@ -3,6 +3,8 @@
 ## Overview  
 The BFF Browser is an application that displays BFF files as interactive HTML. It works with the entities `genomicVariations` and `individuals`.
 
+![BFF Dashboard](static/images/snapshot-dashboard-browser.png)
+
 ## Installation  
 If you have already installed `beacon2-ri-tools`, the App should be installed automatically. If not, ensure you have Python 3 installed and then use the provided `requirements.txt` to install necessary dependencies:
 
@@ -19,6 +21,9 @@ pip install -r requirements.txt
     ```bash
     python3 app.py
     ```
+
+   Note that you can run it from any other directory too.
+
 3. Open your web browser and go to:
     ```
     http://0.0.0.0:8000
@@ -34,7 +39,7 @@ The **BFF Browser Genomic Variations Browser** visualizes `genomicVariations` do
 
 ![BFF Genomic Variations Browser](static/images/snapshot-BFF-genomic-variations-browser.png)
 
-This tool is designed to facilitate the analysis of variants with a **HIGH** impact annotation, offering a convenient and targeted exploration method.
+This tool is designed to facilitate the analysis of variations with a **HIGH** impact annotation, offering a convenient and targeted exploration method.
 
 ### Preparing the Files  
 To generate the necessary files, update your parameters file when **processing your VCF** using the following command:
@@ -56,7 +61,7 @@ By default, the browser processes all `.lst` files in the `paneldir` folder. The
 ### Features  
 
 1. **Gene Panel Support**  
-   - Variants are displayed in **HTML tabs** organized by gene panels.
+   - Variations are displayed in **HTML tabs** organized by gene panels.
    - **Gene Panels**: Simple text files with a `.lst` extension containing a list of gene names.
    - **Default Directory**: `$beacon_path/browser/data`.
    - **Customization**: Modify the directory using the `paneldir` parameter in the `config.yaml` file.
@@ -69,8 +74,8 @@ By default, the browser processes all `.lst` files in the `paneldir` folder. The
      - Advanced search with regular expressions (e.g., `rs12(3|4) (tp53|ace2) splice`).
 
 3. **Filtered Display**
-   - Only variants with a **HIGH** impact annotation are included.
-   - Variants are filtered and displayed according to the `.lst` files in the `paneldir` folder.
+   - Only variations with a **HIGH** impact annotation are included.
+   - Variations are filtered and displayed according to the `.lst` files in the `paneldir` folder.
 
 ---
 
@@ -79,4 +84,28 @@ By default, the browser processes all `.lst` files in the `paneldir` folder. The
 When browsing `individuals`, the input file should be a JSON file (e.g., `individuals.json`). The browser will handle this file to display the relevant data interactively.
 
 ![BFF Individuals Browser](static/images/snapshot-BFF-individuals-browser.png)
+
+
+## New Feature: Combined Genomic Variations & Individuals Search
+
+- Merge genomic variant data with individual biosample data.
+- **Client-based** interactive, searchable, and paginated table view.
+- Toggle visibility of the variations column.
+
+## How to Use
+
+1. **Combined View by Path**  
+   - Enter paths for genomic and individuals JSON files.  
+   - View combined results.
+
+2. **Combined Example**  
+   - See a demo with sample data.
+
+## Key Features
+
+- Cross-linked data by Biosample ID.  
+- Toggleable variations column.  
+- Pagination and search for large datasets.
+
+![BFF Combined Browser](static/images/snapshot-BFF-combined-browser.png)
 
