@@ -404,6 +404,10 @@ I<NB>: If you don't want colors in the output use the flag C<--no-color>. If you
 
   perl -pe 's/\x1b\[[0-9;]*[mG]//g'
 
+B<Note:> The script creates C<log> files for all the processes. For instance, when running in C<vcf> mode you can check via C<tail -f> command:
+
+  $ tail -f <your_job_id/vcf/run_vcf2bff.log
+
 =head2 WHAT IS THE BEACON FRIENDLY FORMAT (BFF)
 
 The Beacon Friendly Format is a data exchange format consisting up to  7 JSON files (JSON arrays) that match the 7 schemas from L<Beacon v2 Models|https://docs.genomebeacons.org/schemas-md/analyses_defaultSchema/>.
