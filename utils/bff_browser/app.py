@@ -1,14 +1,15 @@
-from flask import Flask, render_template, request, redirect, url_for, abort
+from flask import Flask, render_template, request, redirect, url_for, abort, send_file, Response
 from collections import defaultdict
 import os
 import json
 import pandas as pd
 
 app = Flask(__name__)
+#app = Flask(__name__, static_url_path="/static", static_folder="templates")
 app.secret_key = 'replace-with-a-secure-key'
 
 # Define allowed base directory for file validation (adjust as needed)
-ALLOWED_BASE_DIR = os.path.join(app.root_path, 'static', 'jobs')
+#ALLOWED_BASE_DIR = os.path.join(app.root_path, 'static', 'jobs')
 
 def list_to_cell_text(lst):
     """Convert list of dicts or values into an HTML unordered list without hyperlinks."""
@@ -72,17 +73,62 @@ def help_page():
 def example():
     return redirect(url_for('static', filename='jobs/cineca_uk1_173625581783940/browser/173625581783940.html'))
 
+@app.route('/files_any/<path:subpath>')
+def serve_files_any(subpath):
+    # Reconstruct the absolute path from the URL
+    abs_path = "/" + subpath  # Prepend "/" because subpath won't start with it
+    if not os.path.isfile(abs_path):
+        abort(404, description="File not found.")
+    return send_file(abs_path)
+
+@app.route('/render_file')
+def render_file():
+    # Get the file path from the query parameter
+    filepath = request.args.get("file")
+    if not filepath:
+        abort(400, "No file specified.")
+    
+    # Resolve absolute path and validate it's an HTML file
+    abs_path = os.path.abspath(filepath)
+    if not os.path.isfile(abs_path) or not abs_path.lower().endswith(('.html', '.htm')):
+        abort(404, description="File not found or not an HTML file.")
+    
+    # Determine the directory containing the HTML file
+    directory = os.path.dirname(abs_path)
+    
+    # Construct a base href that uses our /files_any route and points to this directory
+    # Remove the leading "/" from directory to append to our route correctly.
+    relative_dir = directory.lstrip('/')
+    base_href = f"/files_any/{relative_dir}/" if relative_dir else "/files_any/"
+    
+    # Read and modify the HTML content to insert the <base> tag
+    try:
+        with open(abs_path, 'r', encoding='utf-8') as f:
+            html_content = f.read()
+    except Exception as e:
+        abort(500, description=str(e))
+    
+    # Insert <base> tag right after <head> if possible
+    if "<head>" in html_content:
+        html_content = html_content.replace("<head>", f"<head><base href='{base_href}'>", 1)
+    else:
+        # If there's no <head>, prepend the <base> at the beginning
+        html_content = f"<base href='{base_href}'>" + html_content
+    
+    return Response(html_content, mimetype='text/html')
+
 @app.route('/enter_path', methods=['GET', 'POST'])
 def view_by_path():
     if request.method == 'POST':
         filepath = request.form['filepath'].strip()
-        if not filepath.startswith("./static/"):
-            abort(403, description="Access to this file is not allowed.")
         abs_path = os.path.abspath(filepath)
+        
         if not os.path.isfile(abs_path) or not abs_path.lower().endswith(('.html', '.htm')):
             abort(404, description="File not found or not an HTML file.")
-        url_path = filepath.lstrip(".")
-        return redirect(url_path)
+
+        # We don't serve it here; we just redirect to the /render_file route
+        return redirect(f"/render_file?file={filepath}")
+    
     return render_template('path_input.html')
 
 @app.route('/individuals/example')
@@ -107,8 +153,8 @@ def individuals_view_by_path():
     nested_cols = ['interventionsOrProcedures', 'measures', 'phenotypicFeatures', 'diseases']
     if request.method == 'POST':
         filepath = request.form['filepath'].strip()
-        if not filepath.startswith("./static/"):
-            abort(403, description="Access to this file is not allowed.")
+        #if not filepath.startswith("./static/"):
+        #    abort(403, description="Access to this file is not allowed.")
         abs_path = os.path.abspath(filepath)
         if not os.path.isfile(abs_path) or not abs_path.lower().endswith('.json'):
             abort(404, description="File not found or not a JSON file.")

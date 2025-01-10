@@ -2,7 +2,7 @@
 #
 #   Script that generates HTML format from BFF
 #
-#   Last Modified: Dec/14/2021
+#   Last Modified: Jan/10/2025
 #
 #   Version taken from $beacon
 #
@@ -67,12 +67,15 @@ $json2html --id $id --web-dir web --panel-dir $panel_dir > $id.html
 cat <<EOF > README.txt
 # To visualize <$id.html>
 
-# 1. Run Python’s built-in HTTP server
-python3 -m http.server 8000 --bind 0.0.0.0
+# 1. Go to bff_browser directory
+cd beacon2-ri-tools/utils/bff_browser
 
-# 2. Open a browser at http://0.0.0.0:8000/
+# 2. Execute BFF Browser Flask App
+python3 app.py 
 
-# 3. Load <$id.html>
+# 3. Open a browser at http://0.0.0.0:8000/
+
+# 4. Follow instructions at Home page
 EOF
 
 # All done
