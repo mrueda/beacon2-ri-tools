@@ -4,7 +4,7 @@
 #
 #   The output can be:
 #     a) hash (unmodified)
-#     b) json (unmodified)
+#     b) json (unmodified) NDJSON
 #     c) json4html (the json objects are converted to a json-array w/urls but w/o key values)
 #
 #   Last Modified: Apr/12/2022
@@ -122,6 +122,7 @@ sub serialize2hash {
 
 sub serialize2json {
 
+    # NDJSON (Newline Delimited JSON)
     my $data  = shift;
     my $coder = JSON::XS->new->utf8->canonical->pretty;
     my $json  = $coder->encode($data);

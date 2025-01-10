@@ -276,6 +276,12 @@ Once complete you should have two Docker processes: ```mongo``` and ```mongo-exp
 
 I am not using any CPAN modules to perform unit tests. When I modify the code, my "integration tests" are done by comparing to reference files. You can validate the installation using the files included in the [test](https://github.com/mrueda/beacon2-ri-tools/tree/main/test) directory.
 
+You may wanna install `jq' for running tests.
+
+```bash
+sudo apt install jq
+```
+
 ### Common errors: Symptoms and treatment
 
   * Perl:

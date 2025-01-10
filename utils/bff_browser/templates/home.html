@@ -38,10 +38,11 @@
     <h2>beacon2-ri-tools</h2>
     <img src="{{ url_for('static', filename='images/logo.png') }}" alt="App Logo" class="logo mb-4 img-fluid">
 
+    <!-- First row with three cards -->
     <div class="row">
       <!-- Genomic Variations BFF Section -->
-      <div class="col-md-6 section-card">
-        <div class="card">
+      <div class="col-md-4 section-card">
+        <div class="card h-100">
           <div class="card-body">
             <h5 class="card-title">Genomic Variations BFF Browser</h5>
             <p class="card-text">Access examples (chr22 CINECA_synthetic_cohort_EUROPE_UK1) and upload your HTML for genomic variations.</p>
@@ -53,8 +54,8 @@
       </div>
 
       <!-- Individuals BFF Section -->
-      <div class="col-md-6 section-card">
-        <div class="card">
+      <div class="col-md-4 section-card">
+        <div class="card h-100">
           <div class="card-body">
             <h5 class="card-title">Individuals BFF Browser</h5>
             <p class="card-text">Access examples (CINECA_synthetic_cohort_EUROPE_UK1) and upload your HTML for individuals data.</p>
@@ -64,7 +65,21 @@
           </div>
         </div>
       </div>
+
+      <!-- Combined BFF Example Section -->
+      <div class="col-md-4 section-card">
+        <div class="card h-100">
+          <div class="card-body">
+            <h5 class="card-title">Combined BFF Example</h5>
+            <p class="card-text">Load two JSON files (genomicVariations + individuals) by path and see them combined.</p>
+            <a href="{{ url_for('combined_example') }}" class="btn btn-primary mb-2">Launch Combined Example</a>
+            <br>
+            <a href="{{ url_for('combined_view_by_path') }}" class="btn btn-secondary">Go to Combined View by Path</a>
+          </div>
+        </div>
+      </div>
     </div>
+
   </div>
 
   <!-- Include Bootstrap JS and dependencies -->

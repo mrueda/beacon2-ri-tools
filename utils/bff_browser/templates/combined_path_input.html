@@ -1,0 +1,25 @@
+<!-- templates/combined_path_input.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Combined BFF: View by Path</title>
+  <!-- Add your Bootstrap links, etc. -->
+</head>
+<body>
+  <div class="container mt-4">
+    <h1>Combined BFF (View by Path)</h1>
+    <form method="POST">
+      <div class="form-group">
+        <label for="genomicPath">Path to Genomic JSON</label>
+        <input type="text" class="form-control" name="genomicPath" id="genomicPath" placeholder="./static/jobs/some_genomic_variations.json">
+      </div>
+      <div class="form-group">
+        <label for="individualsPath">Path to Individuals JSON</label>
+        <input type="text" class="form-control" name="individualsPath" id="individualsPath" placeholder="./static/jobs/cineca_uk1_individuals/individuals.json">
+      </div>
+      <button type="submit" class="btn btn-primary">Load & Merge</button>
+    </form>
+  </div>
+</body>
+</html>

@@ -54,8 +54,8 @@ do
  base=$(basename $panel .lst)
  # NB: 
  zgrep -F -w $pattern $input_bff | grep -F -w -f $panel > $id.$base.$pattern.json  || echo "Nothing found for $base"
- $bff2json -i $id.$base.$pattern.json -f json      >  $base.json                   || echo "Could not run $bff2json -f json for $base"
- $bff2json -i $id.$base.$pattern.json -f json4html >  $base.mod.json               || echo "Could not run $bff2json -f json4html for $base"
+ $bff2json -i $id.$base.$pattern.json -f json | jq -s . >  $base.json              || echo "Could not run $bff2json -f json for $base"  # jq needed
+ $bff2json -i $id.$base.$pattern.json -f json4html      >  $base.mod.json          || echo "Could not run $bff2json -f json4html for $base"
 done
 
 # Step 2: Create HTML for JSON
