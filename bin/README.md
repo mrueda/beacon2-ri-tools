@@ -84,23 +84,21 @@ To perform all these taks you'll need:
 `beacon` will create an independent project directory `projectdir` and store all needed information needed there. Thus, many concurrent calculations are supported.
 Note that `beacon` will treat your data as _read-only_ (i.e., will not modify your original files).
 
-**Annex: Parameters file**  (YAML)
+**Annex: Parameters file** (YAML)
 
-    --
-    bff:
-      metadatadir: .
-      analyses: analyses.json
-      biosamples: biosamples.json
-      cohorts: cohorts.json
-      datasets: datasets.json
-      individuals: individuals.json
-      runs: runs.json
-      # Note that genomicVariationsVcf is not affected by <metadatadir>
-      genomicVariationsVcf: beacon_XXXX/vcf/genomicVariationsVcf.json.gz
-    datasetid: crg_beacon_test
-    genome: hs37
-    bff2html: true
-    projectdir: my_project
+Example for `mongodb` mode:
+ --
+ bff:
+   metadatadir: .
+   analyses: analyses.json
+   biosamples: biosamples.json
+   cohorts: cohorts.json
+   datasets: datasets.json
+   individuals: individuals.json
+   runs: runs.json
+   # Note that genomicVariationsVcf is not affected by &lt;metadatadir>
+   genomicVariationsVcf: beacon\_XXXX/vcf/genomicVariationsVcf.json.gz
+ projectdir: my\_project
 
 Please find below a detailed description of all parameters (alphabetical order):
 

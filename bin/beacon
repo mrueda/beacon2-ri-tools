@@ -313,8 +313,9 @@ The number of threads/cores you want to use for the job. In this regard (since S
 C<beacon> will create an independent project directory C<projectdir> and store all needed information needed there. Thus, many concurrent calculations are supported.
 Note that C<beacon> will treat your data as I<read-only> (i.e., will not modify your original files).
 
-B<Annex: Parameters file>  (YAML)
+B<Annex: Parameters file> (YAML)
 
+Example for C<mongodb> mode:
  --
  bff:
    metadatadir: .
@@ -326,9 +327,6 @@ B<Annex: Parameters file>  (YAML)
    runs: runs.json
    # Note that genomicVariationsVcf is not affected by <metadatadir>
    genomicVariationsVcf: beacon_XXXX/vcf/genomicVariationsVcf.json.gz
- datasetid: crg_beacon_test
- genome: hs37
- bff2html: true
  projectdir: my_project
 
 Please find below a detailed description of all parameters (alphabetical order):

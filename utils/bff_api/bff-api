@@ -32,7 +32,7 @@ use MongoDB;
 helper 'mongo' => sub {
     my ( $self, $name ) = @_;
     my $host = 'mongodb://root:example@127.0.0.1:27017/beacon?authSource=admin';
-    my $conn = MongoDB::MongoClient->new( host => $host );
+    return MongoDB::MongoClient->new( host => $host );
 };
 
 #############
@@ -54,13 +54,24 @@ any [qw(GET)] => '/:db' => sub {
     $self->render( json => \@collections );
 };
 
-# return collection items
+# return collection items with pagination
 get '/:db/:collection' => sub {
     my $self = shift;
-    my @items =
+    my $db   = $self->param('db');
+    my $coll = $self->param('collection');
+    
+    # Extract pagination parameters with defaults
+    my $limit = $self->param('limit') || 10;
+    my $skip  = $self->param('skip')  || 0;
+
+    my @items = 
       map { $_->{_id} = $_->{_id}->value; $_ }
-      $self->mongo->get_database( $self->param('db') )
-      ->get_collection( $self->param('collection') )->find()->all;
+      $self->mongo->get_database($db)
+        ->get_collection($coll)
+        ->find()
+        ->skip($skip)
+        ->limit($limit)
+        ->all;
     $self->render( json => \@items );
 };
 
@@ -88,19 +99,22 @@ get '/:db/:collection/:key1/:value1/:key2/:value2' => sub {
     $self->render( json => $item );
 };
 
-# Cross-collection query 1 term
-# get record by /:db/cross/:collection1/:id/:collection2
-# Using 2 queries (not using aggregate)
+# Cross-collection query 1 term with optional pagination for genomicVariations
 get '/:db/cross/:collection1/:id/:collection2' => sub {
     my $self = shift;
-    my $first =
-      $self->mongo->get_database( $self->param('db') )
-      ->get_collection( $self->param('collection1') )
-      ->find_one( { 'id' => $self->param('id') } );
-    if ( $self->param('collection2') ne 'genomicVariations' ) {
+    my $db   = $self->param('db');
+    my $col1 = $self->param('collection1');
+    my $id   = $self->param('id');
+    my $col2 = $self->param('collection2');
+
+    my $first = $self->mongo->get_database($db)
+                 ->get_collection($col1)
+                 ->find_one( { 'id' => $id } );
+                 
+    if ( $col2 ne 'genomicVariations' ) {
         my $item =
-          $self->mongo->get_database( $self->param('db') )
-          ->get_collection( $self->param('collection2') )->find_one(
+          $self->mongo->get_database($db)
+          ->get_collection($col2)->find_one(
             {
                 '$or' => [
                     { 'id'           => $first->{id} },
@@ -111,15 +125,22 @@ get '/:db/cross/:collection1/:id/:collection2' => sub {
         $self->render( json => $item );
     }
     else {
+        # Pagination parameters for genomicVariations
+        my $limit = $self->param('limit') || 10;
+        my $skip  = $self->param('skip')  || 0;
+
         my $cursor =
-          $self->mongo->get_database( $self->param('db') )
-          ->get_collection( $self->param('collection2') )
-          ->find( { 'caseLevelData.biosampleId' => $first->{id} } )->limit(10);
-        my $items;
+          $self->mongo->get_database($db)
+          ->get_collection($col2)
+          ->find( { 'caseLevelData.biosampleId' => $first->{id} } )
+          ->skip($skip)
+          ->limit($limit);
+          
+        my @items;
         while ( my $doc = $cursor->next ) {
-            push @{$items}, $doc->{variantInternalId};
+            push @items, $doc->{variantInternalId};
         }
-        $self->render( json => $items );
+        $self->render( json => \@items );
     }
 };
 
