@@ -35,14 +35,14 @@ The App includes precomputed examples for `genomicVariations` and `individuals` 
 
 ## Browsing `genomicVariations`
 
-The **BFF Browser Genomic Variations Browser** visualizes `genomicVariations` documents (stored as JSON arrays) using dynamic, HTML-embedded tables.
 
-![BFF Genomic Variations Browser](static/images/snapshot-BFF-genomic-variations-browser.png)
+To visualize **genomic variations**, an **HTML** file needs to be created and later loaded into the **BFF Browser**. The process involves filtering variants with **HIGH** quality from the `JSON` file and rendering them in HTML using `JavaScript`.
 
-This tool is designed to facilitate the analysis of variations with a **HIGH** impact annotation, offering a convenient and targeted exploration method.
+**Note:** This method works efficiently for up to **5 million** variants. If your dataset exceeds this limit, consider using an alternative visualization method based on a backend database.
 
 ### Preparing the Files  
-To generate the necessary files, update your parameters file when **processing your VCF** using the following command:
+
+To generate the necessary files, update your parameters file at the time you **process your VCF** using the following command:
 
 Example:
 
@@ -56,7 +56,12 @@ Ensure your `param.yaml` includes:
 bff2html: true
 ```
 
-By default, the browser processes all `.lst` files in the `paneldir` folder. The `paneldir` folder is set at the `beacon` **configuration file**. You can include your own panels if needed. Once processing is complete, a static HTML page will be available in the `<job_id>/browser` directory. This page serves as the input for the **BFF Browser**.
+This will turn off the pipeline **bff2html**.
+
+By default, the browser processes all `.lst` files in the `paneldir` folder. The `paneldir` folder is set at the `beacon` **configuration file**. You can include your own panels if needed. 
+
+
+Once [beacon script](../bin/README.md) has finished, a static HTML page will be available as `<job_id>/browser/<job_id>.html` directory. This page serves as the input for the **BFF Browser**.
 
 ### Features  
 
@@ -77,6 +82,8 @@ By default, the browser processes all `.lst` files in the `paneldir` folder. The
    - Only variations with a **HIGH** impact annotation are included.
    - Variations are filtered and displayed according to the `.lst` files in the `paneldir` folder.
 
+![BFF Genomic Variations Browser](static/images/snapshot-BFF-genomic-variations-browser.png)
+
 ---
 
 ## Browsing `individuals`
@@ -95,7 +102,7 @@ When browsing `individuals`, the input file should be a JSON file (e.g., `indivi
 ## How to Use
 
 1. **Combined View by Path**  
-   - Enter paths for genomic and individuals JSON files.  
+   - Enter paths for `genomicVariations` and `individuals` JSON files.  
    - View combined results.
 
 2. **Combined Example**  
@@ -103,7 +110,7 @@ When browsing `individuals`, the input file should be a JSON file (e.g., `indivi
 
 ## Key Features
 
-- Cross-linked data by Biosample ID.  
+- Cross-linked data by Individuals ID.  
 - Toggleable variations column.  
 - Pagination and search for large datasets.
 
