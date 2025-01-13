@@ -1,10 +1,11 @@
 Revision history for beacon2-ri-tools
 
 2.0.6  2025-0X-XX
-    - Created Flask app (in development) for 'utils/bff_browser'
-    - In bff2html, foo.json (e.g., exome.json) is no longer NDJSON but JSON array
-    - Added pagination to 'utils/bff_api'
-    - Updated 'docker-compose.yaml'
+    - Created an initial Flask app for 'utils/bff_browser' (currently in development).
+    - Changed 'bff2html' to output JSON arrays instead of NDJSON for files like `foo.json' (e.g., 'exome.json').
+    - Implemented pagination in 'utils/bff_api' for better data handling.
+    - Updated 'docker-compose.yaml' to reflect recent changes.
+    - Renamed 'bff_api' to 'bff_portal' and added a basic frontend interface for the API.
 
 2.0.5  2025-01-07
     - The 'config.yaml' for the 'beacon' script is now pre-formatted for the Dockerized version
