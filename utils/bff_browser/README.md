@@ -35,7 +35,6 @@ The App includes precomputed examples for `genomicVariations` and `individuals` 
 
 ## Browsing `genomicVariations`
 
-
 To visualize **genomic variations**, an **HTML** file needs to be created and later loaded into the **BFF Browser**. The process involves filtering variants with **HIGH** quality from the `JSON` file and rendering them in HTML using `JavaScript`.
 
 **Note:** This method works efficiently for up to **5 million** variants. If your dataset exceeds this limit, consider using an alternative visualization method based on a backend database.
@@ -116,3 +115,36 @@ When browsing `individuals`, the input file should be a JSON file (e.g., `indivi
 
 ![BFF Combined Browser](static/images/snapshot-BFF-combined-browser.png)
 
+
+## How BFF Browser Differs from BFF Portal
+
+The **BFF Browser** and **BFF Portal** serve different purposes within the BFF ecosystem. Below is a detailed comparison to clarify their distinct functionalities:
+
+| Feature                      | **BFF Browser**                           | **BFF Portal**                        |
+|------------------------------|-------------------------------------------|--------------------------------------|
+| **Data Source**              | Static JSON files (`genomicVariations`, `individuals`) | Live data from MongoDB database |
+| **Technology Stack**         | Python + Flask (Client-Side)              | Perl + Mojolicious (Backend API + UI) |
+| **Data Handling**            | Precomputed HTML pages                    | Dynamic, real-time data querying     |
+| **Query Capability**         | No live queries, only filtering of static data | Supports flexible, live queries via API |
+| **Cross-Collection Queries** | ❌ Only combined JSON files data         | ✅ Supported (e.g., individuals ↔ genomicVariations) |
+| **Pagination**               | Static, loaded in full                   | Dynamic, with `limit` and `skip` support |
+| **Scalability**              | Best for small/medium datasets (~5 million variants) | Handles larger datasets efficiently via MongoDB |
+| **Usage**                    | Quick data exploration with static files  | Interactive data exploration with live queries |
+| **Deployment**               | Lightweight, no database required         | Requires MongoDB backend for live data |
+| **Intended Users**           | Users needing quick, offline browsing     | Users needing live, flexible data querying |
+
+### When to Use Each Tool
+
+- **Use BFF Browser if:**  
+  - You need a lightweight, client-side tool for browsing precomputed data.  
+  - Your datasets are static and do not change frequently.  
+  - You want a simple setup without needing a database.
+
+- **Use BFF Portal if:**  
+  - You need to perform live queries on dynamic datasets stored in MongoDB.  
+  - You require cross-collection querying and pagination for large datasets.  
+  - You need a web interface that allows flexible data exploration and visualization.
+
+### Future Integration
+
+While the BFF Browser and BFF Portal currently serve separate use cases, there are plans to merge their functionalities in the future. This would combine the simplicity of static data browsing with the flexibility and power of dynamic, database-driven queries into a single, unified platform.
