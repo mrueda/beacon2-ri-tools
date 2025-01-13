@@ -1,71 +1,138 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="UTF-8">
-  <title><%= title %></title>
-  
-  <!-- Bootstrap CSS from CDN -->
-  <link
-    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
-    rel="stylesheet"
-    integrity="sha384-ENjdO4Dr2bkBIFxQpeo1hpC65fWQ3N5Z7Ff5eT1Mu6QHsTft5/a//">
-  
-  <!-- Highlight.js CSS -->
-  <link 
-    rel="stylesheet" 
-    href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/default.min.css">
-  
-  <!-- Custom CSS -->
-  <link rel="stylesheet" href="/css/app.css">
-</head>
-<body>
-  <!-- Navigation Bar -->
-  <nav class="navbar navbar-expand-lg navbar-light bg-light mb-4">
-    <div class="container-fluid">
-      <a class="navbar-brand" href="/">MongoDB Query Interface</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" 
-              data-bs-target="#navbarNav" aria-controls="navbarNav" 
-              aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          <li class="nav-item">
-            <a class="nav-link" href="/query">Single Query</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/cross-query">Cross Query</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/help">Help</a>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </nav>
+% layout 'default';
+% title 'Help - BFF Portal';
 
-  <!-- Main Content -->
-  <div class="container">
-    <%= content %>
-  </div>
+<div class="container mt-5">
+  <h1 class="mb-4">Help - BFF Portal</h1>
+  <p>Welcome to the BFF Portal! This page will guide you on how to use the platform to explore and query genomic data both via the Web UI and the API.</p>
 
-  <!-- Bootstrap JS Bundle with Popper from CDN -->
-  <script
-    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-Q3oQntNI4i/ZcXGf79pNSHNo8A27z5jooYpWtE3WTxbX5VVhfdsLuujmW">
-  </script>
-  
-  <!-- Highlight.js -->
-  <script 
-    src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js">
-  </script>
-  <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      hljs.highlightAll();
-    });
-  </script>
-  
-  <!-- Custom JavaScript -->
-  <script src="/js/app.js"></script>
-</body>
-</html>
+  <hr>
+
+  <!-- Web UI Guidance -->
+  <section id="web-ui">
+    <h2>🌐 Using the Web Application</h2>
+    <p>The BFF Portal offers a user-friendly web interface for exploring and querying genomic data interactively.</p>
+    
+    <h3>Navigation</h3>
+    <ul>
+      <li><a href="/query">Single Query Page</a> - Query within a single collection.</li>
+      <li><a href="/cross-query">Cross Query Page</a> - Query across multiple collections.</li>
+    </ul>
+
+    <h3>Steps to Perform a Query</h3>
+    <ol>
+      <li>Select the appropriate query page from the navigation above.</li>
+      <li>Fill in the form fields: specify the database, collection, and any query parameters.</li>
+      <li>Use the <strong>Query JSON</strong> field to build complex MongoDB-style queries.</li>
+      <li>Submit the form to see results displayed on the page.</li>
+    </ol>
+
+    <h3>📖 Query JSON Examples</h3>
+    <p>These examples can help you construct queries using the <strong>Query JSON</strong> field on the query pages:</p>
+
+    <h4>Basic Query Examples</h4>
+    <ul>
+      <li><strong>Simple Field Query:</strong><br>
+        Find individuals with <code>id</code> equal to <code>HG02600</code>.
+        <pre><code>{
+  "id": "HG02600"
+}</code></pre>
+      </li>
+
+      <li><strong>Nested Field Query:</strong><br>
+        Find genomic variations where the gene ID is <code>TP53</code>.
+        <pre><code>{
+  "molecularAttributes.geneIds": "TP53"
+}</code></pre>
+      </li>
+
+      <li><strong>Multiple Field Query:</strong><br>
+        Find genomic variations where <code>variantType</code> is <code>SNP</code> and <code>geneIds</code> is <code>ACE2</code>.
+        <pre><code>{
+  "molecularAttributes.geneIds": "ACE2",
+  "variantType": "SNP"
+}</code></pre>
+      </li>
+    </ul>
+
+    <h4>Advanced Query Examples</h4>
+    <ul>
+      <li><strong>Using <code>$or</code> Operator:</strong><br>
+        Find individuals where <code>geographicOrigin.label</code> is <code>England</code> or <code>France</code>.
+        <pre><code>{
+  "$or": [
+    { "geographicOrigin.label": "England" },
+    { "geographicOrigin.label": "France" }
+  ]
+}</code></pre>
+      </li>
+
+      <li><strong>Using <code>$in</code> Operator:</strong><br>
+        Find genomic variations in multiple genes.
+        <pre><code>{
+  "molecularAttributes.geneIds": { "$in": ["TP53", "ACE2", "BRCA1"] }
+}</code></pre>
+      </li>
+
+      <li><strong>Using <code>$regex</code> for Pattern Matching:</strong><br>
+        Find individuals whose <code>id</code> starts with <code>HG02</code>.
+        <pre><code>{
+  "id": { "$regex": "^HG02" }
+}</code></pre>
+      </li>
+
+      <li><strong>Range Query:</strong><br>
+        Find genomic variations with a position between <code>1000</code> and <code>5000</code>.
+        <pre><code>{
+  "location.start": { "$gt": 1000, "$lt": 5000 }
+}</code></pre>
+      </li>
+    </ul>
+
+    <hr>
+  </section>
+
+  <!-- API Documentation -->
+  <section id="api-documentation">
+    <h2>📡 API Documentation</h2>
+    <p>The BFF API allows you to perform queries directly via HTTP requests (e.g., using <code>curl</code> or other HTTP clients).</p>
+    
+    <h3>🔍 How to Perform API Queries</h3>
+    <h4>1. Single Collection Queries</h4>
+    <p>Query within a single collection using:</p>
+    <pre><code>curl http://localhost:3000/beacon/individuals/id/HG02600</code></pre>
+
+    <h4>2. Cross-Collection Queries</h4>
+    <p>Query related data across multiple collections using:</p>
+    <pre><code>curl http://localhost:3000/beacon/cross/individuals/HG00096/genomicVariations?limit=5&skip=10</code></pre>
+
+    <hr>
+
+    <h3>⚙️ Query Parameters</h3>
+    <p>Endpoints support pagination:</p>
+    <ul>
+      <li><code>limit</code>: Number of results to return. (Default: 10)</li>
+      <li><code>skip</code>: Number of results to skip. (Default: 0)</li>
+    </ul>
+    <p>Example with pagination:</p>
+    <pre><code>curl "http://localhost:3000/beacon/individuals?limit=20&skip=40"</code></pre>
+
+    <hr>
+
+    <h3>❗ Important Notes</h3>
+    <ul>
+      <li>Use valid JSON for query bodies if applicable.</li>
+      <li>Use dot notation for nested fields (e.g., <code>molecularAttributes.geneIds</code>).</li>
+      <li>Supported MongoDB operators include <code>$or</code>, <code>$in</code>, and <code>$regex</code>.</li>
+      <li>Invalid queries will return an error message.</li>
+    </ul>
+  </section>
+
+  <hr>
+
+  <!-- Future Plans and Conclusion -->
+  <section id="future-plans">
+    <h2>🛠 Future Plans</h2>
+    <p>We plan to integrate BFF Browser's static data browsing capabilities with the BFF Portal, unifying static and dynamic data exploration.</p>
+    <p class="text-muted">For further assistance, please contact the development team.</p>
+  </section>
+</div>

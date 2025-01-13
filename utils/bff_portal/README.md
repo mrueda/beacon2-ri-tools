@@ -83,6 +83,11 @@ curl http://localhost:3000/beacon/analyses
 ```bash
 curl http://localhost:3000/beacon/individuals/id/HG02600
 curl http://localhost:3000/beacon/genomicVariations/variantType/INDEL
+curl http://localhost:3000/beacon/individuals/HG02600
+curl http://localhost:3000/beacon/individuals/geographicOrigin_label/England
+curl http://localhost:3000/beacon/genomicVariations/variantType/INDEL
+curl http://localhost:3000/beacon/genomicVariations/caseLevelData_biosampleId/HG02600
+curl http://localhost:3000/beacon/genomicVariations/molecularAttributes_geneIds/TP53
 ```
 
 **Two Field Query:**

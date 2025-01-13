@@ -1,7 +1,7 @@
 % layout 'default';
 % title 'Welcome';
 <div class="text-center">
-  <h1 class="mt-5">Welcome to the MongoDB Query Interface</h1>
+  <h1 class="mt-5">Welcome to the MongoDB Query Interface for BFF</h1>
   <p class="lead">Choose an option below:</p>
   <a href="/query" class="btn btn-primary btn-lg m-2">Single-Collection Query</a>
   <a href="/cross-query" class="btn btn-secondary btn-lg m-2">Cross-Collection Query</a>
