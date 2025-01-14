@@ -87,18 +87,19 @@ Note that `beacon` will treat your data as _read-only_ (i.e., will not modify yo
 **Annex: Parameters file** (YAML)
 
 Example for `mongodb` mode:
- --
- bff:
-   metadatadir: .
-   analyses: analyses.json
-   biosamples: biosamples.json
-   cohorts: cohorts.json
-   datasets: datasets.json
-   individuals: individuals.json
-   runs: runs.json
-   # Note that genomicVariationsVcf is not affected by &lt;metadatadir>
-   genomicVariationsVcf: beacon\_XXXX/vcf/genomicVariationsVcf.json.gz
- projectdir: my\_project
+
+    --
+    bff:
+      metadatadir: .
+      analyses: analyses.json
+      biosamples: biosamples.json
+      cohorts: cohorts.json
+      datasets: datasets.json
+      individuals: individuals.json
+      runs: runs.json
+      # Note that genomicVariationsVcf is not affected by <metadatadir>
+      genomicVariationsVcf: beacon_XXXX/vcf/genomicVariationsVcf.json.gz
+    projectdir: my_project
 
 Please find below a detailed description of all parameters (alphabetical order):
 

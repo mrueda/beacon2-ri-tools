@@ -3,7 +3,7 @@
 
 <div class="container mt-5">
   <h1 class="mb-4">Help - BFF Portal</h1>
-  <p>Welcome to the BFF Portal! This page will guide you on how to use the platform to explore and query genomic data both via the Web UI and the API.</p>
+  <p>Welcome to the BFF Portal! This page will guide you on how to use the platform to explore and query genomic data via the Web UI and the API. Please note that the portal currently supports a subset of MongoDB query parameters, primarily through path-based URL construction rather than arbitrary JSON queries.</p>
 
   <hr>
 
@@ -14,101 +14,82 @@
     
     <h3>Navigation</h3>
     <ul>
-      <li><a href="/query">Single Query Page</a> - Query within a single collection.</li>
-      <li><a href="/cross-query">Cross Query Page</a> - Query across multiple collections.</li>
+      <li><a href="/query">Single Query Page</a> - Query within a single collection using predefined path segments.</li>
+      <li><a href="/cross-query">Cross Query Page</a> - Query across multiple collections using a structured form.</li>
     </ul>
 
     <h3>Steps to Perform a Query</h3>
     <ol>
       <li>Select the appropriate query page from the navigation above.</li>
-      <li>Fill in the form fields: specify the database, collection, and any query parameters.</li>
-      <li>Use the <strong>Query JSON</strong> field to build complex MongoDB-style queries.</li>
+      <li>Fill in the form fields: specify the database, collection(s), identifier, and pagination parameters.</li>
+      <li>For single-collection queries, you can optionally add extra path segments for more specific filtering.</li>
       <li>Submit the form to see results displayed on the page.</li>
     </ol>
 
-    <h3>📖 Query JSON Examples</h3>
-    <p>These examples can help you construct queries using the <strong>Query JSON</strong> field on the query pages:</p>
-
-    <h4>Basic Query Examples</h4>
+    <h3>🔀 Using Extra Path Segments</h3>
+    <p>The <strong>Extra Path Segments</strong> field allows you to append additional URL segments to refine your query. These segments are appended directly to the base URL constructed from the database and collection, forming more specific query endpoints.</p>
+    <p><strong>How It Works:</strong> 
+      If you enter additional segments like <code>id/HG02600</code> in the field, 
+      the application will construct a URL such as 
+      <code>http://localhost:3000/{db}/{collection}/id/HG02600</code>.
+    </p>
+    <p><strong>Examples:</strong></p>
     <ul>
-      <li><strong>Simple Field Query:</strong><br>
-        Find individuals with <code>id</code> equal to <code>HG02600</code>.
-        <pre><code>{
-  "id": "HG02600"
-}</code></pre>
+      <li><strong>Example 1:</strong> 
+        If you set:
+        <ul>
+          <li>Database: <code>beacon</code></li>
+          <li>Collection: <code>individuals</code></li>
+          <li>Extra Path Segments: <code>id/HG02600</code></li>
+        </ul>
+        The query will target <code>/beacon/individuals/id/HG02600</code>, 
+        retrieving individuals with ID <code>HG02600</code>.
       </li>
-
-      <li><strong>Nested Field Query:</strong><br>
-        Find genomic variations where the gene ID is <code>TP53</code>.
-        <pre><code>{
-  "molecularAttributes.geneIds": "TP53"
-}</code></pre>
+      <li><strong>Example 2:</strong> 
+        For a more complex filter, if you enter:
+        <ul>
+          <li>Database: <code>beacon</code></li>
+          <li>Collection: <code>genomicVariations</code></li>
+          <li>Extra Path Segments: <code>molecularAttributes_geneIds/TP53</code></li>
+        </ul>
+        The resulting URL will be <code>/beacon/genomicVariations/molecularAttributes_geneIds/TP53</code>, 
+        targeting genomic variations where the gene ID is <code>TP53</code>.
       </li>
-
-      <li><strong>Multiple Field Query:</strong><br>
-        Find genomic variations where <code>variantType</code> is <code>SNP</code> and <code>geneIds</code> is <code>ACE2</code>.
-        <pre><code>{
-  "molecularAttributes.geneIds": "ACE2",
-  "variantType": "SNP"
-}</code></pre>
+      <li><strong>Example 3:</strong> 
+        If you need to filter by multiple criteria sequentially, such as:
+        <ul>
+          <li>Database: <code>beacon</code></li>
+          <li>Collection: <code>genomicVariations</code></li>
+          <li>Extra Path Segments: <code>variantType/SNP</code></li>
+        </ul>
+        The URL becomes <code>/beacon/genomicVariations/variantType/SNP</code>, 
+        which filters for genomic variations of type <code>SNP</code>.
       </li>
     </ul>
-
-    <h4>Advanced Query Examples</h4>
-    <ul>
-      <li><strong>Using <code>$or</code> Operator:</strong><br>
-        Find individuals where <code>geographicOrigin.label</code> is <code>England</code> or <code>France</code>.
-        <pre><code>{
-  "$or": [
-    { "geographicOrigin.label": "England" },
-    { "geographicOrigin.label": "France" }
-  ]
-}</code></pre>
-      </li>
-
-      <li><strong>Using <code>$in</code> Operator:</strong><br>
-        Find genomic variations in multiple genes.
-        <pre><code>{
-  "molecularAttributes.geneIds": { "$in": ["TP53", "ACE2", "BRCA1"] }
-}</code></pre>
-      </li>
-
-      <li><strong>Using <code>$regex</code> for Pattern Matching:</strong><br>
-        Find individuals whose <code>id</code> starts with <code>HG02</code>.
-        <pre><code>{
-  "id": { "$regex": "^HG02" }
-}</code></pre>
-      </li>
-
-      <li><strong>Range Query:</strong><br>
-        Find genomic variations with a position between <code>1000</code> and <code>5000</code>.
-        <pre><code>{
-  "location.start": { "$gt": 1000, "$lt": 5000 }
-}</code></pre>
-      </li>
-    </ul>
-
-    <hr>
+    <p>Note: The "Extra Path Segments" field should be used to build upon the base path. 
+    Ensure that the segments follow the expected format of <code>key/value</code> pairs as required by the API.</p>
   </section>
+
+  <hr>
 
   <!-- API Documentation -->
   <section id="api-documentation">
     <h2>📡 API Documentation</h2>
-    <p>The BFF API allows you to perform queries directly via HTTP requests (e.g., using <code>curl</code> or other HTTP clients).</p>
+    <p>The BFF API allows you to perform queries directly via HTTP requests using a path-based approach. While full MongoDB query flexibility isn't supported, you can still perform many common queries using structured URLs and limited query parameters.</p>
     
     <h3>🔍 How to Perform API Queries</h3>
     <h4>1. Single Collection Queries</h4>
-    <p>Query within a single collection using:</p>
+    <p>Query within a single collection using predefined paths:</p>
     <pre><code>curl http://localhost:3000/beacon/individuals/id/HG02600</code></pre>
 
     <h4>2. Cross-Collection Queries</h4>
     <p>Query related data across multiple collections using:</p>
-    <pre><code>curl http://localhost:3000/beacon/cross/individuals/HG00096/genomicVariations?limit=5&skip=10</code></pre>
+    <pre><code>curl "http://localhost:3000/beacon/cross/individuals/HG00096/genomicVariations?limit=5&skip=10"</code></pre>
 
     <hr>
 
     <h3>⚙️ Query Parameters</h3>
-    <p>Endpoints support pagination:</p>
+    <p>Endpoints support basic pagination parameters:</p>
     <ul>
       <li><code>limit</code>: Number of results to return. (Default: 10)</li>
       <li><code>skip</code>: Number of results to skip. (Default: 0)</li>
@@ -120,10 +101,10 @@
 
     <h3>❗ Important Notes</h3>
     <ul>
-      <li>Use valid JSON for query bodies if applicable.</li>
-      <li>Use dot notation for nested fields (e.g., <code>molecularAttributes.geneIds</code>).</li>
-      <li>Supported MongoDB operators include <code>$or</code>, <code>$in</code>, and <code>$regex</code>.</li>
-      <li>Invalid queries will return an error message.</li>
+      <li>This portal currently uses a path-based approach to queries. Full MongoDB query JSON input is not supported.</li>
+      <li>Queries are constructed using URL path segments. Use dot notation for nested fields in paths as needed.</li>
+      <li>Endpoints support limited query operators implicitly via path structure and basic pagination parameters.</li>
+      <li>Invalid or unsupported queries will return an error message.</li>
     </ul>
   </section>
 
@@ -132,7 +113,7 @@
   <!-- Future Plans and Conclusion -->
   <section id="future-plans">
     <h2>🛠 Future Plans</h2>
-    <p>We plan to integrate BFF Browser's static data browsing capabilities with the BFF Portal, unifying static and dynamic data exploration.</p>
+    <p>We plan to integrate more flexible querying capabilities, including support for more complex MongoDB queries, and to unify static and dynamic data exploration within the BFF Portal.</p>
     <p class="text-muted">For further assistance, please contact the development team.</p>
   </section>
 </div>

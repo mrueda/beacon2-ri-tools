@@ -316,6 +316,7 @@ Note that C<beacon> will treat your data as I<read-only> (i.e., will not modify 
 B<Annex: Parameters file> (YAML)
 
 Example for C<mongodb> mode:
+
  --
  bff:
    metadatadir: .

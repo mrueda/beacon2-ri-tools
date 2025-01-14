@@ -45,8 +45,7 @@ The data ingestion tools need **external software** to function:
 * **SnpEff** + databases (version 5.0)
 * **MongoDB**
 
-!!! Important
-    Even if you have the **external tools** already in your system, for the sake of consistency of versions, we recommend downloading them from our servers.
+> **Important**: Even if you have the **external tools** already in your system, for the sake of consistency of versions, we recommend downloading them from our servers.
 
 We will download _BCFtools_, _SnpEff_ and _MongoDB_ utilities from a public `ftp` server (`ftp://xfer13.crg.eu`) located at CRG. We will use `wget` to get the five parts (~65G total). Each part should take around 20 min to download:
 
@@ -231,34 +230,10 @@ We're going to install it by using [docker-compose](https://docs.docker.com/comp
     It's out of the scope of this documentation to explain how to install `docker` engine and `docker-compose`.
     Please take a look to Docker [documentation](https://docs.docker.com/engine/install) if you need help with the installation.
 
-First you need to create a file named ```docker-compose.yml``` with these contents:
+Download ```docker-compose.yml``` file:
 
-```
-version: '3.1'
-
-services:
-  mongo:
-    image: mongo
-    hostname: mongo
-    ports:
-      - "27017:27017"
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: example
-    networks:
-      -  my-app-network
-
-  mongo-express:
-    image: mongo-express
-    restart: always
-    ports:
-      - "8081:8081"
-    environment:
-      ME_CONFIG_MONGODB_ADMINUSERNAME: root
-      ME_CONFIG_MONGODB_ADMINPASSWORD: example
-      ME_CONFIG_MONGODB_URL: mongodb://root:example@mongo:27017/
-    networks:
-      -  my-app-network
+```bash
+wget https://raw.githubusercontent.com/mrueda/beacon2-ri-tools/main/docker/docker-compose.yml
 ```
 
 And then run:
@@ -276,7 +251,7 @@ Once complete you should have two Docker processes: ```mongo``` and ```mongo-exp
 
 I am not using any CPAN modules to perform unit tests. When I modify the code, my "integration tests" are done by comparing to reference files. You can validate the installation using the files included in the [test](https://github.com/mrueda/beacon2-ri-tools/tree/main/test) directory.
 
-You may wanna install `jq' for running tests.
+You may wanna install `jq` for running tests.
 
 ```bash
 sudo apt install jq
@@ -284,12 +259,16 @@ sudo apt install jq
 
 ### Common errors: Symptoms and treatment
 
-  * Perl:
-          * Compilation errors:
-            - Error: Unknown PerlIO layer "gzip" at (eval 10) line XXX
-              Solution: cpanm --sudo PerlIO::gzip
-                           ... or ...
-                    sudo apt-get install libperlio-gzip-perl
+* Perl errors:
+    - Error: Unknown PerlIO layer "gzip" at (eval 10) line XXX
+
+      Solution: 
+
+      `cpanm --sudo PerlIO::gzip`
+
+         ... or ...
+
+      `sudo apt-get install libperlio-gzip-perl`
 
 ## References
 

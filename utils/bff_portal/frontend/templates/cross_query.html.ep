@@ -5,27 +5,33 @@
   <form method="get" action="/perform_cross_query">
     <div class="mb-3">
       <label for="db" class="form-label">Database:</label>
-      <input type="text" class="form-control" id="db" name="db" required>
+      <input type="text" class="form-control" id="db" name="db" 
+             required value="<%= param('db') || 'beacon' %>">
     </div>
     <div class="mb-3">
       <label for="collection1" class="form-label">First Collection:</label>
-      <input type="text" class="form-control" id="collection1" name="collection1" required>
+      <input type="text" class="form-control" id="collection1" name="collection1" 
+             required value="<%= param('collection1') || 'individuals' %>">
     </div>
     <div class="mb-3">
       <label for="id" class="form-label">Identifier (ID):</label>
-      <input type="text" class="form-control" id="id" name="id" required>
+      <input type="text" class="form-control" id="id" name="id" 
+             required value="<%= param('id') || 'HG00096' %>">
     </div>
     <div class="mb-3">
       <label for="collection2" class="form-label">Second Collection:</label>
-      <input type="text" class="form-control" id="collection2" name="collection2" required>
+      <input type="text" class="form-control" id="collection2" name="collection2" 
+             required value="<%= param('collection2') || 'genomicVariations' %>">
     </div>
     <div class="mb-3">
       <label for="limit" class="form-label">Limit:</label>
-      <input type="number" class="form-control" id="limit" name="limit" value="10">
+      <input type="number" class="form-control" id="limit" name="limit" 
+             value="<%= param('limit') || 10 %>">
     </div>
     <div class="mb-3">
       <label for="skip" class="form-label">Skip:</label>
-      <input type="number" class="form-control" id="skip" name="skip" value="0">
+      <input type="number" class="form-control" id="skip" name="skip" 
+             value="<%= param('skip') || 0 %>">
     </div>
     <button type="submit" class="btn btn-primary">Run Cross Query</button>
   </form>

@@ -1,27 +1,33 @@
 % layout 'default';
-% title 'Single-Collection Query';
+% title 'Single Collection Query';
 <div class="container mt-5">
-  <h1>Single-Collection Query</h1>
+  <h1>Single Collection Query</h1>
   <form method="get" action="/perform_query">
     <div class="mb-3">
       <label for="db" class="form-label">Database:</label>
-      <input type="text" class="form-control" id="db" name="db" required>
+      <input type="text" class="form-control" id="db" name="db" 
+             required value="<%= param('db') || 'beacon' %>">
     </div>
     <div class="mb-3">
       <label for="collection" class="form-label">Collection:</label>
-      <input type="text" class="form-control" id="collection" name="collection" required>
+      <input type="text" class="form-control" id="collection" name="collection" 
+             required value="<%= param('collection') || 'individuals' %>">
     </div>
     <div class="mb-3">
-      <label for="query" class="form-label">Query JSON:</label>
-      <textarea class="form-control" id="query" name="query" rows="5">{}</textarea>
+      <label for="extra_path" class="form-label">Extra Path Segments (optional):</label>
+      <input type="text" class="form-control" id="extra_path" name="extra_path" 
+             placeholder="e.g., id/HG02600" 
+             required value="<%= param('extra_path') || 'geographicOrigin_label/England' %>">
     </div>
     <div class="mb-3">
       <label for="limit" class="form-label">Limit:</label>
-      <input type="number" class="form-control" id="limit" name="limit" value="10">
+      <input type="number" class="form-control" id="limit" name="limit" 
+             value="<%= param('limit') || 5 %>">
     </div>
     <div class="mb-3">
       <label for="skip" class="form-label">Skip:</label>
-      <input type="number" class="form-control" id="skip" name="skip" value="0">
+      <input type="number" class="form-control" id="skip" name="skip" 
+             value="<%= param('skip') || 0 %>">
     </div>
     <button type="submit" class="btn btn-primary">Run Query</button>
   </form>
@@ -30,5 +36,4 @@
   <h2 class="mt-5">Results:</h2>
   <pre><code class="json"><%= stash 'result' %></code></pre>
 % }
-
 </div>
