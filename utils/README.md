@@ -14,9 +14,9 @@ A lightweight, client-based tool for browsing and interacting with BFF data.
   - Intended for researchers and non-technical users  
 
 ### 2. **bff_portal**
-An API and web-based portal interface for browsing and querying Beacon v2 data in MongoDB.
+An API and web-based portal interface for browsing and querying Beacon v2 data **stored in MongoDB**.
 
-- **Purpose:** Enables quick and flexible exploration of the database through a web-based interface or API.  
+- **Purpose:** Enables quick and flexible exploration of the MongoDB database through a web-based interface or API.  
 - **Key Features:**  
   - Simple REST-like queries  
   - Supports collection browsing  

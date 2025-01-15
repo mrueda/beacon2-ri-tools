@@ -12,13 +12,14 @@ The **BFF Portal** is a lightweight web-based platform that integrates a user-fr
 
 ## Notes
 
+- Your BFF data has to be stored in MongoDB. Please refer to `bin/beacon` script documentation.
 - The API does not strictly adhere to the full [Beacon v2 API](https://github.com/ga4gh-beacon/beacon-framework-v2) specification.
 - Only `GET` requests are supported for querying data.
-- Accessible collections are limited to those in the **beacon** database.
 - Query flexibility allows direct access to MongoDB fields without request parameters or filtering terms.
 - Responses return raw JSON documents similar to the Beacon v2 API's `_resultSets.results_`.
 - Results from `genomicVariations` may be more concise for performance reasons.
 - **Pagination:** Use `limit` and `skip` for paginated results. By default, 10 items are returned.
+- If you want to perform similar operations on BFF but with ElasticSearch please refer to [Pheno-Search](https://github.com/mrueda/pheno-search).
 
 ## Installation
 
