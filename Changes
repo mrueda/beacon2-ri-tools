@@ -1,6 +1,6 @@
 Revision history for beacon2-ri-tools
 
-2.0.6  2025-0X-XX
+2.0.6  2025-01-15
     - Created an initial Flask app for 'utils/bff_browser' (currently in development).
     - Changed 'bff2html' to output JSON arrays instead of NDJSON for files like `foo.json' (e.g., 'exome.json').
     - Updated 'docker-compose.yaml' to reflect recent changes.

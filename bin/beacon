@@ -7,7 +7,7 @@
 #
 #   Last Modified: May/24/2024
 #
-#   Version: 2.0.5
+#   Version: 2.0.6
 #
 #   Copyright (C) 2021-2025 Manuel Rueda (manuel.rueda@cnag.eu)
 #
@@ -46,7 +46,7 @@ use BEACON::Beacon;
 #############################################################
 
 # Beacon version
-my $version = '2.0.5_1';
+my $version = '2.0.6';
 
 # Initialize a few more variables
 my $prompt      = 'Info:';
