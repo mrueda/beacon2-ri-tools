@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>{% block title %}BFF Dashboard{% endblock %}</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Include Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <!-- DataTables CSS (Optional, if needed on some pages) -->
+  {% block extra_css %}{% endblock %}
+  <style>
+    .logo {
+      max-width: 200px;
+      margin: auto;
+      display: block;
+    }
+    .section-card {
+      margin-bottom: 30px;
+    }
+  </style>
+</head>
+<body>
+
+<!-- Navigation Bar -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
+  <a class="navbar-brand" href="{{ url_for('home') }}">BFF Browser Dashboard</a>
+  <div class="collapse navbar-collapse">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item {% if request.endpoint == 'home' %}active{% endif %}">
+        <a class="nav-link" href="{{ url_for('home') }}">Home</a>
+      </li>
+      <li class="nav-item {% if request.endpoint == 'help_page' %}active{% endif %}">
+        <a class="nav-link" href="{{ url_for('help_page') }}">Help</a>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+<!-- Page Content -->
+<div class="container">
+  {% block content %}{% endblock %}
+</div>
+
+<!-- Include Bootstrap JS and dependencies -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- Extra JS for specific pages -->
+{% block extra_js %}{% endblock %}
+
+</body>
+</html>

@@ -1,60 +1,36 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Help - BFF Dashboard</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <!-- Include Bootstrap CSS -->
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-</head>
-<body>
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
-    <a class="navbar-brand" href="{{ url_for('home') }}">BFF Dashboard</a>
-    <div class="collapse navbar-collapse">
-      <ul class="navbar-nav mr-auto">
-        <li class="nav-item">
-          <a class="nav-link" href="{{ url_for('home') }}">Home</a>
-        </li>
-        <li class="nav-item active">
-          <a class="nav-link" href="{{ url_for('help_page') }}">Help</a>
-        </li>
-      </ul>
-    </div>
-  </nav>
+{% extends 'base.html' %}
 
-  <div class="container">
-    <h1 class="mb-4">Help &amp; Documentation</h1>
-    <p>Welcome to the BFF Browser Help page. Here, you can find information on how to use the different features of the application.</p>
-    
-    <h3>Navigation</h3>
-    <p>The navigation bar at the top of each page allows you to move between the Home page, Help page, and other sections. Use the menu to quickly access the Genomic Variations and Individuals sections, or return to Home.</p>
+{% block title %}Help - BFF Dashboard{% endblock %}
 
-    <h3>Using the "View HTML by Path" Feature</h3>
-    <p>The "View HTML by Path" option lets you input the path to an HTML file hosted on the server. Once submitted, the application will redirect you to that file, rendering its content with proper asset loading.</p>
+{% block content %}
+<div class="container">
+  <h1 class="mb-4">Help &amp; Documentation</h1>
+  <p>Welcome to the BFF Browser Help page. Here, you can find information on how to use the different features of the application.</p>
+  
+  <h3>Navigation</h3>
+  <p>The navigation bar at the top of each page allows you to move between the Home page, Help page, and other sections. Use the menu to quickly access the Genomic Variations and Individuals sections, or return to Home.</p>
 
-    <h3>Individuals BFF Section</h3>
-    <p>
-      In the Individuals BFF section, you can:
-      <ul>
-        <li><strong>See Individuals Example:</strong> View a sample JSON file displayed in a paginated table.</li>
-        <li><strong>View Individuals JSON by Path:</strong> Provide the path to your own JSON file containing individuals' data. The application will read the file, process nested arrays into bullet lists, and display the data in a paginated table.</li>
-      </ul>
-    </p>
-    
-    <h3>Data Display Mechanism</h3>
-    <p>
-      The application uses Python's <code>pandas</code> library to flatten JSON data and convert it into HTML tables. Nested arrays of objects within the JSON are rendered as bullet lists within table cells for clarity. 
-      DataTables is integrated to handle pagination, search, and sorting on the client side.
-    </p>
-    
-    <h3>Security</h3>
-     <p>
-     For security reasons, file paths are validated to ensure safe and correct access. The application verifies that the provided path points to a valid file before processing it. While the system is designed to allow access from various directories, please ensure that the file paths you provide are accurate and that the files exist. This precaution helps protect the application from errors and unauthorized access.
-    </p>
-  </div>
+  <h3>Using the "View HTML by Path" Feature</h3>
+  <p>The "View HTML by Path" option lets you input the path to an HTML file hosted on the server. Once submitted, the application will redirect you to that file, rendering its content with proper asset loading.</p>
 
-  <!-- Include Bootstrap JS and dependencies -->
-  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
+  <h3>Individuals BFF Section</h3>
+  <p>
+    In the Individuals BFF section, you can:
+    <ul>
+      <li><strong>See Individuals Example:</strong> View a sample JSON file displayed in a paginated table.</li>
+      <li><strong>View Individuals JSON by Path:</strong> Provide the path to your own JSON file containing individuals' data. The application will read the file, process nested arrays into bullet lists, and display the data in a paginated table.</li>
+    </ul>
+  </p>
+
+  <h3>Data Display Mechanism</h3>
+  <p>
+    The application uses Python's <code>pandas</code> library to flatten JSON data and convert it into HTML tables. Nested arrays of objects within the JSON are rendered as bullet lists within table cells for clarity. 
+    DataTables is integrated to handle pagination, search, and sorting on the client side.
+  </p>
+
+  <h3>Security</h3>
+  <p>
+    For security reasons, file paths are validated to ensure safe and correct access. The application verifies that the provided path points to a valid file before processing it. While the system is designed to allow access from various directories, please ensure that the file paths you provide are accurate and that the files exist. This precaution helps protect the application from errors and unauthorized access.
+  </p>
+</div>
+{% endblock %}

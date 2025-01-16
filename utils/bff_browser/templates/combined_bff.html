@@ -1,26 +1,15 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Combined BFF (Individuals + Genomic Variations)</title>
-  <!-- Include Bootstrap CSS -->
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-  <!-- Include DataTables CSS -->
-  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css"/>
-</head>
-<body>
+{% extends 'base.html' %}
 
-<div class="container mt-4">
+{% block title %}Combined BFF Example{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap4.min.css"/>
+{% endblock %}
+
+{% block content %}
   <h1>Combined BFF (Individuals + Genomic Variations)</h1>
-  <p>
-    This table lists each biosample/individual on one row.
-    All merged variations are displayed in the last column, which is hidden by default.
-  </p>
-
-  <!-- Button to toggle the hidden "variations" column -->
-  <button id="toggleVariantsBtn" class="btn btn-secondary mb-3">
-    Show/Hide Variations Column
-  </button>
+  <p>This table lists each biosample/individual on one row. All merged variations are hidden by default.</p>
+  <button id="toggleVariantsBtn" class="btn btn-secondary mb-3">Show/Hide Variations Column</button>
 
   <div class="table-responsive">
     <table id="combinedTable" class="table table-striped table-bordered">
@@ -28,47 +17,36 @@
         <tr>
           <th>Individual ID</th>
           <th>Individual Info</th>
-          <th>Variations (Hidden by Default)</th>
+          <th>Variations (Hidden)</th>
         </tr>
       </thead>
       <tbody>
         {% for row in data_rows %}
-          <tr>
-            <td>{{ row.biosampleId }}</td>
-            <td>{{ row.individualInfo }}</td>
-            <td>{{ row.allVariantsCsv }}</td>
-          </tr>
+        <tr>
+          <td>{{ row.biosampleId }}</td>
+          <td>{{ row.individualInfo }}</td>
+          <td>{{ row.allVariantsCsv }}</td>
+        </tr>
         {% endfor %}
       </tbody>
     </table>
   </div>
-</div>
+{% endblock %}
 
-<!-- Include jQuery, Bootstrap JS, and DataTables JS -->
-<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
-<script type="text/javascript" src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
-<script type="text/javascript" src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
-
+{% block extra_js %}
+<script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
 <script>
   $(document).ready(function() {
     var table = $('#combinedTable').DataTable({
-      pageLength: 10, // default rows per page
-      lengthMenu: [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]], 
-      columnDefs: [
-        { targets: [2], visible: false } // Hide the Variations column
-      ],
-      // Enable deferred rendering for performance with large data
-      deferRender: true  
+      pageLength: 10,
+      columnDefs: [{ targets: [2], visible: false }]
     });
 
-    // Toggle button to show/hide the Variations column
-    $('#toggleVariantsBtn').on('click', function() {
+    $('#toggleVariantsBtn').click(function() {
       var col = table.column(2);
       col.visible(!col.visible());
     });
   });
 </script>
-
-</body>
-</html>
+{% endblock %}
