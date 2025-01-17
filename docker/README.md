@@ -38,13 +38,13 @@ And then execute:
     docker network create my-app-network
     docker-compose up -d
 
-Mongo Express will be accessible via `http://localhost:8081` with default credentials `admin` and `pass`.
+Mongo Express will be accessible via `http://localhost:8000` with default credentials `admin` and `pass`.
 
 **IMPORTANT:** Docker containers are fully isolated. If you think you'll have to mount a volume to the container please read the section [Mounting Volumes](#mounting-volumes) before proceeding further.
 
 **IMPORTANT (BIS):** If you plan to load data into MongoDB from inside `beacon2-ri-tools` container please read the section [Access MongoDB from inside the container](#access-mongodb-from-inside-the-container) before proceeding further.
 
-    docker run -tid --name beacon2-ri-tools -p 8080:8000 cnag/beacon2-ri-tools:latest # run the image detached / open port 8000
+    docker run -tid --name beacon2-ri-tools -p 8000:8000 cnag/beacon2-ri-tools:latest # run the image detached / open port 8000
     docker ps  # list your containers, beacon2-ri-tools should be there
     docker exec -ti beacon2-ri-tools bash # connect to the container interactively
 
@@ -94,7 +94,11 @@ Alternatively, you can run commands **from the host**, like this:
 
 If you want to load data from **inside** the `beacon2-ri-tools` directly to `mongo` container, both containers have to be on the same network:
 
+    # Option A (Before running container)
     docker run -tid --network=my-app-network --name beacon2-ri-tools cnag/beacon2-ri-tools:latest # change the network to match yours
+
+    # Option B (After running the container)
+    docker network connect my-app-network beacon2_ri-tools
 
 ### System requirements
 
