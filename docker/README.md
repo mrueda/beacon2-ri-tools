@@ -36,15 +36,15 @@ Please download the `docker-compose.yml` file:
 And then execute:
 
     docker network create my-app-network
-    docker-compose up -d
+    docker compose up -d
 
-Mongo Express will be accessible via `http://localhost:8000` with default credentials `admin` and `pass`.
+Mongo Express will be accessible via `http://localhost:8081` with default credentials `admin` and `pass`.
 
 **IMPORTANT:** Docker containers are fully isolated. If you think you'll have to mount a volume to the container please read the section [Mounting Volumes](#mounting-volumes) before proceeding further.
 
 **IMPORTANT (BIS):** If you plan to load data into MongoDB from inside `beacon2-ri-tools` container please read the section [Access MongoDB from inside the container](#access-mongodb-from-inside-the-container) before proceeding further.
 
-    docker run -tid --name beacon2-ri-tools -p 8000:8000 cnag/beacon2-ri-tools:latest # run the image detached / open port 8000
+    docker run -tid --name beacon2-ri-tools -p 8080:8000 -p 3000:3000 cnag/beacon2-ri-tools:latest # run the image detached
     docker ps  # list your containers, beacon2-ri-tools should be there
     docker exec -ti beacon2-ri-tools bash # connect to the container interactively
 
@@ -103,7 +103,7 @@ If you want to load data from **inside** the `beacon2-ri-tools` directly to `mon
 ### System requirements
 
 - Ideally a Debian-based distribution (Ubuntu or Mint), but any other (e.g., CentOS, OpenSUSE) should do as well (untested).
-- Docker and docker-compose
+- Docker and docker compose
 - Perl 5 (>= 5.10 core; installed by default in most Linux distributions). Check the version with `perl -v`
 - 4GB of RAM (ideally 16GB).
 - \>= 1 core (ideally i7 or Xeon).
