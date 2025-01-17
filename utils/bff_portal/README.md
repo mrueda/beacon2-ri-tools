@@ -26,7 +26,7 @@ The **BFF Portal** is a lightweight web-based platform that integrates a user-fr
 Install dependencies using `cpanm`:
 
 ```bash
-cpanm Mojolicious MongoDB
+cpanm --n Mojolicious MongoDB
 ```
 
 ## Running the Application
@@ -54,7 +54,7 @@ The frontend runs on port 3001 by default. Start it after the backend.
 #### Development Mode
 
 ```bash
-perl frontend/app.pl daemon -l http://*:3001  # Runs on http://localhost:3001
+perl frontend/app.pl daemon -l http://0.0.0.0:8000  # Runs on http://:0.0.0.0:8000
 ```
 
 #### Production Mode

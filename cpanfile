@@ -9,8 +9,8 @@ requires 'PerlIO::gzip';            # For gzip operations
 requires 'Data::Structure::Util';   # Miscellanea utils for data structures
 
 # Additional modules for <beacon2-ri-tools/utils>
-requires 'Mojolicious';             # bff-api
-#requires 'MongoDB';                 # bff-api (install only if needed)
+requires 'Mojolicious';             # bff-browser
+#requires 'MongoDB';                 # bff-browser (install only if needed)
 requires 'Minion';                  # bff-queue
 requires 'Minion::Backend::SQLite'; # bff-queue
 requires 'File::Which';             # bff-validator
