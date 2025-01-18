@@ -39,7 +39,7 @@ exit;
 sub json2html {
 
     # Defining a few variables
-    my $version = '2.0.4';
+    my $version = '2.0.6';
     my @browser_fields =
       qw(variantInternalId assemblyId refseqId position referenceBases alternateBases QUAL FILTER variantType genomicHGVSId geneIds molecularEffects aminoacidChanges annotationImpact conditionId dbSNP ClinVar clinicalRelevance biosampleId);
 
@@ -59,7 +59,7 @@ sub json2html {
     pod2usage(
         -message => "Please specify a valid id with -id <id>\n",
         -exitval => 1
-    ) unless ( $id =~ /\w+/ );
+    ) unless ( $id && $id =~ /\w+/ );
     pod2usage(
         -message => "Please specify a valid --panel-dir value\n",
         -exitval => 1
@@ -99,9 +99,9 @@ sub create_html {
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>Beacon Friendly Format Genomic Variations Browser</title>
+    <title>BFF Browser</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Beacon Friendly Format Genomic Variations Browser">
+    <meta name="description" content="Beacon Friendly Format Browser">
     <meta name="author" content="Manuel Rueda"> 
 
       <!-- Le styles -->
@@ -146,7 +146,7 @@ EOF
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </a>
-                    <a class="brand" href="#">BFF Genomic Variations Browser</a>
+                    <a class="brand" href="#">BFF Browser - Genomic Variations</a>
                     <div class="nav-collapse collapse">
                         <ul class="nav">
                             <li class="dropdown">
@@ -217,7 +217,7 @@ EOF
 
       </div>
 
-      <br /><p class="pagination-centered">Beacon-Friendly-Format Genomic Variations Browser</p> 
+      <br /><p class="pagination-centered">BFF Browser - Genomic Variations</p> 
       <hr>
       <!-- FOOTER -->
       <footer>
