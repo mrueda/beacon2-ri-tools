@@ -144,8 +144,7 @@ sub bff2html {
     my $bff2json    = $self->{bff2json};
     my $json2html   = $self->{json2html};
     my $tmpdir      = $self->{tmpdir};
-    my $browser_dir = $self->{browserdir};
-    my $web_dir     = catdir( $browser_dir, 'web' );
+    my $assets_dir  = $self->{assetsdir};
     my $panel_dir   = $self->{paneldir};
     my $debug = $self->{debug};
     my $verbose     = $self->{verbose};
@@ -153,7 +152,7 @@ sub bff2html {
     # Parameters for the script
     my @params = (
         "export TMPDIR=$tmpdir", "bff2json=$bff2json",
-        "json2html=$json2html",  "web_dir=$web_dir",
+        "json2html=$json2html",  "assets_dir=$assets_dir",
         "panel_dir=$panel_dir"
     );
 

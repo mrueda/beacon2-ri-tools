@@ -180,6 +180,7 @@ my $rah_beacon = {
     bash4mongodb => $config->{bash4mongodb},
     browserdir   => $config->{browserdir},
     paneldir     => $config->{paneldir},
+    assetsdir    => $config->{assetsdir},
     gvvcfjson    => $param->{gvvcfjson},
     mongoimport  => $config->{mongoimport},
     mongodburi   => $config->{mongodburi},

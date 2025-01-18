@@ -46,7 +46,7 @@ sub json2html {
     # Reading arguments
     GetOptions(
         'id=s'        => \my $id,                                   # string
-        'web-dir=s'   => \my $web_dir,                              # string
+        'assets-dir=s' => \my $assets_dir,                              # string
         'panel-dir=s' => \my $panel_dir,                            # string
         'help|?'      => \my $help,                                 # flag
         'man'         => \my $man,                                  # flag
@@ -65,9 +65,9 @@ sub json2html {
         -exitval => 1
     ) unless ( $panel_dir =~ /\w+/ );
     pod2usage(
-        -message => "Please specify a valid --web-dir value\n",
+        -message => "Please specify a valid --assets-dir value\n",
         -exitval => 1
-    ) unless ( $web_dir =~ /\w+/ );
+    ) unless ( $assets_dir =~ /\w+/ );
 
     # First we read the list of panels from $panel_dir
     my @panels = glob("$panel_dir/*.lst");
@@ -84,13 +84,13 @@ sub json2html {
     }
 
     # Finally, we print the HTML
-    print create_html( $id, $web_dir, \%panel, \@browser_fields );
+    print create_html( $id, $assets_dir, \%panel, \@browser_fields );
     return 1;
 }
 
 sub create_html {
     my $id        = shift;
-    my $web_dir   = shift;
+    my $assets_dir   = shift;
     my $rh_panel  = shift;
     my $ra_header = shift;
     my @panels    = sort keys %$rh_panel;    # Note uc panels will be first
@@ -105,22 +105,22 @@ sub create_html {
     <meta name="author" content="Manuel Rueda"> 
 
       <!-- Le styles -->
-    <link rel="icon" href="$web_dir/img/favicon.ico" type="image/x-icon" />
-    <link rel="stylesheet" type="text/css" href="$web_dir/css/bootstrap.css" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="$web_dir/css/bootstrap-responsive.css" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="$web_dir/css/main.css" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="$web_dir/jsD/media/css/jquery.dataTables.css">
-    <link rel="stylesheet" type="text/css" href="$web_dir/jsD/media/css/dataTables.colReorder.css">
-    <link rel="stylesheet" type="text/css" href="$web_dir/jsD/media/css/dataTables.colVis.css">
-    <link rel="stylesheet" type="text/css" href="$web_dir/jsD/media/css/dataTables.tableTools.css">
+    <link rel="icon" href="$assets_dir/img/favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" type="text/css" href="$assets_dir/css/bootstrap.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="$assets_dir/css/bootstrap-responsive.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="$assets_dir/css/main.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="$assets_dir/jsD/media/css/jquery.dataTables.css">
+    <link rel="stylesheet" type="text/css" href="$assets_dir/jsD/media/css/dataTables.colReorder.css">
+    <link rel="stylesheet" type="text/css" href="$assets_dir/jsD/media/css/dataTables.colVis.css">
+    <link rel="stylesheet" type="text/css" href="$assets_dir/jsD/media/css/dataTables.tableTools.css">
    
-    <script src="$web_dir/js/jquery.min.js"></script>
-    <script src="$web_dir/js/bootstrap.min.js"></script>
-    <script src="$web_dir/jsD/media/js/jquery.dataTables.min.js"></script>
-    <script src="$web_dir/jsD/media/js/dataTables.colReorder.js"></script>
-    <script src="$web_dir/jsD/media/js/dataTables.colVis.js"></script>
-    <script src="$web_dir/jsD/media/js/dataTables.tableTools.js"></script>
-    <script src="$web_dir/js/jqBootstrapValidation.js"></script>
+    <script src="$assets_dir/js/jquery.min.js"></script>
+    <script src="$assets_dir/js/bootstrap.min.js"></script>
+    <script src="$assets_dir/jsD/media/js/jquery.dataTables.min.js"></script>
+    <script src="$assets_dir/jsD/media/js/dataTables.colReorder.js"></script>
+    <script src="$assets_dir/jsD/media/js/dataTables.colVis.js"></script>
+    <script src="$assets_dir/jsD/media/js/dataTables.tableTools.js"></script>
+    <script src="$assets_dir/js/jqBootstrapValidation.js"></script>
 
    <script type="text/javascript" language="javascript" class="init">
 EOF
@@ -305,11 +305,11 @@ bff2html: A script to transform dataTables-JSON to HTML
 =head1 SYNOPSIS
 
 
-bff2html.pl -id your_id -web-dir /path/foo/bar -panel-dir /path/web [-options]
+bff2html.pl -id your_id -assets-dir /path/foo/bar -panel-dir /path/web [-options]
 
      Arguments:                       
        -id                            ID (string)
-       -web-dir                       /path to directory with css, img and stuff.
+       -assets-dir                       /path to directory with css, img and stuff.
        -panel-dir                     /path to directory with gene panels
 
      Options:
@@ -341,7 +341,7 @@ For executing bff2html you will need:
 
 A given ID (string)
 
-=item --web-dir 
+=item --assets-dir 
 
 The directory with css, js, etc. files
 
@@ -355,7 +355,7 @@ The script will use data from each C<$panel.json> files, which should have been 
 
 B<Examples:>
 
-   $ ./bff2html.pl -id ega_123456 --web-dir /var/html/www/my_web  --panel-dir /home/foo/my_panel_dir > file.html
+   $ ./bff2html.pl -id ega_123456 --assets-dir /var/html/www/my_web  --panel-dir /home/foo/my_panel_dir > file.html
 
 =head1 AUTHOR 
 

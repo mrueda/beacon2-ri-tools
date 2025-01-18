@@ -60,8 +60,8 @@ done
 
 # Step 2: Create HTML for JSON
 echo "# Running json2html"
-ln -s $web_dir web # symbolic link for css, etc.
-$json2html --id $id --web-dir web --panel-dir $panel_dir > $id.html
+ln -s $assets_dir assets # symbolic link for css, etc.
+$json2html --id $id --assets-dir assets --panel-dir $panel_dir > $id.html
 
 
 cat <<EOF > README.txt

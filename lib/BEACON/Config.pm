@@ -99,10 +99,12 @@ sub read_config_file {
     $config{vcf2bff}      = catfile( $beacon_bin, 'vcf2bff.pl' );
     $config{bff2json}     = catfile( $beacon_bin, 'bff2json.pl' );
     $config{json2html}    = catfile( $beacon_bin, 'bff2html.pl' );
-    $config{browserdir}   = catfile( $root_dir,   'browser' );
+    $config{browserdir}   = catdir( $root_dir, 'browser' );
+    $config{assetsdir} =
+      catdir( $root_dir, 'utils', 'bff_browser', 'static', 'assets' );
 
     # Ensure $config{paneldir} is defined or default to config{browserdir}/data
-    $config{paneldir} //= catdir($config{browserdir}, 'data');
+    $config{paneldir} //= catdir( $config{browserdir}, 'data' );
 
     # Check if the scripts exist and have +x permission
     my @scripts =
