@@ -1,0 +1,5 @@
+*.pl linguist-language=Perl
+*.pm linguist-language=Perl
+*.t linguist-language=Perl
+
+utils/bff_browser/static/** linguist-vendored
