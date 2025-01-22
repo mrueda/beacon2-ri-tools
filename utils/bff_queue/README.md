@@ -1,96 +1,96 @@
 # README
 
-This is the README file for `bff-queue` utility.
+This is the README file for the `bff-queue` utility.
 
 ## Background 
 
-It's very likely that you will need to process many VCF files with the **B2RI** data ingestion tools.
+It's very likely that you will need to process many VCF files using the **B2RI** data ingestion tools.
 
-Because processing these files takes time, it is also likely that you will have in mind some sort of _parallel processing_ for the files. It's also worth noting that because the jobs are independent, you can **split VCFs per chromosome** to further speed up the calculation.
+Because processing these files takes time, you may consider some form of _parallel processing_. It's also worth noting that since the jobs are independent, you can **split VCFs per chromosome** to further speed up the calculation.
 
-Depending on your logistics, you may have some sort of **HPC** at your institution (e.g., [PBS](https://en.wikipedia.org/wiki/Portable_Batch_System)). If you have access to it and it's secure enough for your needs then you don't need to keep reading.
+Depending on your infrastructure, you may have access to a **High-Performance Computing (HPC)** system at your institution (e.g., [PBS](https://en.wikipedia.org/wiki/Portable_Batch_System)). If you have access to such a system and it meets your security requirements, you don't need to read further.
 
-Generally, **B2RI** is going to be installed in a _workstation_ or a _server_ which probably will not have access to HPC at all.
+However, in most cases, **B2RI** will be installed on a _workstation_ or a _server_ that likely does not have access to an HPC system.
 
-Here we provide a few solutions to speed up the calculation time:
+Here, we provide a few solutions to speed up the calculation process:
 
-## How to run multiple jobs in your workstation/server
+## How to Run Multiple Jobs on Your Workstation/Server
 
-Well, we have some options here:
+There are several options to accomplish this:
 
-1. Run the jobs in serial
+1. **Run the jobs sequentially**
  
-    - For instance, by using a `for` loop in `bash`. 
+    - For example, by using a `for` loop in `bash`. 
 
-2. Run the jobs in parallel
+2. **Run the jobs in parallel**
 
-    - Use `xargs` or `parallel`.
-    - Use the included utility `bff-queue`.
+    - Using `xargs` or `parallel`.
+    - Using the included utility, `bff-queue`.
 
 ## GNU-Parallel
 
-[GNU-Parallel](https://www.gnu.org/software/parallel) is a shell tool for executing jobs in parallel using one or more computers. 
+[GNU-Parallel](https://www.gnu.org/software/parallel) is a shell tool that enables parallel execution of jobs using one or more computers. 
 
-In the exmple below we are going to let `parallel` to process all 24 VCFs (one per chromosome). `parallel` will send 1 job to each available core and take care of the rest as if it was a _light_ queue system.
+In the example below, we allow `parallel` to process all 24 VCF files (one per chromosome). `parallel` will distribute one job per available core and manage the workload as a _lightweight_ queue system.
 
     $ parallel "./beacon vcf -n 1 -i chr{}.vcf.gz  > chr{}.log 2>&1" ::: {1..22} X Y
 
-**GNU-Parallel** is awesome and I totally recommend it. 
+**GNU-Parallel** is an excellent tool, and I highly recommend it.
 
-## BFF-Queue (included utility)
+## BFF-Queue (Included Utility)
 
-All the previous options are fine, but now we're going to go a bit further.
+All the previous options are useful, but let's take things a step further.
 
-We're going to be using an _open source_ queue system/task manager based on **Mojolicius** [Minion](https://metacpan.org/dist/Minion).
+We'll be using an **open-source** queue system and task manager based on **Mojolicious**, called [Minion](https://metacpan.org/dist/Minion).
 
 ![Minion](https://raw.githubusercontent.com/mojolicious/minion/main/examples/admin.png)
 
-[Minion](https://metacpan.org/dist/Minion) is a queue system written in Perl, similar to those existing for other languages (Python's [Celery](https://docs.celeryproject.org/en/stable/getting-started/introduction.html), [RQ](https://python-rq.org/docs/monitoring) or JavaScript's [Bull](https://optimalbits.github.io/bull)).
+[Minion](https://metacpan.org/dist/Minion) is a **lightweight** queue system written in Perl, offering functionality similar to other popular solutions in different languages, such as Python's [Celery](https://docs.celeryproject.org/en/stable/getting-started/introduction.html) and [RQ](https://python-rq.org/docs/monitoring), or JavaScript's [Bull](https://optimalbits.github.io/bull). However, Minion stands out due to its **smaller footprint** and simpler setup compared to these alternatives, making it an efficient choice for applications where minimal overhead is crucial.
 
-All of these queue systems use some sort of _back-end_ to keep track of the data, usually being SQL or non-SQL databases, or [Redis](https://redis.io).
+Like other queue systems, Minion relies on a _back-end_ to manage task data, typically using SQL or NoSQL databases, or [Redis](https://redis.io).
 
-Ok, no more talking. Let's get started:
+Alright, no more talking—let's get started!
 
 ### Installation
 
-Here, to simplify things we will be using [SQLite](https://www.sqlite.org/index.html) as a _back-end_. Note, however, that Minion accepts many other back-ends (PosgreSQL, MongoDB, Redis, etc).
+To simplify things, we will use [SQLite](https://www.sqlite.org/index.html) as a _back-end_. However, Minion supports other back-ends such as PostgreSQL, MongoDB, Redis, and more.
 
     $ cpanm Minion Minion::Backend::SQLite
 
 ### Usage
 
-The first thing is to start a worker:
+First, start a worker:
 
-    $ ./bff_queue/bff-queue minion worker -j 8 -q beacon # To use 8 cores simultaneusly and queue <beacon>
+    $ ./bff_queue/bff-queue minion worker -j 8 -q beacon # Use 8 cores simultaneously and queue <beacon>
 
-In another terminal, we'll start the UI with:
+In another terminal, start the UI with:
 
-    $ ./bff_queue/minion_ui.pl daemon # You will able to access it at http://localhost:3000
+    $ ./bff_queue/minion_ui.pl daemon # You will be able to access it at http://localhost:3000
 
 Yes, the UI is **phenomenal**.
 
-Alternatively (in production), you can run the UI by using:
+Alternatively, in production, you can run the UI using:
 
-    $ hypnotoad minion_ui.pl # You will able to access it at http://localhost:8080
+    $ hypnotoad minion_ui.pl # You will be able to access it at http://localhost:8080
 
-_NB:_ If you want to know more about Minion UI deployment please read [this](https://docs.mojolicious.org/Mojolicious/Guides/Cookbook#DEPLOYMENT).
+**Note:** For more details about Minion UI deployment, please refer to [this guide](https://docs.mojolicious.org/Mojolicious/Guides/Cookbook#DEPLOYMENT).
 
-Great, now you go to the directory where you have your VCF files:
+Next, navigate to the directory where your VCF files are located:
 
     $ cd my_vcf_file_directory
 
-And send a job from there:
+Then, submit a job from there:
 
-    (please change the paths to match yours)
+    (Please update the paths to match your environment)
 
-    $ /pro/beacon-2.0.0/utils/bff_queue/bff-queue minion job -q beacon -e beacon_task -a '["cd my_vcf_file_directory ; /pro/beaco-2.0.0/beacon vcf -i in.vcf.gz -p param.in -n 1 > beacon.log 2>&1"]'
+    $ /pro/beacon-2.0.0/utils/bff_queue/bff-queue minion job -q beacon -e beacon_task -a '["cd my_vcf_file_directory ; /pro/beacon-2.0.0/beacon vcf -i in.vcf.gz -p param.in -n 1 > beacon.log 2>&1"]'
 
-**NB:** If you are in trouble simply delete the file `minion.db` at `bff_queue` directory.
+**Note:** If you encounter any issues, simply delete the `minion.db` file in the `bff_queue` directory.
 
 Enjoy!
 
-Manu
+— Manu
 
 ### Credits
 
-Let's give a round of applause to all the [contributors](https://github.com/mojolicious/minion) of **Minion** and in particular to [Sebastian Riedel](https://github.com/kraih).
+A big thanks to all the [contributors](https://github.com/mojolicious/minion) of **Minion**, and a special shout-out to [Sebastian Riedel](https://github.com/kraih).
