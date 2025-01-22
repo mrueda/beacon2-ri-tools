@@ -2,7 +2,7 @@
 #
 #   Script that runs Mojolicius-Minion Job Queue System
 #
-#   Last Modified: Feb/01/2022
+#   Last Modified: Jan/21/2025
 #
 #   $VERSION from beacon2-ri-tools
 #
@@ -33,7 +33,10 @@ use Carp;
 use Mojolicious::Lite -signatures;
 
 # Usage
-die qq(Usage:\n ./bff-queue minion job -e beacon_task -a '[ "/pro/beacon/beacon vcf -i test_1000G.vcf.gz -p param.in -n 1 > beacon.log 2>&1"]'\n) unless @ARGV;
+die <<"USAGE" unless @ARGV;
+Usage:
+  ./bff-queue minion job -e beacon_task -a '[ "/pro/beacon/beacon vcf -i test_1000G.vcf.gz -p param.in -n 1 > beacon.log 2>&1"]'
+USAGE
 
 # Using sqlite for the queue
 plugin Minion => { SQLite => 'sqlite:' . app->home->child('minion.db'), };

@@ -33,7 +33,9 @@ There are several options to accomplish this:
 
 In the example below, we allow `parallel` to process all 24 VCF files (one per chromosome). `parallel` will distribute one job per available core and manage the workload as a _lightweight_ queue system.
 
-    $ parallel "./beacon vcf -n 1 -i chr{}.vcf.gz  > chr{}.log 2>&1" ::: {1..22} X Y
+```bash
+parallel "./beacon vcf -n 1 -i chr{}.vcf.gz  > chr{}.log 2>&1" ::: {1..22} X Y
+```
 
 **GNU-Parallel** is an excellent tool, and I highly recommend it.
 
@@ -55,35 +57,53 @@ Alright, no more talking—let's get started!
 
 To simplify things, we will use [SQLite](https://www.sqlite.org/index.html) as a _back-end_. However, Minion supports other back-ends such as PostgreSQL, MongoDB, Redis, and more.
 
-    $ cpanm Minion Minion::Backend::SQLite
+```bash
+cpanm Minion Minion::Backend::SQLite
+```
 
 ### Usage
 
+We go the to the app directory:
+
+```bash
+cd bff_queue
+```
+
 First, start a worker:
 
-    $ ./bff_queue/bff-queue minion worker -j 8 -q beacon # Use 8 cores simultaneously and queue <beacon>
+```bash
+./bff-queue minion worker -j 8 -q beacon # Use 8 cores simultaneously and queue <beacon>
+```
 
 In another terminal, start the UI with:
 
-    $ ./bff_queue/minion_ui.pl daemon # You will be able to access it at http://localhost:3000
+```bash
+./minion_ui.pl daemon # You will be able to access it at http://localhost:3000
+```
 
 Yes, the UI is **phenomenal**.
 
 Alternatively, in production, you can run the UI using:
 
-    $ hypnotoad minion_ui.pl # You will be able to access it at http://localhost:8080
+```bash
+hypnotoad minion_ui.pl # You will be able to access it at http://localhost:8080
+```
 
 **Note:** For more details about Minion UI deployment, please refer to [this guide](https://docs.mojolicious.org/Mojolicious/Guides/Cookbook#DEPLOYMENT).
 
 Next, navigate to the directory where your VCF files are located:
 
-    $ cd my_vcf_file_directory
+```bash
+cd my_vcf_file_directory
+```
 
 Then, submit a job from there:
 
-    (Please update the paths to match your environment)
+(Please update the paths to match your environment)
 
-    $ /pro/beacon-2.0.0/utils/bff_queue/bff-queue minion job -q beacon -e beacon_task -a '["cd my_vcf_file_directory ; /pro/beacon-2.0.0/beacon vcf -i in.vcf.gz -p param.in -n 1 > beacon.log 2>&1"]'
+```bash
+/usr/share/beacon2-ri/beacon2-ri-tools/utils/bff_queue/bff-queue minion job -q beacon -e beacon_task -a '["cd /home/mrueda/beacon ; /usr/share/beacon2-ri/beacon2-ri-tools/bin/beacon vcf -i test_1000G.vcf.gz -p param.yaml -n 1 > beacon.log 2>&1"]'
+```
 
 **Note:** If you encounter any issues, simply delete the `minion.db` file in the `bff_queue` directory.
 
