@@ -166,14 +166,25 @@ sub read_param_file {
     chomp( my $ncpuhost = qx{/usr/bin/nproc} ) // 1;
     $param{jobid} = time . substr( "00000$$", -5 );
     $param{date}  = localtime();
-    $param{projectdir} =~ tr/ /_/;                                        # Transform white spaces to _
-    $param{projectdir} .= '_' . $param{jobid};
+
+    # Override projectdir if an override argument is provided
+    if ( defined $arg->{'projectdir-override'}
+        && $arg->{'projectdir-override'} ne '' )
+    {
+        $param{projectdir} = $arg->{'projectdir-override'};
+    }
+    else {
+        # Replace spaces with underscores and append job ID
+        $param{projectdir} =~ tr/ /_/;
+        $param{projectdir} .= '_' . $param{jobid};
+    }
     $param{log}      = catfile( $param{projectdir}, 'log.json' );
     $param{hostname} = hostname;
     $param{user}     = $ENV{LOGNAME} || $ENV{USER} || getpwuid($<);
     $param{ncpuhost} = 0 + $ncpuhost;                                     # coercing it to be a number
     $param{ncpuless} = $param{ncpuhost} > 1 ? $param{ncpuhost} - 1 : 1;
     my $str_ncpuless = $param{ncpuless};                                  # We copy it (otherwise it will get "stringified" below and printed with "" in log.json)
+
     $param{zip} =
       ( -x '/usr/bin/pigz' )
       ? "/usr/bin/pigz -p $str_ncpuless"

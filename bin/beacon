@@ -5,7 +5,7 @@
 #   - mongodb mode: Transfers BFF data to MongoDB
 #   - full mode: Combines vcf and mongodb modes
 #
-#   Last Modified: May/24/2024
+#   Last Modified: Jan/23/2025
 #
 #   Version: 2.0.6
 #
@@ -46,7 +46,7 @@ use BEACON::Beacon;
 #############################################################
 
 # Beacon version
-my $version = '2.0.6_1';
+my $version = '2.0.6_2';
 
 # Initialize a few more variables
 my $prompt      = 'Info:';
@@ -83,7 +83,7 @@ my $arg = Help::usage($version);
 # NB: We'll avoid assigning $param->{foo} to vars unless their value changes often
 my $config = Config::read_config_file( $arg->{configfile} );
 
-# Reading the parameters from the paramaters file.
+# Reading the parameters from the parameters file.
 my $param = Config::read_param_file($arg);
 
 # Start printing information
@@ -96,8 +96,8 @@ say "$prompt $license\n$prompt";
 # Print arguments to stdout
 say BOLD YELLOW, "$prompt ARGUMENTS USED:", RESET;
 say WHITE "$prompt mode: $arg->{mode}";
-my @tmp_keys = qw (inputfile configfile paramfile ncpu debug verbose nocolor);
-my @tmp_vals = qw ( i c p n debug verbose nc);
+my @tmp_keys = qw (inputfile configfile paramfile ncpu debug verbose nocolor projectdir-override);
+my @tmp_vals = qw ( i c p n debug verbose nc po);
 my %argument;
 @argument{@tmp_keys} = @tmp_vals;
 for my $argument ( sort keys %argument ) {
@@ -243,12 +243,15 @@ C<beacon>: A script to B<annotate> and B<transform> B<VCFs> into the C<genomicVa
                                       (May require a parameters file)
 
    Options:
+       -c | --config <file>           Requires a configuration file
+       -p | --param <file>            Requires a parameters file (optional)
+       -projectdir-override <path>    Specifies a custom project directory path, overriding the default value in the configuration file
+       -n <number>                    Number of CPUs/cores/threads (optional)
+
+   Info Options:
        -h                             Brief help message
        -man                           Full documentation
        -v                             Display version information
-       -c | --config <file>           Requires a configuration file
-       -p | --param <file>            Requires a parameters file (optional)
-       -n <number>                    Number of CPUs/cores/threads (optional)
        -debug <level>                 Print debugging information (from 1 to 5, with 5 being the max) (optional)
        -verbose                       Enable verbosity (optional)
        -nc | --no-color               Do not print colors to STDOUT (optional)

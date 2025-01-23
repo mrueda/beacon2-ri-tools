@@ -95,7 +95,8 @@ sub vcf_and_full {
         'n=i'         => \$arg{ncpu},          # numeric (integer)
         'param|p=s'   => \$arg{paramfile},     # string
         'config|c=s'  => \$arg{configfile},    # string
-        'input|i=s'   => \$arg{inputfile}      # string
+        'input|i=s'   => \$arg{inputfile},     # string
+        'projectdir-override=s'   => \$arg{'projectdir-override'}  # string
     ) or pod2usage( -exitval => 1, -verbose => 1 );
     pod2usage(
         -exitval => 1,
@@ -120,7 +121,8 @@ sub mongodb {
         'no-color|nc' => \$arg{nocolor},      # flag
         'n=i'         => \$arg{ncpu},         # numeric (integer)
         'param|p=s'   => \$arg{paramfile},    # string
-        'config|c=s'  => \$arg{configfile}    # string
+        'config|c=s'  => \$arg{configfile},   # string
+        'projectdir-override=s'   => \$arg{'projectdir-override'}  # string
 
     ) or pod2usage( -exitval => 1, -verbose => 1 );
     usage_params( \%arg );

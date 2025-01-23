@@ -19,12 +19,15 @@
                                          (May require a parameters file)
 
       Options:
+          -c | --config <file>           Requires a configuration file
+          -p | --param <file>            Requires a parameters file (optional)
+          -projectdir-override <path>    Specifies a custom project directory path, overriding the default value in the configuration file
+          -n <number>                    Number of CPUs/cores/threads (optional)
+
+      Info Options:
           -h                             Brief help message
           -man                           Full documentation
           -v                             Display version information
-          -c | --config <file>           Requires a configuration file
-          -p | --param <file>            Requires a parameters file (optional)
-          -n <number>                    Number of CPUs/cores/threads (optional)
           -debug <level>                 Print debugging information (from 1 to 5, with 5 being the max) (optional)
           -verbose                       Enable verbosity (optional)
           -nc | --no-color               Do not print colors to STDOUT (optional)
