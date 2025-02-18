@@ -61,10 +61,10 @@ sub vcf2bff {
     my $exe_path = abs_path($0);
     my $cwd      = cwd;
     my $user     = $ENV{LOGNAME} || $ENV{USER} || getpwuid($<);
-    chomp( my $ncpuhost = qx{/usr/bin/nproc} ) // 1;
-    $ncpuhost = 0 + $ncpuhost;    # coercing it to be a number
-    my $format  = 'bff';                            # Default value
-    my $fileout = 'genomicVariationsVcf.json.gz';
+    chomp( my $nthreadhost = qx{/usr/bin/nproc} ) // 1;
+    $nthreadhost = 0 + $nthreadhost;                                  # coercing it to be a number
+    my $format                    = 'bff';                            # Default value
+    my $fileout                   = 'genomicVariationsVcf.json.gz';
     my $skip_structural_variation = 1;
 
     # Defining <clinicalInterpretations.annotatedWith> to be used later
@@ -101,15 +101,15 @@ sub vcf2bff {
 
     # Reading arguments
     GetOptions(
-        'input|i=s'       => \my $filein,                              # string
-        'format|f=s'      => \$format,                                 # string
-        'dataset-id|d=s'  => \my $dataset_id,                          # string
-        'project-dir|p=s' => \my $project_dir,                         # string
-        'genome|g=s'      => \my $genome,                              # string
-        'help|?'          => \my $help,                                # flag
-        'man'             => \my $man,                                 # flag
-        'debug=i'         => \my $debug,                               # integer
-        'verbose'         => \my $verbose,                             # flag
+        'input|i=s'       => \my $filein,                               # string
+        'format|f=s'      => \$format,                                  # string
+        'dataset-id|d=s'  => \my $dataset_id,                           # string
+        'project-dir|p=s' => \my $project_dir,                          # string
+        'genome|g=s'      => \my $genome,                               # string
+        'help|?'          => \my $help,                                 # flag
+        'man'             => \my $man,                                  # flag
+        'debug=i'         => \my $debug,                                # integer
+        'verbose'         => \my $verbose,                              # flag
         'version|v'       => sub { say "$0 Version $version"; exit; }
     ) or pod2usage(2);
     pod2usage(1)                              if $help;
@@ -141,14 +141,14 @@ sub vcf2bff {
 
     # We load user parameters on a hash
     my %param = (
-        user       => $user,
-        hostname   => hostname,
-        cwd        => $cwd,
-        projectDir => $project_dir,
-        version    => $version,
-        ncpuhost   => $ncpuhost,
-        filein     => $filein,
-        fileout    => $fileout
+        user        => $user,
+        hostname    => hostname,
+        cwd         => $cwd,
+        projectDir  => $project_dir,
+        version     => $version,
+        nthreadhost => $nthreadhost,
+        filein      => $filein,
+        fileout     => $fileout
     );
 
     my %serialize =
@@ -260,7 +260,7 @@ $prompt, $param, $arrow, $param{$param}
 
             # All right, let's go!
             chomp $line;
-            my @vcf_fields = split /\t/, $line; # NB: The split function does not consume time regardless of #samples
+            my @vcf_fields = split /\t/, $line;    # NB: The split function does not consume time regardless of #samples
 
             # Transform $vcf_fields[0-9] into a hash to simplify naming
             # of common positions (e.g., $vcf_fields[ $vcf_data_loc{QUAL} ] ==> $vcf_fields_short{QUAL}
@@ -362,9 +362,9 @@ $prompt, $param, $arrow, $param{$param}
 
             # Miscellanea values (some are for internal use only)
             my $n_samples = scalar keys %sample_id;
-            $crg_hash{SAMPLES_ALT}     = $pruned_genotypes;    # internal
-            $crg_hash{N_SAMPLES_ALT}   = $n_calls;             # internal
-            $crg_hash{N_SAMPLES}       = $n_samples;           # internal
+            $crg_hash{SAMPLES_ALT}     = $pruned_genotypes;       # internal
+            $crg_hash{N_SAMPLES_ALT}   = $n_calls;                # internal
+            $crg_hash{N_SAMPLES}       = $n_samples;              # internal
             $crg_hash{CALLS_FREQUENCY} = sprintf "%10.8f",
               $crg_hash{N_SAMPLES_ALT} / $crg_hash{N_SAMPLES};    # internal
             $crg_hash{CUSTOM_VAR_ID} = $count;
@@ -464,7 +464,7 @@ sub parse_header_samples {
     my ( $line, $start_col_samples ) = @_;
     chomp $line;
     my @fields = split /\t/, $line;
-    @fields = @fields[ $start_col_samples .. $#fields ]; # Could not do the split in one step :-/
+    @fields = @fields[ $start_col_samples .. $#fields ];    # Could not do the split in one step :-/
     die "Sorry, we could not load SAMPLES fields from <vcf> header"
       unless @fields;
 
@@ -521,8 +521,8 @@ sub parse_ann_field {
         my %ann_hash =
           map { $ann_field_data_loc->{$_}, ( $ann_fields[$_] // $DEFAULT ) }
           ( 0 .. $n_snpeff_fields );
-        my $alt_allele = $ann_fields[0]; # IMPORTANT => All ANN correspond to the same ALT
-        push( @{ $ann_field->{$alt_allele} }, \%ann_hash ); # Array of hashes (@AoH);
+        my $alt_allele = $ann_fields[0];                       # IMPORTANT => All ANN correspond to the same ALT
+        push( @{ $ann_field->{$alt_allele} }, \%ann_hash );    # Array of hashes (@AoH);
     }
     return $ann_field;
 }

@@ -4,7 +4,7 @@
       "debug" : 0,
       "inputfile" : "test_1000G.vcf.gz",
       "mode" : "vcf",
-      "ncpu" : null,
+      "nthread" : null,
       "nocolor" : null,
       "paramfile" : "param.in",
       "verbose" : null
@@ -57,8 +57,8 @@
       "hostname" : "mrueda-ws1",
       "jobid" : "166403275914916",
       "log" : "beacon_166403275914916/log.json",
-      "ncpuhost" : 1,
-      "ncpuless" : 1,
+      "nthreadhost" : 1,
+      "nthreadless" : 1,
       "organism" : "Homo Sapiens",
       "pipeline" : {
          "bff2html" : 0,

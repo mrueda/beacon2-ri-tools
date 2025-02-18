@@ -89,14 +89,14 @@ sub vcf_and_full {
     my $mode = shift;
     my %arg  = ( debug => 0, mode => $mode // 'vcf' );
     GetOptions(
-        'debug=i'     => \$arg{debug},         # numeric (integer)
-        'verbose'     => \$arg{verbose},       # flag
-        'no-color|nc' => \$arg{nocolor},       # flag
-        'n=i'         => \$arg{ncpu},          # numeric (integer)
-        'param|p=s'   => \$arg{paramfile},     # string
-        'config|c=s'  => \$arg{configfile},    # string
-        'input|i=s'   => \$arg{inputfile},     # string
-        'projectdir-override=s'   => \$arg{'projectdir-override'}  # string
+        'debug=i'                  => \$arg{debug},                   # numeric (integer)
+        'verbose'                  => \$arg{verbose},                 # flag
+        'no-color|nc'              => \$arg{nocolor},                 # flag
+        'n=i'                      => \$arg{nthread},                 # numeric (integer)
+        'param|p=s'                => \$arg{paramfile},               # string
+        'config|c=s'               => \$arg{configfile},              # string
+        'input|i=s'                => \$arg{inputfile},               # string
+        'projectdir-override|po=s' => \$arg{'projectdir-override'}    # string
     ) or pod2usage( -exitval => 1, -verbose => 1 );
     pod2usage(
         -exitval => 1,
@@ -116,13 +116,13 @@ sub mongodb {
 
     my %arg = ( debug => 0, mode => 'mongodb' );
     GetOptions(
-        'debug=i'     => \$arg{debug},        # numeric (integer)
-        'verbose'     => \$arg{verbose},      # flag
-        'no-color|nc' => \$arg{nocolor},      # flag
-        'n=i'         => \$arg{ncpu},         # numeric (integer)
-        'param|p=s'   => \$arg{paramfile},    # string
-        'config|c=s'  => \$arg{configfile},   # string
-        'projectdir-override=s'   => \$arg{'projectdir-override'}  # string
+        'debug=i'                  => \$arg{debug},                   # numeric (integer)
+        'verbose'                  => \$arg{verbose},                 # flag
+        'no-color|nc'              => \$arg{nocolor},                 # flag
+        'n=i'                      => \$arg{nthread},                 # numeric (integer)
+        'param|p=s'                => \$arg{paramfile},               # string
+        'config|c=s'               => \$arg{configfile},              # string
+        'projectdir-override|po=s' => \$arg{'projectdir-override'}    # string
 
     ) or pod2usage( -exitval => 1, -verbose => 1 );
     usage_params( \%arg );
@@ -151,7 +151,7 @@ sub usage_params {
         -exitval => 1,
         -verbose => 1,
         -message => 'Option --n requires a positive integer'
-    ) if ( $arg->{ncpu} && $arg->{ncpu} <= 0 );    # Must be positive integer
+    ) if ( $arg->{nthread} && $arg->{nthread} <= 0 );    # Must be positive integer
     return 1;
 }
 

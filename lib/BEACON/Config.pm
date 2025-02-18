@@ -55,7 +55,8 @@ sub read_config_file {
     # Definining options for config
     my $beacon_config =
       defined $config_file ? $config_file
-      : ( $user eq 'mrueda' && $hostname eq 'mrueda-ws1' )
+      : ( $user eq 'mrueda'
+          && ( $hostname eq 'mrueda-ws1' || $hostname eq 'mrueda-ws5' ) )
       ? catfile( $root_dir, 'bin', 'mrueda_ws1_config.yaml' )
       : catfile( $root_dir, 'bin', 'config.yaml' );
 
@@ -163,7 +164,7 @@ sub read_param_file {
                          #print Dumper \%param and die;
 
     # Below are a few internal paramaters
-    chomp( my $ncpuhost = qx{/usr/bin/nproc} ) // 1;
+    chomp( my $nthreadhost = qx{/usr/bin/nproc} ) // 1;
     $param{jobid} = time . substr( "00000$$", -5 );
     $param{date}  = localtime();
 
@@ -178,16 +179,16 @@ sub read_param_file {
         $param{projectdir} =~ tr/ /_/;
         $param{projectdir} .= '_' . $param{jobid};
     }
-    $param{log}      = catfile( $param{projectdir}, 'log.json' );
-    $param{hostname} = hostname;
-    $param{user}     = $ENV{LOGNAME} || $ENV{USER} || getpwuid($<);
-    $param{ncpuhost} = 0 + $ncpuhost;                                     # coercing it to be a number
-    $param{ncpuless} = $param{ncpuhost} > 1 ? $param{ncpuhost} - 1 : 1;
-    my $str_ncpuless = $param{ncpuless};                                  # We copy it (otherwise it will get "stringified" below and printed with "" in log.json)
+    $param{log}         = catfile( $param{projectdir}, 'log.json' );
+    $param{hostname}    = hostname;
+    $param{user}        = $ENV{LOGNAME} || $ENV{USER} || getpwuid($<);
+    $param{nthreadhost} = 0 + $nthreadhost;                              # coercing it to be a number
+    $param{nthreadless} = $param{nthreadhost} > 1 ? $param{nthreadhost} - 1 : 1;
+    my $str_nthreadless = $param{nthreadless};                           # We copy it (otherwise it will get "stringified" below and printed with "" in log.json)
 
     $param{zip} =
       ( -x '/usr/bin/pigz' )
-      ? "/usr/bin/pigz -p $str_ncpuless"
+      ? "/usr/bin/pigz -p $str_nthreadless"
       : '/bin/gzip';
     $param{organism} =
       $param{organism} eq lc('human') ? 'Homo Sapiens' : $param{organism};
