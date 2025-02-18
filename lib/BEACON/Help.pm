@@ -92,7 +92,7 @@ sub vcf_and_full {
         'debug=i'                  => \$arg{debug},                   # numeric (integer)
         'verbose'                  => \$arg{verbose},                 # flag
         'no-color|nc'              => \$arg{nocolor},                 # flag
-        'n=i'                      => \$arg{nthread},                 # numeric (integer)
+        't=i'                      => \$arg{nthread},                 # numeric (integer)
         'param|p=s'                => \$arg{paramfile},               # string
         'config|c=s'               => \$arg{configfile},              # string
         'input|i=s'                => \$arg{inputfile},               # string
@@ -119,7 +119,7 @@ sub mongodb {
         'debug=i'                  => \$arg{debug},                   # numeric (integer)
         'verbose'                  => \$arg{verbose},                 # flag
         'no-color|nc'              => \$arg{nocolor},                 # flag
-        'n=i'                      => \$arg{nthread},                 # numeric (integer)
+        't=i'                      => \$arg{nthread},                 # numeric (integer)
         'param|p=s'                => \$arg{paramfile},               # string
         'config|c=s'               => \$arg{configfile},              # string
         'projectdir-override|po=s' => \$arg{'projectdir-override'}    # string

@@ -22,7 +22,7 @@
           -c | --config <file>           Requires a configuration file
           -p | --param <file>            Requires a parameters file (optional)
           -projectdir-override <path>    Specifies a custom project directory path, overriding the default value in the configuration file
-          -n <number>                    Number of CPUs/cores/threads (optional)
+          -t <number>                    Number of threads (optional)
 
       Info Options:
           -h                             Brief help message
@@ -80,9 +80,9 @@ To perform all these taks you'll need:
 
     (see explanation of BFF format [here](#what-is-the-beacon-friendly-format-bff))
 
-- (Optional) Specify the number of cores (only for VCF processing!)
+- (Optional) Specify the number of threads (only for VCF processing!)
 
-    The number of threads/cores you want to use for the job. In this regard (since SnpEff does not deal well with parallelization) we recommend using `-n 1` and running multiple simultaneous jobs with GNU `parallel` or the included [queue system](https://github.com/mrueda/beacon2-ri-tools/tree/main/utils/bff_queue)). The software scales linearly {O}(n) with the number of variations present in the input file. The easiest way is to run one job per chromosome, but if you are in a hurry and have many cores you can split each chromosome into smaller vcfs.
+    The number of threads/cores you want to use for the job. In this regard (since SnpEff does not deal well with parallelization) we recommend using `-t 1` and running multiple simultaneous jobs with GNU `parallel` or the included [queue system](https://github.com/mrueda/beacon2-ri-tools/tree/main/utils/bff_queue)). The software scales linearly {O}(n) with the number of variations present in the input file. The easiest way is to run one job per chromosome, but if you are in a hurry and have many cores you can split each chromosome into smaller vcfs.
 
 `beacon` will create an independent project directory `projectdir` and store all needed information needed there. Thus, many concurrent calculations are supported.
 Note that `beacon` will treat your data as _read-only_ (i.e., will not modify your original files).
@@ -161,13 +161,13 @@ Please find below a detailed description of all parameters (alphabetical order):
 
     $ ./beacon mongodb -p param_file  # MongoDB load only
 
-    $ ./beacon full -n 1 --i input.vcf.gz -p param_file  > log 2>&1
+    $ ./beacon full -t 1 --i input.vcf.gz -p param_file  > log 2>&1
 
-    $ ./beacon full -n 1 --i input.vcf.gz -p param_file -c config_file > log 2>&1
+    $ ./beacon full -t 1 --i input.vcf.gz -p param_file -c config_file > log 2>&1
 
     $ nohup $path_to_beacon/beacon full -i input.vcf.gz -verbose
 
-    $ parallel "./beacon vcf -n 1 -i chr{}.vcf.gz  > chr{}.log 2>&1" ::: {1..22} X Y
+    $ parallel "./beacon vcf -t 1 -i chr{}.vcf.gz  > chr{}.log 2>&1" ::: {1..22} X Y
 
 _NB_: If you don't want colors in the output use the flag `--no-color`. If you did not use the flag and want to get rid off the colors in your printed log file use this command to parse ANSI colors:
 
