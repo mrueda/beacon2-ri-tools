@@ -1,7 +1,6 @@
 Revision history for beacon2-ri-tools
 
-2.0.7  2025-XX-XX
-
+2.0.7  2025-02-18
     - Moved 'browser/web' to 'utils/bff_browser/static/assets'
     - Added argument '-projectdir-override' to enable external assignment of id (e.g., Celery)
     - Renamed internal parameter from 'ncpu' to 'nthread' and option '-n' to '-t'

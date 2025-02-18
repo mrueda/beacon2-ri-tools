@@ -46,7 +46,7 @@ use BEACON::Beacon;
 #############################################################
 
 # Beacon version
-my $version = '2.0.6_2';
+my $version = '2.0.7';
 
 # Initialize a few more variables
 my $prompt      = 'Info:';
