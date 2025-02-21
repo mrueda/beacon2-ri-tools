@@ -73,7 +73,7 @@ cd beacon2-ri-tools/utils/bff_browser
 # 2. Execute BFF Browser Flask App
 python3 app.py 
 
-# 3. Open a browser at http://0.0.0.0:8000/
+# 3. Open a browser at http://0.0.0.0:8001/
 
 # 4. Follow instructions at Home page
 EOF

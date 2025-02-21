@@ -26,7 +26,7 @@ pip install -r requirements.txt
 
 3. Open your web browser and go to:
     ```
-    http://0.0.0.0:8000
+    http://0.0.0.0:8001
     ```
 
 The App includes precomputed examples for `genomicVariations` and `individuals` extracted from the **CINECA_synthetic_cohort_EUROPE_UK1** dataset.

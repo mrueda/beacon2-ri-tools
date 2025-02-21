@@ -157,17 +157,19 @@ Please find below a detailed description of all parameters (alphabetical order):
 
 **Examples:**
 
-    $ ./beacon vcf -i input.vcf.gz 
+    $ bin/beacon vcf -i input.vcf.gz 
 
-    $ ./beacon mongodb -p param_file  # MongoDB load only
+    $ bin/beacon vcf -i input.vcf.gz -p param.yaml -projectdir-override beacon_exome_id_123456789
 
-    $ ./beacon full -t 1 --i input.vcf.gz -p param_file  > log 2>&1
+    $ bin/beacon mongodb -p param_file  # MongoDB load only
 
-    $ ./beacon full -t 1 --i input.vcf.gz -p param_file -c config_file > log 2>&1
+    $ bin/beacon full -t 1 --i input.vcf.gz -p param_file  > log 2>&1
 
-    $ nohup $path_to_beacon/beacon full -i input.vcf.gz -verbose
+    $ bin/beacon full -t 1 --i input.vcf.gz -p param_file -c config_file > log 2>&1
 
-    $ parallel "./beacon vcf -t 1 -i chr{}.vcf.gz  > chr{}.log 2>&1" ::: {1..22} X Y
+    $ nohup $path_to_beacon/bin/beacon full -i input.vcf.gz -verbose
+
+    $ parallel "bin/beacon vcf -t 1 -i chr{}.vcf.gz  > chr{}.log 2>&1" ::: {1..22} X Y
 
 _NB_: If you don't want colors in the output use the flag `--no-color`. If you did not use the flag and want to get rid off the colors in your printed log file use this command to parse ANSI colors:
 
