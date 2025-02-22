@@ -61,8 +61,8 @@ sub vcf2bff {
     my $exe_path = abs_path($0);
     my $cwd      = cwd;
     my $user     = $ENV{LOGNAME} || $ENV{USER} || getpwuid($<);
-    chomp( my $nthreadhost = qx{/usr/bin/nproc} ) // 1;
-    $nthreadhost = 0 + $nthreadhost;                                  # coercing it to be a number
+    chomp( my $threadshost = qx{/usr/bin/nproc} ) // 1;
+    $threadshost = 0 + $threadshost;                                  # coercing it to be a number
     my $format                    = 'bff';                            # Default value
     my $fileout                   = 'genomicVariationsVcf.json.gz';
     my $skip_structural_variation = 1;
@@ -146,7 +146,7 @@ sub vcf2bff {
         cwd         => $cwd,
         projectDir  => $project_dir,
         version     => $version,
-        nthreadhost => $nthreadhost,
+        threadshost => $threadshost,
         filein      => $filein,
         fileout     => $fileout
     );

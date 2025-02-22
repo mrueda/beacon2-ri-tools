@@ -92,7 +92,7 @@ sub vcf_and_full {
         'debug=i'                  => \$arg{debug},                   # numeric (integer)
         'verbose'                  => \$arg{verbose},                 # flag
         'no-color|nc'              => \$arg{nocolor},                 # flag
-        't=i'                      => \$arg{nthread},                 # numeric (integer)
+        'threads|t=i'              => \$arg{threads},                 # numeric (integer)
         'param|p=s'                => \$arg{paramfile},               # string
         'config|c=s'               => \$arg{configfile},              # string
         'input|i=s'                => \$arg{inputfile},               # string
@@ -119,7 +119,7 @@ sub mongodb {
         'debug=i'                  => \$arg{debug},                   # numeric (integer)
         'verbose'                  => \$arg{verbose},                 # flag
         'no-color|nc'              => \$arg{nocolor},                 # flag
-        't=i'                      => \$arg{nthread},                 # numeric (integer)
+        'threads|t=i'              => \$arg{threads},                 # numeric (integer)
         'param|p=s'                => \$arg{paramfile},               # string
         'config|c=s'               => \$arg{configfile},              # string
         'projectdir-override|po=s' => \$arg{'projectdir-override'}    # string
@@ -150,8 +150,8 @@ sub usage_params {
     pod2usage(
         -exitval => 1,
         -verbose => 1,
-        -message => 'Option --n requires a positive integer'
-    ) if ( $arg->{nthread} && $arg->{nthread} <= 0 );    # Must be positive integer
+        -message => 'Option --t requires a positive integer'
+    ) if ( $arg->{threads} && $arg->{threads} <= 0 );    # Must be positive integer
     return 1;
 }
 

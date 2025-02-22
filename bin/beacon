@@ -96,7 +96,7 @@ say "$prompt $license\n$prompt";
 # Print arguments to stdout
 say BOLD YELLOW, "$prompt ARGUMENTS USED:", RESET;
 say WHITE "$prompt mode: $arg->{mode}";
-my @tmp_keys = qw (inputfile configfile paramfile nthread debug verbose nocolor projectdir-override);
+my @tmp_keys = qw (inputfile configfile paramfile threads debug verbose nocolor projectdir-override);
 my @tmp_vals = qw ( i c p t debug verbose nc po);
 my %argument;
 @argument{@tmp_keys} = @tmp_vals;
@@ -246,7 +246,7 @@ C<beacon>: A script to B<annotate> and B<transform> B<VCFs> into the C<genomicVa
        -c | --config <file>           Requires a configuration file
        -p | --param <file>            Requires a parameters file (optional)
        -projectdir-override <path>    Specifies a custom project directory path, overriding the default value in the configuration file
-       -t <number>                    Number of threads (optional)
+       -t | --threads <number>        Number of threads (optional)
 
    Info Options:
        -h                             Brief help message

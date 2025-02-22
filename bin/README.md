@@ -22,7 +22,7 @@
           -c | --config <file>           Requires a configuration file
           -p | --param <file>            Requires a parameters file (optional)
           -projectdir-override <path>    Specifies a custom project directory path, overriding the default value in the configuration file
-          -t <number>                    Number of threads (optional)
+          -t | --threads <number>        Number of threads (optional)
 
       Info Options:
           -h                             Brief help message

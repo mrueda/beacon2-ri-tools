@@ -4,7 +4,7 @@
       "debug" : 0,
       "inputfile" : "test_1000G.vcf.gz",
       "mode" : "vcf",
-      "nthread" : null,
+      "threads" : null,
       "nocolor" : null,
       "paramfile" : "param.in",
       "verbose" : null

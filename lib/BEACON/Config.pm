@@ -164,7 +164,7 @@ sub read_param_file {
                          #print Dumper \%param and die;
 
     # Below are a few internal paramaters
-    chomp( my $nthreadhost = qx{/usr/bin/nproc} ) // 1;
+    chomp( my $threadshost = qx{/usr/bin/nproc} ) // 1;
     $param{jobid} = time . substr( "00000$$", -5 );
     $param{date}  = localtime();
 
@@ -182,13 +182,14 @@ sub read_param_file {
     $param{log}         = catfile( $param{projectdir}, 'log.json' );
     $param{hostname}    = hostname;
     $param{user}        = $ENV{LOGNAME} || $ENV{USER} || getpwuid($<);
-    $param{nthreadhost} = 0 + $nthreadhost;                              # coercing it to be a number
-    $param{nthreadless} = $param{nthreadhost} > 1 ? $param{nthreadhost} - 1 : 1;
-    my $str_nthreadless = $param{nthreadless};                           # We copy it (otherwise it will get "stringified" below and printed with "" in log.json)
+    $param{threadshost} = 0 + $threadshost;                              # coercing it to be a number
+    $param{threadsless} =
+      $param{threadshost} > 1 ? $param{threadshost} - 1 : 1;
+    my $str_threadsless = $param{threadsless};                           # We copy it (otherwise it will get "stringified" below and printed with "" in log.json)
 
     $param{zip} =
       ( -x '/usr/bin/pigz' )
-      ? "/usr/bin/pigz -p $str_nthreadless"
+      ? "/usr/bin/pigz -p $str_threadsless"
       : '/bin/gzip';
     $param{organism} =
       $param{organism} eq lc('human') ? 'Homo Sapiens' : $param{organism};
