@@ -764,21 +764,22 @@ Info: --i test_1000G_hg38.norm.ann.dbnsfp.clinvar.cosmic.vcf.gz
 Info: --genome hg38
 Info: --format bff
 Info: --dataset-id default_beacon_1
-Info: --project-dir beacon_174030806341686
+Info: --project-dir beacon_174032470078487
 Info: --verbose
 Info:
 Info: VCF2BFF PARAMETERS:
-Info: cwd               =>  /media/mrueda/2TBS/CNAG/Project_Beacon/beacon2-ri/beacon2-ri-tools/examples/beacon_174030806341686/vcf
+Info: cwd               =>  /media/mrueda/2TBS/CNAG/Project_Beacon/beacon2-ri/beacon2-ri-tools/examples/beacon_174032470078487/vcf
 Info: filein            =>  test_1000G_hg38.norm.ann.dbnsfp.clinvar.cosmic.vcf.gz
 Info: fileout           =>  genomicVariationsVcf.json.gz
 Info: hostname          =>  mrueda-ws1
-Info: projectDir        =>  beacon_174030806341686
+Info: projectDir        =>  beacon_174032470078487
 Info: threadshost       =>  4
 Info: user              =>  mrueda
 Info: version           =>  2.0.4
 Info:
 Info: ****************************
 Info: STARTING VCF2BFF
+Argument "." isn't numeric in addition (+) at /media/mrueda/2TBS/CNAG/Project_Beacon/beacon2-ri/beacon2-ri-tools/lib/BEACON/bin/BFF.pm line 944, <$_[...]> line 433.
 Argument "." isn't numeric in addition (+) at /media/mrueda/2TBS/CNAG/Project_Beacon/beacon2-ri/beacon2-ri-tools/lib/BEACON/bin/BFF.pm line 944, <$_[...]> line 434.
 Argument "." isn't numeric in addition (+) at /media/mrueda/2TBS/CNAG/Project_Beacon/beacon2-ri/beacon2-ri-tools/lib/BEACON/bin/BFF.pm line 944, <$_[...]> line 435.
 Argument "." isn't numeric in addition (+) at /media/mrueda/2TBS/CNAG/Project_Beacon/beacon2-ri/beacon2-ri-tools/lib/BEACON/bin/BFF.pm line 944, <$_[...]> line 436.
@@ -3820,7 +3821,6 @@ Argument "." isn't numeric in addition (+) at /media/mrueda/2TBS/CNAG/Project_Be
 Argument "." isn't numeric in addition (+) at /media/mrueda/2TBS/CNAG/Project_Beacon/beacon2-ri/beacon2-ri-tools/lib/BEACON/bin/BFF.pm line 944, <$_[...]> line 3472.
 Argument "." isn't numeric in addition (+) at /media/mrueda/2TBS/CNAG/Project_Beacon/beacon2-ri/beacon2-ri-tools/lib/BEACON/bin/BFF.pm line 944, <$_[...]> line 3473.
 Argument "." isn't numeric in addition (+) at /media/mrueda/2TBS/CNAG/Project_Beacon/beacon2-ri/beacon2-ri-tools/lib/BEACON/bin/BFF.pm line 944, <$_[...]> line 3474.
-Argument "." isn't numeric in addition (+) at /media/mrueda/2TBS/CNAG/Project_Beacon/beacon2-ri/beacon2-ri-tools/lib/BEACON/bin/BFF.pm line 944, <$_[...]> line 3475.
 Info: ****************************
 Info: VCF2BFF FINISHED OK
 # Finished OK

@@ -38,7 +38,7 @@ ref=/media/mrueda/2TBS/Databases/genomes/hg38.fa.gz
 cosmic=/media/mrueda/2TBS/Databases/snpeff/v5.0/hg38/CosmicCodingMuts.normal.hg38.vcf.gz
 dbnsfp=/media/mrueda/2TBS/Databases/snpeff/v5.0/hg38/dbNSFP4.1a_hg38.txt.gz
 datasetid=default_beacon_1
-projectdir=beacon_174030806341686
+projectdir=beacon_174032470078487
 clinvar=/media/mrueda/2TBS/Databases/snpeff/v5.0/hg38/clinvar_20211218.vcf.gz
 
 function usage {
