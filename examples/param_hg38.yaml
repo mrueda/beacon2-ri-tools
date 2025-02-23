@@ -1,2 +1,8 @@
 ---
 genome: hg38
+
+# Optional parameters
+#bff2html: true
+#center: cnag
+#datasetid: my_dataset_id
+#projectdir: cnag_beacon

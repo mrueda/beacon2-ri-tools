@@ -29,7 +29,7 @@ tabix -p vcf ALL.chr22.shapeit2_integrated_snvindels_v2a_27022019.GRCh38.phased.
 Next, we need to convert the GRCh38 file to hg38. This involves adding the prefix 'chr' to '22' to obtain `chr22`. 
 
 ```bash
-tabix -h ALL.chr22.shapeit2_integrated_snvindels_v2a_27022019.GRCh38.phased.vcf.gz 22:10516173-11016173 | sed -e 's/##contig=<ID=22>/##contig=<ID=chr22>/' -e 's/^22	/chr22	/' | bgzip > test_1000G_hg38.vcf.gz
+tabix -h ALL.chr22.shapeit2_integrated_snvindels_v2a_27022019.GRCh38.phased.vcf.gz 22:10516173-11016173 | sed -e 's/##contig=<ID=22>/##contig=<ID=chr22>/' -e 's/^22\t/chr22\t/' | bgzip > test_1000G_hg38.vcf.gz
 ```
 
 ## Run `beacon`
