@@ -1,6 +1,6 @@
 # hs37 (1000 Genomes Project version of GRCh37)
 
-See [test directory](../test/README.md)
+See [test directory](../test/README.md).
 
 # hg38 (GRCh38)
 
