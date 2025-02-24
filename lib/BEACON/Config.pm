@@ -114,7 +114,7 @@ sub read_config_file {
         die "You don't have +x permission for script <$config{$script}>"
           unless ( -x $config{$script} );
     }
-    die "Sorry only [ega|all] values are accepted for <dbnsfpset>"
+    die "Sorry only [ega|all] values are accepted for <dbnsfpset>\n"
       unless ( $config{dbnsfpset} eq 'all' || $config{dbnsfpset} eq 'ega' );
 
     return wantarray ? %config : \%config;
@@ -173,6 +173,7 @@ sub read_param_file {
         && $arg->{'projectdir-override'} ne '' )
     {
         $param{projectdir} = $arg->{'projectdir-override'};
+        die "Sorry but the dir <$param{projectdir}> exists\n" if (-d $param{projectdir});
     }
     else {
         # Replace spaces with underscores and append job ID

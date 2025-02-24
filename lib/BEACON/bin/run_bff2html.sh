@@ -30,21 +30,22 @@ export LC_ALL=C
 function usage {
 
     USAGE="""
-    Usage: $0 <../vcf/genomicVariationsVcf.json.gz> <id>
+    Usage: $0 <../vcf/genomicVariationsVcf.json.gz> <projectdir> <id>
     """
     echo "$USAGE"
     exit 1
 }
 
 # Check #arguments
-if [ $# -le 1 ]
+if [ $# -lt 3 ]
  then
   usage
 fi
 
 # Load arguments
 input_bff=$1
-id=$2
+project_dir=$2
+id=$3
 
 # Step 1: Parse BFF according to gene panels
 echo "# Running bff2json"
@@ -61,8 +62,7 @@ done
 # Step 2: Create HTML for JSON
 echo "# Running json2html"
 ln -s $assets_dir assets # symbolic link for css, etc.
-$json2html --id $id --assets-dir assets --panel-dir $panel_dir > $id.html
-
+$json2html --id $id --assets-dir assets --panel-dir $panel_dir --project-dir $project_dir > $id.html
 
 cat <<EOF > README.txt
 # To visualize <$id.html>

@@ -46,8 +46,9 @@ sub json2html {
     # Reading arguments
     GetOptions(
         'id=s'        => \my $id,                                   # string
-        'assets-dir=s' => \my $assets_dir,                              # string
+        'assets-dir=s' => \my $assets_dir,                          # string
         'panel-dir=s' => \my $panel_dir,                            # string
+        'project-dir=s' => \my $project_dir,                        # string
         'help|?'      => \my $help,                                 # flag
         'man'         => \my $man,                                  # flag
         'debug=i'     => \my $debug,                                # integer
@@ -84,15 +85,12 @@ sub json2html {
     }
 
     # Finally, we print the HTML
-    print create_html( $id, $assets_dir, \%panel, \@browser_fields );
+    print create_html( $project_dir, $id, $assets_dir, \%panel, \@browser_fields );
     return 1;
 }
 
 sub create_html {
-    my $id        = shift;
-    my $assets_dir   = shift;
-    my $rh_panel  = shift;
-    my $ra_header = shift;
+    my ($project_dir, $id, $assets_dir, $rh_panel, $ra_header) = @_;
     my @panels    = sort keys %$rh_panel;    # Note uc panels will be first
     my $str       = <<EOF;
 <!DOCTYPE html>
@@ -187,7 +185,8 @@ qq(      <a class="btn pull-right" href="./$panel.json"><i class="icon-download"
 
     $str .= <<EOF;
 
-     <h3>Job ID: $id &#9658 genomicVariationsVcf</h3>
+     <h5>Project &#9658 $project_dir</h5>
+     <h3>Job ID &#9658 $id &#9658 genomicVariationsVcf</h3>
      <p>Displaying variants with <strong>Annotation Impact</strong> values equal to <strong>HIGH</strong><p>
 
       <div>

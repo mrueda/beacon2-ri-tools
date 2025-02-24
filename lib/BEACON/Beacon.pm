@@ -7,9 +7,9 @@ use feature qw(say);
 use File::Basename;
 use Carp;
 use File::Spec::Functions qw(catdir catfile);
-use Path::Tiny qw(path);
+use Path::Tiny            qw(path);
 use Data::Dumper;
-use Cwd qw(cwd abs_path);
+use Cwd      qw(cwd abs_path);
 use YAML::XS qw(LoadFile DumpFile);
 
 =head1 NAME
@@ -61,16 +61,16 @@ sub new {
 
 sub vcf2bff {
 
-    my $self      = shift;
-    my $dir       = $self->{projectdir};
-    my $input     = $self->{inputfile};
-    my $datasetid = $self->{datasetid};
-    my $snpeff    = $self->{snpeff};
-    my $snpsift   = $self->{snpsift};
-    my $bcftools  = $self->{bcftools};
-    my $vcf2bff   = $self->{vcf2bff};
-    my $ref       = $self->{reference};
-    my $genome = $self->{genome} eq 'hs37' ? 'hg19' : $self->{genome}; # Needed for Step 2 <$snpeff -noStats>
+    my $self       = shift;
+    my $dir        = $self->{projectdir};
+    my $input      = $self->{inputfile};
+    my $datasetid  = $self->{datasetid};
+    my $snpeff     = $self->{snpeff};
+    my $snpsift    = $self->{snpsift};
+    my $bcftools   = $self->{bcftools};
+    my $vcf2bff    = $self->{vcf2bff};
+    my $ref        = $self->{reference};
+    my $genome     = $self->{genome} eq 'hs37' ? 'hg19' : $self->{genome};    # Needed for Step 2 <$snpeff -noStats>
     my $dbnsfp     = $self->{dbnsfp};
     my $clinvar    = $self->{clinvar};
     my $cosmic     = $self->{cosmic};
@@ -114,7 +114,7 @@ sub vcf2bff {
     my $script_log_path = catfile( $dir, $script_log );
 
     # Create script
-    write_file($script_path, \$file_content);
+    write_file( $script_path, \$file_content );
 
     # Script submission
     my $input_abs = abs_path($input);    # Mandatory to be abs_path
@@ -138,7 +138,8 @@ sub bff2html {
 
     my $self        = shift;
     my $jobid       = $self->{jobid};
-    my $dir         = $self->{projectdir};
+    my $project_dir = $self->{projectdir};
+    my $dir         = $project_dir;
     my $filename    = $self->{bash4html};
     my $input       = $self->{gvvcfjson};
     my $bff2json    = $self->{bff2json};
@@ -146,7 +147,7 @@ sub bff2html {
     my $tmpdir      = $self->{tmpdir};
     my $assets_dir  = $self->{assetsdir};
     my $panel_dir   = $self->{paneldir};
-    my $debug = $self->{debug};
+    my $debug       = $self->{debug};
     my $verbose     = $self->{verbose};
 
     # Parameters for the script
@@ -168,13 +169,14 @@ sub bff2html {
     my $script_log_path = catfile( $dir, $script_log );
 
     # Create script
-    write_file($script_path, \$file_content);
+    write_file( $script_path, \$file_content );
 
     # Script submission
     my $input_abs = abs_path($input);    # Mandatory to be abs_path
-    my $cmd = "cd $dir; bash $script $input_abs $jobid > $script_log 2>&1";
-    say 'Dbg' . $debug . ': *** cwd: ', cwd, ' ***' if $debug;
-    say 'Dbg' . $debug . ': *** Submitting => ', $cmd, '***' if $debug;
+    my $cmd =
+      "cd $dir; bash $script $input_abs $project_dir $jobid > $script_log 2>&1";
+    say 'Dbg' . $debug . ': *** cwd: ',          cwd,  ' ***' if $debug;
+    say 'Dbg' . $debug . ': *** Submitting => ', $cmd, '***'  if $debug;
     submit_cmd( $cmd, $script_path, $script_log_path, $debug );
     say 'Dbg' . $debug . ': *** cwd: ', cwd, ' ***' if $debug;
     return 1;
@@ -261,12 +263,12 @@ sub bff2mongodb {
     my $script_log_path = catfile( $dir, $script_log );
 
     # Create script
-    write_file($script_path, \$file_content);
+    write_file( $script_path, \$file_content );
 
     # Script submission
     my $cmd = "cd $dir; bash $script > $script_log 2>&1";
-    say 'Dbg' . $debug . ': *** cwd: ', cwd, ' ***' if $debug;
-    say 'Dbg' . $debug . ': *** Submitting => ', $cmd, '***' if $debug;
+    say 'Dbg' . $debug . ': *** cwd: ',          cwd,  ' ***' if $debug;
+    say 'Dbg' . $debug . ': *** Submitting => ', $cmd, '***'  if $debug;
     submit_cmd( $cmd, $script_path, $script_log_path, $debug );
     check_mongoimport($script_log_path);
     say 'Dbg' . $debug . ': *** cwd: ', cwd, ' ***' if $debug;
@@ -319,8 +321,8 @@ sub submit_cmd {
 }
 
 sub write_file {
-  
-    my ($file, $content) = @_;
+
+    my ( $file, $content ) = @_;
     path($file)->spew($$content);
     chmod 0755, $file;
 }
