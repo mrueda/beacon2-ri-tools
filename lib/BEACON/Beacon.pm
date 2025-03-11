@@ -119,7 +119,7 @@ sub vcf2bff {
     # Script submission
     my $input_abs = abs_path($input);    # Mandatory to be abs_path
     say 'Dbg' . $debug . ': *** cwd: ', cwd, ' ***' if $debug;
-    my $cmd = "cd $dir; bash $script $input_abs > $script_log 2>&1";
+    my $cmd = "cd $dir && bash $script $input_abs > $script_log 2>&1";
     say 'Dbg' . $debug . ': *** Submitting => ', $cmd, ' ***' if $debug;
     submit_cmd( $cmd, $script_path, $script_log_path, $debug );
     say 'Dbg' . $debug . ': *** cwd: ', cwd, ' ***' if $debug;
@@ -174,7 +174,7 @@ sub bff2html {
     # Script submission
     my $input_abs = abs_path($input);    # Mandatory to be abs_path
     my $cmd =
-      "cd $dir; bash $script $input_abs $project_dir $jobid > $script_log 2>&1";
+      "cd $dir && bash $script $input_abs $project_dir $jobid > $script_log 2>&1";
     say 'Dbg' . $debug . ': *** cwd: ',          cwd,  ' ***' if $debug;
     say 'Dbg' . $debug . ': *** Submitting => ', $cmd, '***'  if $debug;
     submit_cmd( $cmd, $script_path, $script_log_path, $debug );
@@ -266,7 +266,7 @@ sub bff2mongodb {
     write_file( $script_path, \$file_content );
 
     # Script submission
-    my $cmd = "cd $dir; bash $script > $script_log 2>&1";
+    my $cmd = "cd $dir && bash $script > $script_log 2>&1";
     say 'Dbg' . $debug . ': *** cwd: ',          cwd,  ' ***' if $debug;
     say 'Dbg' . $debug . ': *** Submitting => ', $cmd, '***'  if $debug;
     submit_cmd( $cmd, $script_path, $script_log_path, $debug );

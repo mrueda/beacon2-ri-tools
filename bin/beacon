@@ -29,12 +29,15 @@
 use strict;
 use warnings;
 use autodie;
-use feature qw(say);
-use Cwd qw(abs_path);
+use feature         qw(say);
+use Cwd             qw(abs_path);
 use Term::ANSIColor qw(:constants);
 use JSON::XS;
 use Path::Tiny;
 use Data::Dumper;
+use Time::HiRes qw(time sleep);
+use threads;
+use threads::shared;
 use FindBin qw($Bin);
 use lib "$Bin/../lib";
 use BEACON::Help;
@@ -61,9 +64,10 @@ my $beacon_path = abs_path($0);
 
 # Customize STDERR (warn/die) messages with color reset
 $SIG{__WARN__} = sub { warn BOLD, YELLOW, "$warn ", @_, RESET; };
-$SIG{__DIE__}  = sub { 
-    my $message = join('', @_);  # Capture the entire error message
-    die BOLD, RED, "$error ", scalar localtime, "\n$error $arrow ", $message, RESET, "\n"; 
+$SIG{__DIE__}  = sub {
+    my $message = join( '', @_ );    # Capture the entire error message
+    die BOLD, RED, "$error ", scalar localtime, "\n$error $arrow ", $message,
+      RESET, "\n";
 };
 
 # We tell Perl to flush right away STDOUT data
@@ -96,7 +100,8 @@ say "$prompt $license\n$prompt";
 # Print arguments to stdout
 say BOLD YELLOW, "$prompt ARGUMENTS USED:", RESET;
 say WHITE "$prompt mode: $arg->{mode}";
-my @tmp_keys = qw (inputfile configfile paramfile threads debug verbose nocolor projectdir-override);
+my @tmp_keys =
+  qw (inputfile configfile paramfile threads debug verbose nocolor projectdir-override);
 my @tmp_vals = qw ( i c p t debug verbose nc po);
 my %argument;
 @argument{@tmp_keys} = @tmp_vals;
@@ -152,12 +157,12 @@ mkdir $param->{projectdir};
 # Creating a log file in JSON
 my $coder = JSON::XS->new->utf8->canonical->pretty;
 my $json =
-  $coder->encode( { arg => $arg, config => $config, param => $param } ); # keys created on the fly with anonymous hash
+  $coder->encode( { arg => $arg, config => $config, param => $param } );    # keys created on the fly with anonymous hash
 my $job_log = $param->{log};
 path($job_log)->spew($json);
 
 # We'll use a ref to an anonymous hash to load the object $beacon
-my $genome     = $param->{genome};    # To alleviate nomenclature
+my $genome     = $param->{genome};                                          # To alleviate nomenclature
 my $rah_beacon = {
     jobid        => $param->{jobid},
     datasetid    => $param->{datasetid},
@@ -200,7 +205,7 @@ my @pipelines = ( 'vcf2bff', 'bff2html', 'bff2mongodb' );
 for my $pipeline (@pipelines) {
     if ( $param->{pipeline}{$pipeline} ) {
         say "$prompt Running the pipeline ", uc($pipeline), '...';
-        $beacon->$pipeline();
+        run_with_spinner( sub { $beacon->$pipeline() } );
     }
 }
 
@@ -219,6 +224,71 @@ say WHITE, $prompt, ' ', $goodbye->say_goodbye();
 ##############################################################
 #                   Code ends here                           #
 ##############################################################
+
+# Helper functions
+
+# Function that runs a code reference with a spinner.
+sub run_with_spinner {
+
+    my $code_ref = shift;
+
+    # Run code directly if not interactive.
+    return $code_ref->() unless -t STDOUT;
+
+    my $done : shared = 0;
+    my $spinner_thread = threads->create(
+        sub {
+            my @spinner = qw(⠋ ⠙ ⠹ ⠸ ⠼ ⠴ ⠦ ⠧ ⠇ ⠏);
+            my $i       = 0;
+            my $start   = time();
+            my $delay   = 1;
+            while ( !$done ) {
+                my $spinner_char =
+                    BOLD
+                  . YELLOW
+                  . $prompt . ' '
+                  . $spinner[ $i % @spinner ]
+                  . RESET;
+                my $elapsed = time() - $start;
+                my $seconds = int( $elapsed % 60 );
+                my $minutes = int( ( $elapsed / 60 ) % 60 );
+                my $hours   = int( $elapsed / 3600 );
+                my $elapsed_str =
+                  sprintf( "%02dh %02dm %02ds", $hours, $minutes, $seconds );
+                my $message =
+                    BOLD
+                  . WHITE
+                  . " Please be patient - this job may take a while (elapsed: $elapsed_str)..."
+                  . RESET;
+                print "\r$spinner_char$message";
+                $i++;
+                sleep $delay;
+            }
+
+            # Clear the spinner line using ANSI escape sequence without adding a newline.
+            print "\r\e[2K";
+        }
+    );
+
+    my $result;
+    my $error;
+    {
+        local $@;
+        eval {
+            $result = $code_ref->();
+            1;
+        } or $error = $@;
+    }
+
+    # Signal spinner to stop and join its thread.
+    $done = 1;
+    $spinner_thread->join();
+
+    # Rethrow any error so it appears cleanly.
+    die $error if $error;
+
+    return $result;
+}
 
 __END__
 

@@ -185,7 +185,7 @@ qq(      <a class="btn pull-right" href="./$panel.json"><i class="icon-download"
 
     $str .= <<EOF;
 
-     <h5>Project &#9658 $project_dir</h5>
+     <h4>Project &#9658 $project_dir</h4>
      <h3>Job ID &#9658 $id &#9658 genomicVariationsVcf</h3>
      <p>Displaying variants with <strong>Annotation Impact</strong> values equal to <strong>HIGH</strong><p>
 
