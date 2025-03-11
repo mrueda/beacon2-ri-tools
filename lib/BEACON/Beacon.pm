@@ -174,7 +174,7 @@ sub bff2html {
     # Script submission
     my $input_abs = abs_path($input);    # Mandatory to be abs_path
     my $cmd =
-      "cd $dir && bash $script $input_abs $project_dir $jobid > $script_log 2>&1";
+"cd $dir && bash $script $input_abs $project_dir $jobid > $script_log 2>&1";
     say 'Dbg' . $debug . ': *** cwd: ',          cwd,  ' ***' if $debug;
     say 'Dbg' . $debug . ': *** Submitting => ', $cmd, '***'  if $debug;
     submit_cmd( $cmd, $script_path, $script_log_path, $debug );
@@ -316,7 +316,10 @@ sub submit_cmd {
 
     my ( $cmd, $job, $log, $debug ) = @_;
     my $msg = "Failed to execute: $job\nPlease check this file $log";
-    system("$cmd") == 0 or ( $debug ? confess($msg) : croak($msg) );
+    {
+        local $SIG{__DIE__} = 'DEFAULT';
+        system($cmd) == 0 or ( $debug ? confess($msg) : croak($msg) );
+    }
     return 1;
 }
 

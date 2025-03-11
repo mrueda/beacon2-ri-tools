@@ -62,13 +62,9 @@ my $author      = '(C) 2021-2025 Manuel Rueda, PhD';
 my $license     = 'GNU General Public License v3';
 my $beacon_path = abs_path($0);
 
-# Customize STDERR (warn/die) messages with color reset
-$SIG{__WARN__} = sub { warn BOLD, YELLOW, "$warn ", @_, RESET; };
-$SIG{__DIE__}  = sub {
-    my $message = join( '', @_ );    # Capture the entire error message
-    die BOLD, RED, "$error ", scalar localtime, "\n$error $arrow ", $message,
-      RESET, "\n";
-};
+# Personalize warn and die functions
+$SIG{__WARN__} = sub { warn BOLD YELLOW "Warn: ", @_ };
+$SIG{__DIE__}  = sub { die BOLD RED "Error: ", @_ };
 
 # We tell Perl to flush right away STDOUT data
 $| = 1;
