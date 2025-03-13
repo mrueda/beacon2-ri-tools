@@ -315,10 +315,10 @@ sub create_dbnsfp4_fields {
 sub submit_cmd {
 
     my ( $cmd, $job, $log, $debug ) = @_;
-    my $msg = "Failed to execute: $job\nPlease check this file $log";
+    my $msg = "Failed to execute: $job\nPlease check this file:\n$log\n";
     {
         local $SIG{__DIE__} = 'DEFAULT';
-        system($cmd) == 0 or ( $debug ? confess($msg) : croak($msg) );
+        system($cmd) == 0 or ( $debug ? confess($msg) : die($msg) );
     }
     return 1;
 }
