@@ -66,7 +66,8 @@ sub read_config_file {
     );
 
     # Parsing config file
-    my %config = parse_yaml_file( $beacon_config, \@required_keys );
+    my %config = parse_yaml_file($beacon_config);
+    substitute_placeholders_flat(\%config, '{base}');
 
     # Validating config
     validate_config( \%config, \@required_keys );
@@ -118,6 +119,25 @@ sub read_config_file {
       unless ( $config{dbnsfpset} eq 'all' || $config{dbnsfpset} eq 'ega' );
 
     return wantarray ? %config : \%config;
+}
+
+sub substitute_placeholders_flat {
+
+    my ($config, $placeholder) = @_;
+    
+    # Die if the 'base' key is not present or undefined
+    die "Missing required parameter 'base' in configuration" 
+      unless exists $config->{base} && defined $config->{base};
+    
+    my $base = $config->{base};
+    
+    # Iterate over each key in the flat config hash
+    foreach my $key (keys %$config) {
+        # Perform substitution only on defined scalar values (not references)
+        if (defined $config->{$key} && !ref $config->{$key}) {
+            $config->{$key} =~ s/\Q$placeholder\E/$base/g;
+        }
+    }
 }
 
 =head2 read_param_file

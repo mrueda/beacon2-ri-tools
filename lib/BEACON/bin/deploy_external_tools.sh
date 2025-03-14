@@ -49,13 +49,8 @@ done
 
 echo "##### Verifying the integrity of the files #####"
 
-md5sum beacon2_data.part? > my_beacon2_data.md5 
-if ! cmp -s my_beacon2_data.md5 beacon2_data.md5; then
-  echo "MD5 sum issue: Checksums do not match"
-  exit 1
-else
-  echo "MD5 sum verification passed"
-fi
+md5sum -c beacon2_data.md5 || { echo "MD5 sum issue: Checksums do not match"; exit 1; }
+echo "MD5 sum verification passed"
 
 ##########################
 ## Untaring of files

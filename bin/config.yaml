@@ -1,25 +1,27 @@
 ---
+base: /usr/share/beacon-ri
+
 # Reference assemblies (genomes)
-hs37fasta: /usr/share/beacon-ri/databases/genomes/hs37d5.fa.gz
-hg19fasta: /usr/share/beacon-ri/databases/genomes/ucsc.hg19.fasta.gz
-hg38fasta: /usr/share/beacon-ri/databases/genomes/hg38.fa.gz
+hs37fasta: "{base}/databases/genomes/hs37d5.fa.gz"
+hg19fasta: "{base}/databases/genomes/ucsc.hg19.fasta.gz"
+hg38fasta: "{base}/databases/genomes/hg38.fa.gz"
 
 # ClinVar
-hg19clinvar: /usr/share/beacon-ri/databases/snpeff/v5.0/hg19/clinvar_20211218.vcf.gz
-hg38clinvar: /usr/share/beacon-ri/databases/snpeff/v5.0/hg38/clinvar_20211218.vcf.gz
+hg19clinvar: "{base}/databases/snpeff/v5.0/hg19/clinvar_20211218.vcf.gz"
+hg38clinvar: "{base}/databases/snpeff/v5.0/hg38/clinvar_20211218.vcf.gz"
 
 # Cosmic 
-hg19cosmic: /usr/share/beacon-ri/databases/snpeff/v5.0/hg19/CosmicCodingMuts.normal.hg19.vcf.gz
-hg38cosmic: /usr/share/beacon-ri/databases/snpeff/v5.0/hg38/CosmicCodingMuts.normal.hg38.vcf.gz
+hg19cosmic: "{base}/databases/snpeff/v5.0/hg19/CosmicCodingMuts.normal.hg19.vcf.gz"
+hg38cosmic: "{base}/databases/snpeff/v5.0/hg38/CosmicCodingMuts.normal.hg38.vcf.gz"
 
 # dbSNSFP Academic
-hg19dbnsfp: /usr/share/beacon-ri/databases/snpeff/v5.0/hg19/dbNSFP4.1a_hg19.txt.gz
-hg38dbnsfp: /usr/share/beacon-ri/databases/snpeff/v5.0/hg38/dbNSFP4.1a_hg38.txt.gz
+hg19dbnsfp: "{base}/databases/snpeff/v5.0/hg19/dbNSFP4.1a_hg19.txt.gz"
+hg38dbnsfp: "{base}/databases/snpeff/v5.0/hg38/dbNSFP4.1a_hg38.txt.gz"
 
 # Miscellanea software
-snpeff: /usr/share/beacon-ri/pro/snpEff/snpEff.jar
-snpsift: /usr/share/beacon-ri/pro/snpEff/SnpSift.jar
-bcftools: /usr/share/beacon-ri/pro/NGSutils/bcftools-1.15.1/bcftools
+snpeff: "{base}/pro/snpEff/snpEff.jar"
+snpsift: "{base}/pro/snpEff/SnpSift.jar"
+bcftools: "{base}/pro/NGSutils/bcftools-1.15.1/bcftools"
 
 # Max RAM memory for snpeff (optional)
 mem: 8G
@@ -28,10 +30,10 @@ mem: 8G
 tmpdir: /tmp
 
 # MongoDB 
-mongoimport: /usr/share/beacon-ri/pro/mongodb-database-tools-ubuntu2004-x86_64-100.5.1/bin/mongoimport
-mongostat: /usr/share/beacon-ri/pro/mongodb-database-tools-ubuntu2004-x86_64-100.5.1/bin/mongostat
-mongodburi: mongodb://root:example@mongo:27017/beacon?authSource=admin
-mongosh: /usr/share/beacon-ri/pro/mongosh
+mongoimport: "{base}/pro/mongodb-database-tools-ubuntu2004-x86_64-100.5.1/bin/mongoimport"
+mongostat: "{base}/pro/mongodb-database-tools-ubuntu2004-x86_64-100.5.1/bin/mongostat"
+mongodburi: "mongodb://root:example@mongo:27017/beacon?authSource=admin"
+mongosh: "{base}/pro/mongosh"
 
 # Set of fields from dbSNSFP (optional)
 dbnsfpset: all
