@@ -43,29 +43,25 @@ sub usage {
     # Help if no args
     pod2usage( -exitval => 1, -verbose => 1 ) unless @ARGV;
 
-    # Parse things related to info
+    # Handle info flags and check for help/version requests
     info( $version, lc( $ARGV[0] ) );
 
-    # 1st arg will become 'mode'
-    my %arg  = ( mode => shift(@ARGV) );
-    my %func = (
-        full    => \&vcf_and_full,
-        vcf     => \&vcf_and_full,
-        mongodb => \&mongodb
-    );
+    # The first argument determines the mode.
+    my $mode = shift @ARGV;
 
+    my %valid_modes = ( full => 1, vcf => 1, mongodb => 1 );
     pod2usage(
         -exitval => 1,
         -verbose => 1,
-        -message => "Unknown mode $arg{mode}"
-    ) unless exists $func{ $arg{mode} };
+        -message => "Unknown mode $mode"
+    ) unless $valid_modes{$mode};
 
-    # Execute function if mode is present
-    if ( $arg{mode} eq 'full' ) {
-        $func{ $arg{mode} }->('full');
+    # For vcf and full modes, use our unified option parser.
+    if ( $mode eq 'vcf' || $mode eq 'full' ) {
+        my $options = parse_vcf_full_options($mode);
     }
-    else {
-        &{ $func{ $arg{mode} } };
+    elsif ( $mode eq 'mongodb' ) {
+        mongodb();  # The mongodb sub remains separate if it needs its own logic.
     }
 }
 
@@ -84,31 +80,43 @@ sub info {
     return 1;
 }
 
-sub vcf_and_full {
+sub parse_vcf_full_options {
 
-    my $mode = shift;
-    my %arg  = ( debug => 0, mode => $mode // 'vcf' );
+    my ($mode) = @_;
+    $mode //= 'vcf';  # Default to 'vcf' if no mode provided
+    my %arg = (
+        debug => 0,
+        mode  => $mode,
+    );
+
     GetOptions(
-        'debug=i'                  => \$arg{debug},                   # numeric (integer)
-        'verbose'                  => \$arg{verbose},                 # flag
-        'no-color|nc'              => \$arg{nocolor},                 # flag
-        'threads|t=i'              => \$arg{threads},                 # numeric (integer)
-        'param|p=s'                => \$arg{paramfile},               # string
-        'config|c=s'               => \$arg{configfile},              # string
-        'input|i=s'                => \$arg{inputfile},               # string
-        'projectdir-override|po=s' => \$arg{'projectdir-override'}    # string
+        'debug=i'                  => \$arg{debug},
+        'verbose'                  => \$arg{verbose},
+        'no-color|nc'              => \$arg{nocolor},
+        'threads|t=i'              => \$arg{threads},
+        'param|p=s'                => \$arg{paramfile},
+        'config|c=s'               => \$arg{configfile},
+        'input|i=s'                => \$arg{inputfile},
+        'projectdir-override|po=s' => \$arg{'projectdir-override'},
     ) or pod2usage( -exitval => 1, -verbose => 1 );
+
+    # For both 'vcf' and 'full', an input file is required.
     pod2usage(
         -exitval => 1,
         -verbose => 1,
-        -message => 'Modes vcf|full require an input vcf file'
-    ) unless ( $arg{inputfile} );
+        -message => "Modes vcf|full require an input vcf file"
+    ) unless $arg{inputfile};
+
     usage_params( \%arg );
 
-    # Turning color off if argument <--no-color>
+    # Apply global settings (if necessary)
     $ENV{'ANSI_COLORS_DISABLED'} = 1 if $arg{nocolor};
 
-    #print Dumper \%arg;
+    # Example: if you need mode-specific behavior, branch here:
+    if ( $mode eq 'full' ) {
+        # Additional logic or flag settings for 'full' mode
+    }
+
     return wantarray ? %arg : \%arg;
 }
 

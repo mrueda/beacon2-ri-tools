@@ -5,7 +5,7 @@ use FindBin;
 use lib "$FindBin::Bin/../lib";
 use Test::More tests => 6;
 use File::Temp qw(tempdir);
-use File::Spec qw(catfile);
+use File::Spec::Functions qw(catfile);
 use Cwd qw(abs_path);
 use BEACON::Beacon;
 
