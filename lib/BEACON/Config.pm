@@ -67,7 +67,7 @@ sub read_config_file {
 
     # Parsing config file
     my %config = parse_yaml_file($beacon_config);
-    substitute_placeholders_flat(\%config, '{base}');
+    substitute_placeholders_flat( \%config, '{base}' );
 
     # Validating config
     validate_config( \%config, \@required_keys );
@@ -123,18 +123,19 @@ sub read_config_file {
 
 sub substitute_placeholders_flat {
 
-    my ($config, $placeholder) = @_;
-    
+    my ( $config, $placeholder ) = @_;
+
     # Die if the 'base' key is not present or undefined
-    die "Missing required parameter 'base' in configuration" 
+    die "Missing required parameter 'base' in configuration"
       unless exists $config->{base} && defined $config->{base};
-    
+
     my $base = $config->{base};
-    
+
     # Iterate over each key in the flat config hash
-    foreach my $key (keys %$config) {
+    foreach my $key ( keys %$config ) {
+
         # Perform substitution only on defined scalar values (not references)
-        if (defined $config->{$key} && !ref $config->{$key}) {
+        if ( defined $config->{$key} && !ref $config->{$key} ) {
             $config->{$key} =~ s/\Q$placeholder\E/$base/g;
         }
     }
@@ -193,7 +194,8 @@ sub read_param_file {
         && $arg->{'projectdir-override'} ne '' )
     {
         $param{projectdir} = $arg->{'projectdir-override'};
-        die "Sorry but the dir <$param{projectdir}> exists\n" if (-d $param{projectdir});
+        die "Sorry but the dir <$param{projectdir}> exists\n"
+          if ( -d $param{projectdir} );
     }
     else {
         # Replace spaces with underscores and append job ID
@@ -223,19 +225,17 @@ sub read_param_file {
       unless ( any { $_ eq $param{genome} } @assemblies );
 
     # Enforcing options depending on mode
-    my ( $opt_a, $opt_b, $opt_c ) = ( 0, $param{bff2html}, 0 );
-    if ( $arg->{mode} eq 'full' ) {
-        ( $opt_a, $opt_c ) = ( 1, 1 );
-    }
-    elsif ( $arg->{mode} eq 'vcf' ) {
-        ( $opt_a, $opt_c ) = ( 1, 0 );
-    }
-    else {    #mongodb
-        ( $opt_a, $opt_b, $opt_c ) = ( 0, 0, 1 );
-    }
-    $param{pipeline}{vcf2bff}     = $opt_a;
-    $param{pipeline}{bff2html}    = $opt_b;
-    $param{pipeline}{bff2mongodb} = $opt_c;
+    my %modes = (
+        full =>
+          { vcf2bff => 1, bff2html => $param{bff2html}, bff2mongodb => 1 },
+        vcf => { vcf2bff => 1, bff2html => $param{bff2html}, bff2mongodb => 0 },
+        mongodb => { vcf2bff => 0, bff2html => 0, bff2mongodb => 1 },
+    );
+
+    die "Invalid mode: $arg->{mode}" unless exists $modes{ $arg->{mode} };
+    $param{pipeline}{vcf2bff}     = $modes{ $arg->{mode} }{vcf2bff};
+    $param{pipeline}{bff2html}    = $modes{ $arg->{mode} }{bff2html};
+    $param{pipeline}{bff2mongodb} = $modes{ $arg->{mode} }{bff2mongodb};
 
     # Check if -f user_collections for modes [mongodb|full]
     if ( $arg->{mode} eq 'mongodb' || $arg->{mode} eq 'full' ) {
