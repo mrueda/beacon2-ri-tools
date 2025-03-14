@@ -2,13 +2,10 @@
 
 ## Non-containerized
 
-Download the latest version from [Github](https://github.com/mrueda/beacon2-ri-tools):
-
-    tar -xvf beacon2-ri-tools-2.0.0.tar.gz    # Note that naming may be different
-
-Alternatively, you can use git clone to get the latest (stable) version:
+Use git clone to get the latest (stable) version:
 
     git clone https://github.com/mrueda/beacon2-ri-tools.git
+    cd beacon2-ri-tools
 
 `beacon` is a Perl script (no compilation needed) that runs on Linux command-line. Internally, it submits multiple pipelines via customizable Bash scripts (see example [here](https://github.com/mrueda/beacon2-ri-tools/blob/main/lib/BEACON/bin/run_vcf2bff.sh)). Note that Perl and Bash are installed by default in Linux, but we will need to install a few dependencies.
 
