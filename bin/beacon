@@ -83,6 +83,9 @@ my $arg = Help::usage($version);
 # NB: We'll avoid assigning $param->{foo} to vars unless their value changes often
 my $config = Config::read_config_file( $arg->{configfile} );
 
+# Add version to $config
+$config->{version} = $version;
+
 # Reading the parameters from the parameters file.
 my $param = Config::read_param_file($arg);
 
