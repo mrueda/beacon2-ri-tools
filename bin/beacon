@@ -9,7 +9,8 @@
 #
 #   Version: 2.0.6
 #
-#   Copyright (C) 2021-2025 Manuel Rueda (manuel.rueda@cnag.eu)
+#   Copyright (C) 2021-2022 Manuel Rueda - CRG
+#   Copyright (C) 2023-2025 Manuel Rueda - CNAG (manuel.rueda@cnag.eu)
 #
 #   This program is free software; you can redistribute it and/or modify
 #   it under the terms of the GNU General Public License as published by
@@ -552,6 +553,6 @@ Credits:
 
 =head1 COPYRIGHT and LICENSE
 
-This PERL file is copyrighted, (C) 2021-2025 Manuel Rueda. See the LICENSE file included in this distribution.
+This PERL file is copyrighted. See the LICENSE file included in this distribution.
 
 =cut
