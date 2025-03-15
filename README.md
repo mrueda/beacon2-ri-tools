@@ -124,5 +124,5 @@ Written by Manuel Rueda, PhD. Info about CNAG can be found at [https://www.cnag.
 
 # COPYRIGHT and LICENSE
 
-This repository is copyrighted, (C) 2021-2025 Manuel Rueda. See the LICENSE file included in this distribution.
+The software in this repository is copyrighted. See the LICENSE file included in this distribution.
 
