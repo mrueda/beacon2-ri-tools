@@ -5,9 +5,10 @@
 #
 #   Last Modified: May/24/2024
 #
-#   Version 2.0.3
+#   $VERSION from beacon2-ri-tools
 #
-#   Copyright (C) 2021-2025 Manuel Rueda (manuel.rueda@cnag.eu)
+#   Copyright (C) 2021-2022 Manuel Rueda - CRG
+#   Copyright (C) 2023-2025 Manuel Rueda - CNAG (manuel.rueda@cnag.eu)
 #
 #   This program is free software; you can redistribute it and/or modify
 #   it under the terms of the GNU General Public License as published by
@@ -56,7 +57,7 @@ exit;
 sub validate_input_data {
 
     # Defining a few variables
-    my $version    = '2.0.0';
+    my $version    = '2.0.7';
     my $schema_dir = catdir( $Bin, 'deref_schemas' );
     my $out_dir    = '.';
 
