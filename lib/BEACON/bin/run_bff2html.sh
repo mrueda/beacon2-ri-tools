@@ -26,7 +26,7 @@
 
 set -euo pipefail
 export LC_ALL=C
-#____VARIABLES_____
+#____WRAPPER_VARIABLES____#
 
 function usage {
 

@@ -1,0 +1,16 @@
+annotatedWith:
+  toolName: "SnpEff"
+  version: "5.0"
+  toolReferences:
+    bio.toolsId: "https://bio.tools/snpeff"
+    url: "https://pcingola.github.io/SnpEff"
+    databases:
+      ClinVar:
+        url: "https://ftp.ncbi.nlm.nih.gov/pub/clinvar/vcf_GRCh37/"
+        version: "20250312"
+      COSMIC:
+        url: "https://cosmic-blog.sanger.ac.uk/cosmic-release-v92"
+        version: "COSMICv92"
+      dbNSFP:
+        url: "https://sites.google.com/site/jpopgen/dbNSFP"
+        version: "dbNSFP4.1a"

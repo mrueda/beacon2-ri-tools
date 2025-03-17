@@ -105,8 +105,8 @@ sub vcf2bff {
     my $file_content = path($filename)->slurp;
 
     #my $file_content = do { local ( @ARGV, $/ ) = $filename; <> }; # Pure Perl load
-    $file_content =~ s/#____VARIABLES____#/$str_var/;
-    $file_content =~ s/#____FIELDS____#/$str_db/;
+    $file_content =~ s/#____WRAPPER_VARIABLES____#/$str_var/;
+    $file_content =~ s/#____WRAPPER_FIELDS____#/$str_db/;
     my $script = basename($filename);
     ( my $script_log = $script ) =~ s/sh/log/;
     $dir = catdir( $dir, 'vcf' );
@@ -161,7 +161,7 @@ sub bff2html {
     # Prepare variables
     my $str .= join "\n", @params;
     my $file_content = path($filename)->slurp;
-    $file_content =~ s/#____VARIABLES_____/$str/;
+    $file_content =~ s/#____WRAPPER_VARIABLES____#/$str/;
     my $script = basename($filename);
     ( my $script_log = $script ) =~ s/sh/log/;
     $dir = catdir( $dir, 'browser' );
@@ -254,7 +254,7 @@ sub bff2mongodb {
     # Prepare variables
     my $str .= join "\n", @params;
     my $file_content = path($filename)->slurp;
-    $file_content =~ s/#____VARIABLES_____/$str/;
+    $file_content =~ s/#____WRAPPER_VARIABLES____#/$str/;
     $file_content =~ s/\n#__GENOMIC_VARIATIONS__/$gv_str/;
     my $script = basename($filename);
     ( my $script_log = $script ) =~ s/sh/log/;
