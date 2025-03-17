@@ -739,14 +739,17 @@ bff-validator: A script that validates metadata (XLSX|JSON) against Beacon v2 Mo
      -o | --out-dir <directory>        Output (existing) directory for the BFF files (only to be used if input is XLSX)
      -gv                               Set this option if you want to process <genomicVariations> entity
      -ignore-validation                Writes JSON collection regardless of results from validation against JSON schemas (AYOR!)
+
+   Experimental:
+     -gv-vcf                           Set this option to read <genomicVariations.json> from <beacon vcf> (with one document per line)
+
+   Generic Options:
      -h | --help                       Brief help message
      -man                              Full documentation
      -debug <level>                    Print debugging information (from 1 to 5, with 5 being the max)
      -verbose                          Enable verbosity
      -nc | --no-color                  Do not print colors to STDOUT
 
-   Experimental:
-     -gv-vcf                           Set this option to read <genomicVariations.json> from <beacon vcf> (with one document per line)
 
 =head1 SUMMARY
 

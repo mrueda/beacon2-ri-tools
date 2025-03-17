@@ -62,6 +62,7 @@ sub new {
 sub vcf2bff {
 
     my $self       = shift;
+    my $annotate   = $self->{annotate} ? 'true' : 'false';
     my $dir        = $self->{projectdir};
     my $input      = $self->{inputfile};
     my $datasetid  = $self->{datasetid};
@@ -119,7 +120,7 @@ sub vcf2bff {
     # Script submission
     my $input_abs = abs_path($input);    # Mandatory to be abs_path
     say 'Dbg' . $debug . ': *** cwd: ', cwd, ' ***' if $debug;
-    my $cmd = "cd $dir && bash $script $input_abs > $script_log 2>&1";
+    my $cmd = "cd $dir && bash $script $input_abs $annotate > $script_log 2>&1";
     say 'Dbg' . $debug . ': *** Submitting => ', $cmd, ' ***' if $debug;
     submit_cmd( $cmd, $script_path, $script_log_path, $debug );
     say 'Dbg' . $debug . ': *** cwd: ', cwd, ' ***' if $debug;

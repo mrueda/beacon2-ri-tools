@@ -1,7 +1,9 @@
 #!/usr/bin/env perl
 #
 #   Script with multiple functions:
-#   - vcf mode: Annotates VCF, serializes to BFF
+#   - vcf mode: 
+#       1/ Optional(Annotates VCF
+#       2/ Serializes VCF to BFF
 #   - mongodb mode: Transfers BFF data to MongoDB
 #   - full mode: Combines vcf and mongodb modes
 #
@@ -166,6 +168,7 @@ my $genome     = $param->{genome};                                          # To
 my $rah_beacon = {
     jobid        => $param->{jobid},
     datasetid    => $param->{datasetid},
+    annotate     => $param->{annotate},
     inputfile    => $arg->{inputfile},
     projectdir   => $param->{projectdir},
     bcftools     => $config->{bcftools},
@@ -391,6 +394,12 @@ Note that C<beacon> will treat your data as I<read-only> (i.e., will not modify 
 
 B<Annex: Parameters file> (YAML)
 
+Example for C<vcf> mode:
+
+ --
+ genome: hs37
+ bff2html: truebff:
+
 Example for C<mongodb> mode:
 
  --
@@ -409,6 +418,10 @@ Example for C<mongodb> mode:
 Please find below a detailed description of all parameters (alphabetical order):
 
 =over
+
+=item B<annotate>
+
+Boolean value to annotate VCF with snpEFF. Default: C<true>
 
 =item B<bff>
 

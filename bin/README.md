@@ -89,6 +89,12 @@ Note that `beacon` will treat your data as _read-only_ (i.e., will not modify yo
 
 **Annex: Parameters file** (YAML)
 
+Example for `vcf` mode:
+
+    --
+    genome: hs37
+    bff2html: truebff:
+
 Example for `mongodb` mode:
 
     --
@@ -105,6 +111,10 @@ Example for `mongodb` mode:
     projectdir: my_project
 
 Please find below a detailed description of all parameters (alphabetical order):
+
+- **annotate**
+
+    Boolean value to annotate VCF with snpEFF. Default: `true`
 
 - **bff**
 

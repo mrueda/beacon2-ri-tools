@@ -67,7 +67,28 @@ sub read_config_file {
 
     # Parsing config file
     my %config = parse_yaml_file($beacon_config);
-    substitute_placeholders_flat( \%config, '{base}' );
+
+    # Determine the architecture
+    my $uname = `uname -m`;
+    chomp($uname);
+    my $arch =
+      ( $uname eq 'x86_64' )
+      ? 'amd64'
+      : ( $uname eq 'aarch64' ? 'arm64' : $uname );
+
+    # Load arch to config
+    $config{arch} = $arch;
+
+    # Ensure that 'base' is defined in your config (or set it accordingly)
+    die "Missing 'base' in configuration"
+      unless exists $config{base} && defined $config{base};
+
+    # Now, perform both replacements ({arch} and {base}) in one pass:
+    substitute_placeholders_flat(
+        \%config,
+        '{arch}' => $arch,
+        '{base}' => $config{base}
+    );
 
     # Validating config
     validate_config( \%config, \@required_keys );
@@ -80,11 +101,14 @@ sub read_config_file {
     $config{hs37dbnsfp}  = $config{hg19dbnsfp};
     $config{hs37clinvar} = $config{hg19clinvar};
 
-    #print Dumper \%config;
+    #print Dumper \%config and die;
     #Check that DB exes/files and tmpdir exist
     while ( my ( $key, $val ) = each %config ) {
         next
-          if ( $key eq 'mem' || $key eq 'dbnsfpset' || $key eq 'mongodburi' );
+          if ( $key eq 'mem'
+            || $key eq 'dbnsfpset'
+            || $key eq 'mongodburi'
+            || $key eq 'arch' );
         die
 "We could not find <$val> files\nPlease check for typos? in your <$beacon_config> file"
           unless -e $val;
@@ -123,20 +147,20 @@ sub read_config_file {
 
 sub substitute_placeholders_flat {
 
-    my ( $config, $placeholder ) = @_;
+    my ( $config, %replacements ) = @_;
 
-    # Die if the 'base' key is not present or undefined
-    die "Missing required parameter 'base' in configuration"
-      unless exists $config->{base} && defined $config->{base};
+    # Optional: Check that a 'base' replacement is provided if you expect one.
+    die "Missing required parameter 'base' in replacements"
+      unless exists $replacements{'{base}'};
 
-    my $base = $config->{base};
-
-    # Iterate over each key in the flat config hash
     foreach my $key ( keys %$config ) {
 
-        # Perform substitution only on defined scalar values (not references)
+        # Only replace if the value is a defined scalar (not a reference)
         if ( defined $config->{$key} && !ref $config->{$key} ) {
-            $config->{$key} =~ s/\Q$placeholder\E/$base/g;
+            for my $placeholder ( keys %replacements ) {
+                my $replacement = $replacements{$placeholder};
+                $config->{$key} =~ s/\Q$placeholder\E/$replacement/g;
+            }
         }
     }
 }
@@ -156,6 +180,7 @@ sub read_param_file {
 
     # We load %param with the default values
     my %param = (
+        annotate  => 1,
         bff       => {},
         center    => 'CRG',
         datasetid => 'default_beacon_1',
@@ -169,9 +194,9 @@ sub read_param_file {
         projectdir => 'beacon',
         bff2html   => 0,
         pipeline   => {
-            vcf2bff     => 'false',
-            bff2html    => 'false',
-            bff2mongodb => 'false'
+            vcf2bff     => 0,
+            bff2html    => 0,
+            bff2mongodb => 0
         },
         technology => 'Illumina HiSeq 2000'
 

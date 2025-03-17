@@ -11,15 +11,20 @@ ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && apt-get install -y \
     apt-utils wget bzip2 git cpanminus perl-doc gcc make \
     libbz2-dev zlib1g-dev libncurses5-dev libncursesw5-dev \
-    liblzma-dev libcurl4-openssl-dev pkg-config libssl-dev \
+    liblzma-dev libcurl4-openssl-dev pkg-config libssl-dev mongodb-clients\
     aria2 unzip jq vim sudo default-jre python3-pip && \
     pip install xlsx2csv flask pandas && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# Create application directory and clone the repository
-RUN mkdir -p /usr/share/beacon-ri
-WORKDIR /usr/share/beacon-ri/
-RUN git clone https://github.com/mrueda/beacon2-ri-tools.git
+# Set working directory
+WORKDIR /usr/share/beacon-ri
+
+# Clone the repository (shallow clone for efficiency)
+RUN git clone --depth=1 https://github.com/mrueda/beacon2-ri-tools.git
+
+# Install Perl dependencies
+WORKDIR /usr/share/beacon-ri/beacon2-ri-tools
+RUN cpanm --notest --installdeps . && rm -rf /root/.cpanm/work/*
 
 # Install Perl dependencies
 WORKDIR /usr/share/beacon-ri/beacon2-ri-tools
