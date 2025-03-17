@@ -717,8 +717,7 @@ sub program_header {
 *  Beacon v2 Reference Implementation  *
 * - BEACON FRIENDLY FORMAT VALIDATOR - *      
 *           Version: $version             *
-*   (C) 2021-2022 Manuel Rueda, PhD    *
-*    GNU General Public License v3     *
+*       Author: Manuel Rueda, PhD      *
 ****************************************
 EOF
     return $str;

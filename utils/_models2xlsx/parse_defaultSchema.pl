@@ -8,9 +8,10 @@
 #
 #   Last Modified: March/17/2022
 #
-#   Version 2.0.0
+#   $VERSION from beacon2-ri-tools
 #
-#   Copyright (C) 2020-2021 Manuel Rueda (manuel.rueda@crg.eu)
+#   Copyright (C) 2021-2022 Manuel Rueda - CRG
+#   Copyright (C) 2023-2025 Manuel Rueda - CNAG (manuel.rueda@cnag.eu)
 #
 #   This program is free software; you can redistribute it and/or modify
 #   it under the terms of the GNU General Public License as published by
