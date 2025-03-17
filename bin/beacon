@@ -59,8 +59,8 @@ my $error       = 'Error:';
 my $spacer      = '*' x 32;
 my $arrow       = '=>';
 my $cmd         = '';
-my $author      = '(C) 2021-2025 Manuel Rueda, PhD';
-my $license     = 'GNU General Public License v3';
+my $author      = 'Author: Manuel Rueda, PhD';
+my $license     = 'License: GNU General Public License v3';
 my $beacon_path = abs_path($0);
 
 # Personalize warn and die functions

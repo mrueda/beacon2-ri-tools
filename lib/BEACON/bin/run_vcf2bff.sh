@@ -6,7 +6,8 @@
 #
 #   Version taken from $beacon
 #
-#   Copyright (C) 2021-2025 Manuel Rueda (manuel.rueda@cnag.eu)
+#   Copyright (C) 2021-2022 Manuel Rueda - CRG
+#   Copyright (C) 2023-2025 Manuel Rueda - CNAG (manuel.rueda@cnag.eu)
 #
 #   Credits: Dietmar Fernandez-Orth for creating bcftools/snpEff commands
 #

@@ -1,14 +1,19 @@
-Revision history for beacon2-ri-tools
+Revision history for beacon2-cbi-tools
 
 2.0.8  2025-0X-XX
 
-    - Repo renamed to 'beacon2-cbi-tools' ([C]nag [B]iomedical [I]nformatics)
-	- Added examples directory with hg38 (GRCh38)
-	- Added spinner for interactive execution of 'bin/beacon'
-	- Added basic tests in t/
+    - The CRG FTP site has reached end of life after three years of availability
+    - Repo renamed to 'beacon2-cbi-tools' ([C]NAG [B]iomedical [I]nformatics)
+    - Repo transferred to @CNAG-Biomedical-Informatics organization
+    - Added support for arm64 (M-based Macs) architectures
+    - New location for the external files with updated download script
+    - Added examples directory with hg38 (GRCh38)
+    - Updated bcftools from 1.15.1 to 1.21-103
+    - External datasets are now downloaded outside the container, allowing for easier data persistence
+    - Added spinner for interactive execution of 'bin/beacon'
+    - Added basic tests in t/
     - Updated 'config.yaml' with placeholder {base}
     - Added $version to 'log.json'
-    - Updated bcftools from 1.15.1 to 1.21-103. Now supports amd64 and arm64 (M-based Macs) archs
 
 2.0.7  2025-02-22
     - Moved 'browser/web' to 'utils/bff_browser/static/assets'
