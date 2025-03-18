@@ -1,6 +1,6 @@
 <div align="center">
     <a href="https://github.com/mrueda/beacon2-cbi-tools">
-        <img src="https://raw.githubusercontent.com/mrueda/beacon2-cbi-tools/main/utils/bff_browser/static/assets/img/logo.png" width="200" alt="beacon2-cbi-tools">
+        <img src="https://raw.githubusercontent.com/mrueda/beacon2-ri-tools/main/docs/img/logo.png" width="200" alt="beacon2-cbi-tools">
     </a>
 </div>
 
