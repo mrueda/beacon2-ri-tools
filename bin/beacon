@@ -423,7 +423,7 @@ Please find below a detailed description of all parameters (alphabetical order):
 
 When the B<annotate> parameters is set to C<true> (default), the tool will perform annotation on the provided VCF file. This process involves running snpEff to enrich the VCF with annotation data by leveraging databases such as dbNFSP, ClinVar, and COSMIC. In this mode, the tool will generate and populate the ANN fields based on the analysis.
 
-If the B<annotate> parameters is iset to C<false>, the tool assumes that the VCF file has already been annotated (i.e., it already contains the ANN fields). In this case, it will skip the annotation step and directly parse the existing ANN fields.
+If the B<annotate> parameters is iset to C<false>, the tool assumes that the VCF file has already been annotated (i.e., it already contains the ANN fields). In this case, it will skip the annotation step and directly parse the existing ANN fields. If you choose this route, please make sure to modify the file C<lib/internal/complete/config.yaml> with your own values.
 
 =item B<bff>
 
