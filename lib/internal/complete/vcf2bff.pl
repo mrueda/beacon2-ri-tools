@@ -3,8 +3,8 @@
 #   Script to parse a VCF having SnepEff/SnpSift ANN fields
 #   The output can be:
 #       a) genomicVariantsVcf.json.gz [bff]
-#       b) Standard JSON [json] (STDOUT)
-#       c) Perl hash data structure [hash] (STDOUT)
+#       b) genomicVariationsVcf-dev.json.gz Standard JSON [json]
+#       c) genomicVariationsVcf-dev.hash.gz Perl hash data structure [hash]
 #
 #   Last Modified: Mar/17/2025
 #
@@ -87,6 +87,11 @@ sub vcf2bff {
     my $config_file = catfile( $Bin, 'config.yaml' );
     my $config      = LoadFile($config_file)
       or die "[vcf2bff] Could not load $config_file";
+    my $GRCh_str =
+      ( $cli->{genome} eq 'hs37' || $cli->{genome} eq 'hg19' )
+      ? 'GRCh37'
+      : 'GRCh38';
+    $config = replace_genome_placeholder( $config, $GRCh_str );
 
     # We expect $config->{annotatedWith}
     my $annotated_with = $config->{annotatedWith}
@@ -94,8 +99,15 @@ sub vcf2bff {
 
     chomp( my $threadshost = qx{/usr/bin/nproc} // 1 );
     $threadshost = 0 + $threadshost;    # Coerce to number
-    my $fileout                   = 'genomicVariationsVcf.json.gz';
     my $skip_structural_variation = 1;
+
+    # Decide fileout
+my %filename = (
+    (FORMAT_BFF)  => 'genomicVariationsVcf.json.gz',
+    (FORMAT_JSON) => 'genomicVariationsVcf-dev.json.gz',
+    (FORMAT_HASH) => 'genomicVariationsVcf-dev.hash.gz',
+);
+my $fileout = $filename{$cli->{format}} // 'genomicVariationsVcf.json.gz';
 
     # Debug / verbose info
     my $prompt = 'Info:';
@@ -259,34 +271,34 @@ $prompt, $param_key, $arrow, $param{$param_key}
             }
         );
 
-        my %crg_hash;
+        my %internal_hash;
 
-        # Fill out %crg_hash{INFO}{vcf2bff} with param data
+        # Fill out %internal_hash{INFO}{vcf2bff} with param data
         for my $k ( keys %param ) {
-            $crg_hash{INFO}{vcf2bff}{$k} = $param{$k};
+            $internal_hash{INFO}{vcf2bff}{$k} = $param{$k};
         }
-        $crg_hash{INFO}{genome}    = $cli->{genome};
-        $crg_hash{INFO}{datasetId} = $cli->{dataset_id};
+        $internal_hash{INFO}{genome}    = $cli->{genome};
+        $internal_hash{INFO}{datasetId} = $cli->{dataset_id};
 
         # From config.yaml
-        $crg_hash{ANNOTATED_WITH} = $annotated_with;
+        $internal_hash{ANNOTATED_WITH} = $annotated_with;
 
         my $n_samples = scalar( keys %sample_id );
-        $crg_hash{SAMPLES_ALT}     = $pruned_genotypes;
-        $crg_hash{N_SAMPLES_ALT}   = $n_calls;
-        $crg_hash{N_SAMPLES}       = $n_samples;
-        $crg_hash{CALLS_FREQUENCY} = sprintf "%10.8f",
+        $internal_hash{SAMPLES_ALT}     = $pruned_genotypes;
+        $internal_hash{N_SAMPLES_ALT}   = $n_calls;
+        $internal_hash{N_SAMPLES}       = $n_samples;
+        $internal_hash{CALLS_FREQUENCY} = sprintf "%10.8f",
           ( $n_calls / $n_samples );
-        $crg_hash{CUSTOM_VAR_ID} = $count;
-        $crg_hash{REFSEQ}        = $chr_name_conv{ $vcf_fields_short{CHROM} };
-        $crg_hash{POS}           = $vcf_fields_short{POS};
-        $crg_hash{ENDPOS}        = $crg_hash{POS};
+        $internal_hash{CUSTOM_VAR_ID} = $count;
+        $internal_hash{REFSEQ} = $chr_name_conv{ $vcf_fields_short{CHROM} };
+        $internal_hash{POS}    = $vcf_fields_short{POS};
+        $internal_hash{ENDPOS} = $internal_hash{POS};
 
         # 0-based
-        $crg_hash{POS_ZERO_BASED}    = $crg_hash{POS} - 1;
-        $crg_hash{ENDPOS_ZERO_BASED} = $crg_hash{ENDPOS};
+        $internal_hash{POS_ZERO_BASED}    = $internal_hash{POS} - 1;
+        $internal_hash{ENDPOS_ZERO_BASED} = $internal_hash{ENDPOS};
 
-        $info_hash{CRG} = \%crg_hash;
+        $info_hash{INTERNAL} = \%internal_hash;
 
         # Build final data structure
         my $hash_out = {};
@@ -296,8 +308,12 @@ $prompt, $param_key, $arrow, $param{$param_key}
         }
 
         # Serialize
-        my $bff = BFF->new($hash_out);
-        print $fh_out $bff->$serialize( $uid, $verbose );
+        my $serialize = $serialize{$format};
+
+        # Inside your loop, after processing each variant:
+        my $bff    = BFF->new($hash_out);
+        my $output = $bff->$serialize( $uid, $verbose );    # Capture the string
+        print $fh_out $output;
         print $fh_out ",\n" unless eof;
 
         if ( ( $debug || $verbose ) && $count % 10_000 == 0 ) {
@@ -524,6 +540,27 @@ sub _parse_structural_variants {
     # (Unused)
 }
 
+sub replace_genome_placeholder {
+    my ( $config, $genome ) = @_;
+
+    # For each database defined under annotatedWith -> toolReferences -> databases
+    if ( exists $config->{annotatedWith}->{toolReferences}->{databases} ) {
+        for my $db (
+            keys %{ $config->{annotatedWith}->{toolReferences}->{databases} } )
+        {
+            if (
+                exists $config->{annotatedWith}->{toolReferences}->{databases}
+                ->{$db}->{url} )
+            {
+                $config->{annotatedWith}->{toolReferences}->{databases}->{$db}
+                  ->{url} =~ s/\{genome\}/$genome/g;
+            }
+        }
+    }
+
+    return $config;
+}
+
 =head1 NAME
 
 vcf2bff: A script for parsing annotated vcf files and transforming the data to the format needed for Beacon v2.
@@ -546,26 +583,19 @@ vcf2bff.pl -i <vcf_file> [-arguments|-options]
        -verbose                       Verbosity on
 
 
-=head1 CITATION
-
-The author requests that any published work that utilizes B<B2RI> includes a cite to the following reference:
-
-Rueda, M, Ariosa R. "Beacon v2 Reference Implementation: a toolkit to enable federated sharing of genomic and phenotypic data". I<Bioinformatics>, btac568, https://doi.org/10.1093/bioinformatics/btac568
-
 =head1 SUMMARY
 
-Script to parse a VCF having SnepEff/SnpSift annotations.
+Script to parse a VCF having SnepEff/SnpSift annotations (ANN fields).
 
 The output can be:
 
        a) genomicVariantsVcf.json.gz [bff]
-       b) Standard JSON [json]
-       c) Perl hash data structure [hash]
-
+       b) genomicVariationsVcf-dev.json.gz Standard JSON [json]
+       c) genomicVariationsVcf-dev.hash.gz Perl hash data structure [hash]
 
 =head1 INSTALLATION
 
-This script should come preinstalled with C<beacon2-ri-tools>. Otherwise use the C<cpanfile> from ../..
+This script should come preinstalled with C<beacon2-cbi-tools>. Otherwise use the C<cpanfile> from ../..
 
  $ sudo apt-get install libperlio-gzip-perl
  $ cpanm --installdeps ../..
@@ -599,6 +629,11 @@ B<Examples:>
 
  nohup $path/vcf2bf.pl -i file.vcf.gz -debug 5 --dataset-id my_id_1 --genome hg19
 
+=head1 CITATION
+
+The author requests that any published work that utilizes B<B2RI> includes a cite to the following reference:
+
+Rueda, M, Ariosa R. "Beacon v2 Reference Implementation: a toolkit to enable federated sharing of genomic and phenotypic data". I<Bioinformatics>, btac568, https://doi.org/10.1093/bioinformatics/btac568
 
 =head1 AUTHOR 
 

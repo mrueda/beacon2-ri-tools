@@ -1,6 +1,6 @@
 <div align="center">
     <a href="https://github.com/mrueda/beacon2-cbi-tools">
-        <img src="https://raw.githubusercontent.com/mrueda/beacon2-ri-tools/main/docs/img/logo.png" width="200" alt="beacon2-cbi-tools">
+        <img src="https://raw.githubusercontent.com/mrueda/beacon2-cbi-tools/main/docs/img/logo.png" width="200" alt="beacon2-cbi-tools">
     </a>
 </div>
 
@@ -12,13 +12,13 @@
 [![Documentation Status](https://readthedocs.org/projects/b2ri-documentation/badge/?version=latest)](https://b2ri-documentation.readthedocs.io/en/latest/?badge=latest)
 ![Maintenance status](https://img.shields.io/badge/maintenance-actively--developed-brightgreen.svg)
 [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
-[![Docker Pulls](https://badgen.net/docker/pulls/manuelrueda/beacon2-cbi-tools?icon=docker&label=pulls)](https://hub.docker.com/r/manuelrueda/beacon2-cbi-tools/)
+[![Docker Pulls](https://badgen.net/docker/pulls/manuelrueda/beacon2-ri-tools?icon=docker&label=beacon2-ri-tools-pulls)](https://hub.docker.com/r/manuelrueda/beacon2-ri-tools/)
 [![Docker Pulls EGA-archive](https://badgen.net/docker/pulls/beacon2ri/beacon_reference_implementation?icon=docker&label=EGA-archive-pulls)](https://hub.docker.com/r/beacon2ri/beacon_reference_implementation/)
 ![version](https://img.shields.io/badge/version-2.0.7-blue)
 
 ---
 
-**Documentation**: <a href="https://b2ri-documentation.readthedocs.io/" target="_blank">https://b2ri-documentation.readthedocs.io/</a>
+**Legacy B2RI Documentation**: <a href="https://b2ri-documentation.readthedocs.io/" target="_blank">https://b2ri-documentation.readthedocs.io/</a>
 
 **Docker Hub Image**: <a href="https://hub.docker.com/r/manuelrueda/beacon2-cbi-tools/tags" target="_blank">https://hub.docker.com/r/manuelrueda/beacon2-cbi-tools/tags</a>
 

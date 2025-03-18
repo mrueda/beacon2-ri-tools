@@ -285,10 +285,10 @@ sub create_dbnsfp4_fields {
     my $str = '';
 
     # ***LEGACY: Fields selected by EGA somewhere around late 2020***
-    if ( $selection eq 'ega' ) {
-        my @ega_fields =
+    if ( $selection eq 'cnag' ) {
+        my @cnag_fields =
           qw(aaref aaalt rs_dbSNP151 aapos genename Ensembl_geneid Ensembl_transcriptid Ensembl_proteinid Uniprot_acc Uniprot_entry HGVSc_snpEff HGVSp_snpEff SIFT_score SIFT_converted_rankscore SIFT_pred Polyphen2_HDIV_score Polyphen2_HDIV_pred Polyphen2_HVAR_score Polyphen2_HVAR_pred MutPred_score MVP_score DEOGEN2_score ClinPred_score ClinPred_pred phastCons100way_vertebrate phastCons30way_mammalian clinvar_id clinvar_clnsig clinvar_trait clinvar_review clinvar_hgvs clinvar_var_source clinvar_MedGen_id clinvar_OMIM_id clinvar_Orphanet_id Interpro_domain);
-        $str = join ',', sort @ega_fields;
+        $str = join ',', sort @cnag_fields;
     }
 
     # All fields available in dbNSFP4

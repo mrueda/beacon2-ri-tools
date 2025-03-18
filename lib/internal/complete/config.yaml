@@ -6,7 +6,7 @@ annotatedWith:
     url: "https://pcingola.github.io/SnpEff"
     databases:
       ClinVar:
-        url: "https://ftp.ncbi.nlm.nih.gov/pub/clinvar/vcf_GRCh37/"
+        url: "https://ftp.ncbi.nlm.nih.gov/pub/clinvar/vcf_{genome}/"
         version: "20250312"
       COSMIC:
         url: "https://cosmic-blog.sanger.ac.uk/cosmic-release-v92"

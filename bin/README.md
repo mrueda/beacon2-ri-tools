@@ -92,8 +92,9 @@ Note that `beacon` will treat your data as _read-only_ (i.e., will not modify yo
 Example for `vcf` mode:
 
     --
-    genome: hs37
-    bff2html: truebff:
+    genome: hs37 # default hg19
+    annotate: true # default true
+    bff2html: true # default false
 
 Example for `mongodb` mode:
 
@@ -114,7 +115,9 @@ Please find below a detailed description of all parameters (alphabetical order):
 
 - **annotate**
 
-    Boolean value to annotate VCF with snpEFF. Default: `true`
+    When the **annotate** parameters is set to `true` (default), the tool will perform annotation on the provided VCF file. This process involves running snpEff to enrich the VCF with annotation data by leveraging databases such as dbNFSP, ClinVar, and COSMIC. In this mode, the tool will generate and populate the ANN fields based on the analysis.
+
+    If the **annotate** parameters is iset to `false`, the tool assumes that the VCF file has already been annotated (i.e., it already contains the ANN fields). In this case, it will skip the annotation step and directly parse the existing ANN fields.
 
 - **bff**
 
@@ -127,16 +130,6 @@ Please find below a detailed description of all parameters (alphabetical order):
 - **datasetid**
 
     An unique identifier for the dataset present in the input VCF. Default value is 'id\_1'
-
-- **ega**
-
-    (For EGA internal use only)
-
-    egac: EGA DAC Accession ID.
-
-    egad: EGA Dataset Accession ID.
-
-    egas: EGA Study Accession ID.
 
 - **genome**
 

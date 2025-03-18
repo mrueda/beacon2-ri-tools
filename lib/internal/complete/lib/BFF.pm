@@ -11,8 +11,6 @@ use JSON::XS;
 use List::MoreUtils qw(any);
 use Data::Dumper;
 use BFF::Data qw(%ensglossary);
-
-#use Storable qw(dclone); # To clone complex references
 use Data::Structure::Util qw/unbless/;
 $Data::Dumper::Sortkeys = 1;
 
@@ -24,20 +22,22 @@ sub new {
 
 sub data2hash {
     my $self = shift;
-    print Dumper ( unbless $self);    # To avoid using {$uid => {$self->{$uid}}
+    # Return the dumped structure as a string instead of printing it.
+    return Dumper(unbless $self);
 }
 
 sub data2json {
     my $self = shift;
-    say encode_json( unbless $self);    # No order
+    # Return the encoded JSON as a string.
+    return encode_json(unbless $self);
 }
 
 sub data2bff {
     my ( $self, $uid, $verbose ) = @_;
     my $data_mapped = mapping2beacon( $self, $uid, $verbose );
-
     my $coder = JSON::XS->new;
-    return $coder->encode($data_mapped);    # No order
+    # Return the BFF-formatted string.
+    return $coder->encode($data_mapped);
 }
 
 sub mapping2beacon {
@@ -47,7 +47,7 @@ sub mapping2beacon {
     my $cursor_uid  = $self->{$uid};
     my $cursor_info = $cursor_uid->{INFO};
     my $cursor_ann  = exists $cursor_info->{ANN} ? $cursor_info->{ANN} : undef;
-    my $cursor_crg  = $cursor_info->{CRG};
+    my $cursor_internal  = $cursor_info->{INTERNAL};
 
     ####################################
     # START MAPPING TO BEACON V2 TERMS #
@@ -62,7 +62,7 @@ sub mapping2beacon {
     # =====
     # _info => INTERNAL FIELD (not in the schema)
     # =====
-    $genomic_variations->{_info} = $cursor_crg->{INFO};
+    $genomic_variations->{_info} = $cursor_internal->{INFO};
 
     # ==============
     # alternateBases # DEPRECATED - SINCE APR-2022 !!!
@@ -72,12 +72,12 @@ sub mapping2beacon {
     # =============
     # caseLevelData
     # =============
-    $genomic_variations->{caseLevelData} = _map_case_level_data($cursor_crg);
+    $genomic_variations->{caseLevelData} = _map_case_level_data($cursor_internal);
 
     # ======================
     # frequencyInPopulations
     # ======================
-    my $freq = _map_frequency($cursor_info);
+    my $freq = _map_frequency($cursor_info, $cursor_internal);
     $genomic_variations->{frequencyInPopulations} = $freq if scalar(@$freq);
 
     # ===========
@@ -97,7 +97,7 @@ sub mapping2beacon {
     # ======== *****************************************************************
     # position * WARNING!!!! DEPRECATED - USING VRS-location SINCE APR-2022 !!!*
     # ======== *****************************************************************
-    $genomic_variations->{_position} = _map_position($cursor_crg);
+    $genomic_variations->{_position} = _map_position($cursor_internal);
 
     # =================
     # variantInternalId
@@ -107,7 +107,7 @@ sub mapping2beacon {
     # ================
     # variantLevelData
     # ================
-    my $variantLevelData = _map_variant_level_data( $cursor_info, $cursor_crg );
+    my $variantLevelData = _map_variant_level_data( $cursor_info, $cursor_internal );
     $genomic_variations->{variantLevelData} = $variantLevelData
       if %$variantLevelData;
 
@@ -115,7 +115,7 @@ sub mapping2beacon {
     # variation
     # =========
     $genomic_variations->{variation} =
-      _map_variation( $cursor_uid, $cursor_info, $cursor_crg,
+      _map_variation( $cursor_uid, $cursor_info, $cursor_internal,
         $genomic_variations->{identifiers} );
 
     ####################################
@@ -138,7 +138,7 @@ sub mapping2beacon {
 # Helper: Map case-level data
 #----------------------------------------------------------------------
 sub _map_case_level_data {
-    my ($cursor_crg) = @_;
+    my ($cursor_internal) = @_;
     my $case_level_data = [];
 
     my %zygosity = (
@@ -150,7 +150,7 @@ sub _map_case_level_data {
         '1|1' => 'GENO_0000136'
     );
 
-    for my $sample ( @{ $cursor_crg->{SAMPLES_ALT} } ) {    # $sample is hash ref
+    for my $sample ( @{ $cursor_internal->{SAMPLES_ALT} } ) {    # $sample is hash ref
         my $tmp_ref;
         ( $tmp_ref->{biosampleId} ) = keys %{$sample};      # forcing array assignment
 
@@ -181,7 +181,8 @@ sub _map_case_level_data {
 # Helper: Map frequency in populations
 #----------------------------------------------------------------------
 sub _map_frequency {
-    my ($cursor_info) = @_;
+    my ($cursor_info, $cursor_internal) = @_;
+    my $dbNSFP_version = $cursor_internal->{ANNOTATED_WITH}{toolReferences}{databases}{dbNSFP}{version};
     my @frequency_in_populations;
     my $source_freq = {
         source => {
@@ -195,9 +196,9 @@ sub _map_frequency {
             dbNSFP_ExAC          => 'https://gnomad.broadinstitute.org'
         },
         version => {
-            dbNSFP_gnomAD_exomes => 'Extracted from dbNSFP4.1a',
-            dbNSFP_1000Gp3       => 'Extracted from dbNSFP4.1a',
-            dbNSFP_ExAC          => 'Extracted from dbNSFP4.1a'
+            dbNSFP_gnomAD_exomes => 'Extracted from ' . $dbNSFP_version,
+            dbNSFP_1000Gp3       => 'Extracted from ' . $dbNSFP_version,
+            dbNSFP_ExAC          => 'Extracted from ' . $dbNSFP_version
         }
     };
 
@@ -374,18 +375,18 @@ sub _map_molecular_attributes {
 # Helper: Map position information
 #----------------------------------------------------------------------
 sub _map_position {
-    my ($cursor_crg) = @_;
+    my ($cursor_internal) = @_;
     my $position = {};
 
-    $position->{assemblyId} = $cursor_crg->{INFO}{genome};                 # 'GRCh37.p1'
-    $position->{start}      = [ 0 + $cursor_crg->{POS_ZERO_BASED} ];       # coercing to number
-    $position->{end}        = [ 0 + $cursor_crg->{ENDPOS_ZERO_BASED} ];    # idem
+    $position->{assemblyId} = $cursor_internal->{INFO}{genome};                 # 'GRCh37.p1'
+    $position->{start}      = [ 0 + $cursor_internal->{POS_ZERO_BASED} ];       # coercing to number
+    $position->{end}        = [ 0 + $cursor_internal->{ENDPOS_ZERO_BASED} ];    # idem
 
     # Ad hoc fix to speed up MongoDB positional queries (otherwise start/end are arrays)
-    $position->{startInteger} = 0 + $cursor_crg->{POS_ZERO_BASED};
-    $position->{endInteger}   = 0 + $cursor_crg->{ENDPOS_ZERO_BASED};
+    $position->{startInteger} = 0 + $cursor_internal->{POS_ZERO_BASED};
+    $position->{endInteger}   = 0 + $cursor_internal->{ENDPOS_ZERO_BASED};
 
-    $position->{refseqId} = "$cursor_crg->{REFSEQ}";
+    $position->{refseqId} = "$cursor_internal->{REFSEQ}";
     return $position;
 }
 
@@ -393,7 +394,7 @@ sub _map_position {
 # Helper: Map variant level data (clinical interpretations)
 #----------------------------------------------------------------------
 sub _map_variant_level_data {
-    my ( $cursor_info, $cursor_crg ) = @_;
+    my ( $cursor_info, $cursor_internal ) = @_;
     my $variantLevelData = {};
 
     my %map_variant_level_data = (
@@ -473,7 +474,7 @@ sub _map_variant_level_data {
             }
 
             # ***** clinicalInterpretations.annotatedeWith
-            $tmp_ref->{annotatedWith} = $cursor_crg->{ANNOTATED_WITH};
+            $tmp_ref->{annotatedWith} = $cursor_internal->{ANNOTATED_WITH};
 
             # Finally we load the data
             push @{ $variantLevelData->{clinicalInterpretations} }, $tmp_ref;
@@ -486,7 +487,7 @@ sub _map_variant_level_data {
 # Helper: Map variation details
 #----------------------------------------------------------------------
 sub _map_variation {
-    my ( $cursor_uid, $cursor_info, $cursor_crg, $identifiers ) = @_;
+    my ( $cursor_uid, $cursor_info, $cursor_internal, $identifiers ) = @_;
     my $variation = {
         referenceBases => $cursor_uid->{REF},
         alternateBases => $cursor_uid->{ALT},
@@ -498,11 +499,11 @@ sub _map_variation {
                 type  => 'SequenceInterval',
                 start => {
                     type  => 'Number',
-                    value => 0 + $cursor_crg->{POS_ZERO_BASED}
+                    value => 0 + $cursor_internal->{POS_ZERO_BASED}
                 },
                 end => {
                     type  => 'Number',
-                    value => 0 + $cursor_crg->{ENDPOS_ZERO_BASED}
+                    value => 0 + $cursor_internal->{ENDPOS_ZERO_BASED}
                 }
             }
         }

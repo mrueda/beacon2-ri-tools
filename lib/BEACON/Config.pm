@@ -141,8 +141,8 @@ sub read_config_file {
         die "You don't have +x permission for script <$config{$script}>"
           unless ( -x $config{$script} );
     }
-    die "Sorry only [ega|all] values are accepted for <dbnsfpset>\n"
-      unless ( $config{dbnsfpset} eq 'all' || $config{dbnsfpset} eq 'ega' );
+    die "Sorry only [cnag|all] values are accepted for <dbnsfpset>\n"
+      unless ( $config{dbnsfpset} eq 'all' || $config{dbnsfpset} eq 'cnag' );
 
     return wantarray ? %config : \%config;
 }
@@ -182,13 +182,8 @@ sub read_param_file {
     my %param = (
         annotate  => 1,
         bff       => {},
-        center    => 'CRG',
+        center    => 'CNAG',
         datasetid => 'default_beacon_1',
-        ega       => {
-            egac => 'EGAC00000000000',
-            egad => 'EGAD00000000000',
-            egas => 'EGAS00000000000',
-        },
         genome     => 'hg19',
         organism   => 'Homo Sapiens',
         projectdir => 'beacon',

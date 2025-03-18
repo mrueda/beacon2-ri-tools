@@ -14,8 +14,8 @@ my $dummy_args = { foo => 1 };
 my $beacon = Beacon->new($dummy_args);
 isa_ok($beacon, 'Beacon', 'Object created from Beacon->new');
 
-# Test create_dbnsfp4_fields in "ega" mode.
-my @ega_fields = qw(
+# Test create_dbnsfp4_fields in "cnag" mode.
+my @cnag_fields = qw(
   aaref aaalt rs_dbSNP151 aapos genename Ensembl_geneid Ensembl_transcriptid
   Ensembl_proteinid Uniprot_acc Uniprot_entry HGVSc_snpEff HGVSp_snpEff
   SIFT_score SIFT_converted_rankscore SIFT_pred Polyphen2_HDIV_score
@@ -25,10 +25,10 @@ my @ega_fields = qw(
   clinvar_hgvs clinvar_var_source clinvar_MedGen_id clinvar_OMIM_id
   clinvar_Orphanet_id Interpro_domain
 );
-my $expected = join(',', sort @ega_fields);
+my $expected = join(',', sort @cnag_fields);
 # Call the subroutine directly (it doesn't shift off an object)
-my $fields = Beacon::create_dbnsfp4_fields('ega', '');
-is($fields, $expected, 'create_dbnsfp4_fields returns expected string for "ega" mode');
+my $fields = Beacon::create_dbnsfp4_fields('cnag', '');
+is($fields, $expected, 'create_dbnsfp4_fields returns expected string for "cnag" mode');
 
 # Test write_file: create a temporary file and verify file creation and permissions.
 my $temp_dir  = tempdir( CLEANUP => 1 );

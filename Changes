@@ -7,13 +7,20 @@ Revision history for beacon2-cbi-tools
     - Repo transferred to @CNAG-Biomedical-Informatics organization
     - Added support for arm64 (M-based Macs) architectures
     - New location for the external files with updated download script
-    - Added examples directory with hg38 (GRCh38)
-    - Updated bcftools from 1.15.1 to 1.21-103
     - External datasets are now downloaded outside the container, allowing for easier data persistence
+    - Added examples directory with hg38 (GRCh38)
+    - Mongosh now installed with apt (sudo apt install mongodb-clients)
+    - 'bin/beacon' now accepts annotated VCFs via yaml "annotate: false" (providing they have the mandatory ANN fields)
+       - 'vcf2bff.pl' now reads annotatedWith from external 'config.yaml' (fixed typo toolreferences.dbSNSFP->dbNSFP)
     - Added spinner for interactive execution of 'bin/beacon'
     - Added basic tests in t/
-    - Updated 'config.yaml' with placeholder {base}
-    - Added $version to 'log.json'
+    - Moved internal scripts from 'lib/BEACON/bin/ to 'lib/internal/{complete,partial}
+    - Updated 'bin/config.yaml' with placeholder {base}
+    - Added $version, $java, $arch to 'log.json'
+    - Updated versions:
+       - 'bcftools' from 1.15.1 to 1.21-103
+       - 'mongo-database-tools' from ubuntu2004-100.5.1 to ubuntu2404-100.11.0
+       - 'ClinVar' from clinvar_20211218* to clinvar_20250312*
 
 2.0.7  2025-02-22
     - Moved 'browser/web' to 'utils/bff_browser/static/assets'
