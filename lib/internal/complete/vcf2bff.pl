@@ -71,7 +71,7 @@ exit;
 ###############################################################################
 sub vcf2bff {
 
-    my $version  = '2.0.8'; 
+    my $version  = '2.0.8';
     my $DEFAULT  = '.';
     my $exe_path = abs_path($0);
     my $cwd      = cwd;
@@ -84,7 +84,7 @@ sub vcf2bff {
     my $format = $cli->{format} // FORMAT_BFF;
 
     # Load external config.yaml
-    my $config_file = catfile($Bin, 'config.yaml');
+    my $config_file = catfile( $Bin, 'config.yaml' );
     my $config      = LoadFile($config_file)
       or die "[vcf2bff] Could not load $config_file";
 
@@ -92,9 +92,9 @@ sub vcf2bff {
     my $annotated_with = $config->{annotatedWith}
       or die "[vcf2bff] Missing 'annotatedWith' key in $config_file";
 
-    chomp(my $threadshost = qx{/usr/bin/nproc} // 1);
-    $threadshost = 0 + $threadshost;  # Coerce to number
-    my $fileout   = 'genomicVariationsVcf.json.gz';
+    chomp( my $threadshost = qx{/usr/bin/nproc} // 1 );
+    $threadshost = 0 + $threadshost;    # Coerce to number
+    my $fileout                   = 'genomicVariationsVcf.json.gz';
     my $skip_structural_variation = 1;
 
     # Debug / verbose info
@@ -126,24 +126,25 @@ sub vcf2bff {
     # Possibly flush STDOUT early if in debug/verbose mode
     my $debug   = $cli->{debug}   // 0;
     my $verbose = $cli->{verbose} // 0;
-    $| = 1 if ($debug || $verbose);
+    $| = 1 if ( $debug || $verbose );
 
     # Print argument info if verbose
-    if ($debug || $verbose) {
-        say "$prompt\n$prompt vcf2bff $version\n$prompt vcf2bff exe $exe_path\n$prompt Author: $author\n$prompt";
+    if ( $debug || $verbose ) {
+        say
+"$prompt\n$prompt vcf2bff $version\n$prompt vcf2bff exe $exe_path\n$prompt Author: $author\n$prompt";
         say "$prompt ARGUMENTS USED:";
         say "$prompt --i $cli->{filein}";
         say "$prompt --genome $cli->{genome}";
         say "$prompt --format $format";
         say "$prompt --dataset-id $cli->{dataset_id}";
         say "$prompt --project-dir $cli->{project_dir}";
-        say "$prompt --debug $debug"    if $debug;
-        say "$prompt --verbose"         if $verbose;
+        say "$prompt --debug $debug" if $debug;
+        say "$prompt --verbose"      if $verbose;
         say "$prompt\n$prompt VCF2BFF PARAMETERS:";
         my $param_key = '';
         $~ = "PARAMS";
 
-        foreach $param_key (sort keys %param) {
+        foreach $param_key ( sort keys %param ) {
             write;
         }
 
@@ -179,16 +180,16 @@ $prompt, $param_key, $arrow, $param{$param_key}
     my %ann_field_data_loc;
     my %sample_id;
 
-    while (defined(my $line = <$fh_in>)) {
-        if ($line =~ /^#/) {
+    while ( defined( my $line = <$fh_in> ) ) {
+        if ( $line =~ /^#/ ) {
             @snpeff_fields = parse_header_snpeff($line)
               if $line =~ /^##INFO=<ID=ANN,Number/;
 
             %ann_field_data_loc =
-              map { $_, $snpeff_fields[$_] } (0 .. $#snpeff_fields)
+              map { $_, $snpeff_fields[$_] } ( 0 .. $#snpeff_fields )
               if @snpeff_fields;
 
-            %sample_id = parse_header_samples($line, $vcf_data_loc{SAMPLES})
+            %sample_id = parse_header_samples( $line, $vcf_data_loc{SAMPLES} )
               if $line =~ /^#CHR/;
             next;
         }
@@ -199,17 +200,17 @@ $prompt, $param_key, $arrow, $param{$param_key}
         my %vcf_fields_short;
 
         for my $key (@keys2load) {
-            $vcf_fields_short{$key} = $vcf_fields[$vcf_data_loc{$key}];
+            $vcf_fields_short{$key} = $vcf_fields[ $vcf_data_loc{$key} ];
         }
 
         my $uid = 'chr'
           . $vcf_fields_short{CHROM} . '_'
-          . $vcf_fields_short{POS}   . '_'
-          . $vcf_fields_short{REF}   . '_'
+          . $vcf_fields_short{POS} . '_'
+          . $vcf_fields_short{REF} . '_'
           . $vcf_fields_short{ALT};
 
         # Skip structural variants if requested
-        if ($skip_structural_variation && $vcf_fields_short{ALT} =~ m/^</) {
+        if ( $skip_structural_variation && $vcf_fields_short{ALT} =~ m/^</ ) {
             next;
         }
 
@@ -219,35 +220,29 @@ $prompt, $param_key, $arrow, $param{$param_key}
         ##################
         # VCF-INFO field #
         ##################
-        my %info_hash = parse_info_field($vcf_fields_short{INFO}, $uid);
+        my %info_hash = parse_info_field( $vcf_fields_short{INFO}, $uid );
 
-        unless (exists $info_hash{VT} && $info_hash{VT} !~ m/,/) {
-            $info_hash{VT} = guess_variant_type(
-                $vcf_fields_short{REF},
-                $vcf_fields_short{ALT}
-            );
+        unless ( exists $info_hash{VT} && $info_hash{VT} !~ m/,/ ) {
+            $info_hash{VT} = guess_variant_type( $vcf_fields_short{REF},
+                $vcf_fields_short{ALT} );
         }
 
-        $info_hash{MULTI_ALLELIC} = ($line =~ m/;MULTI_ALLELIC;/) ? 'yes' : 'no';
+        $info_hash{MULTI_ALLELIC} =
+          ( $line =~ m/;MULTI_ALLELIC;/ ) ? 'yes' : 'no';
 
         ######################
         # VCF-INFO-ANN field #
         ######################
-        if (exists $info_hash{ANN}) {
-            $info_hash{ANN} = parse_ann_field(
-                $info_hash{ANN},
-                \%ann_field_data_loc,
-                $#snpeff_fields,
-                $uid,
-                $vcf_fields_short{ALT},
-                $DEFAULT
-            );
+        if ( exists $info_hash{ANN} ) {
+            $info_hash{ANN} =
+              parse_ann_field( $info_hash{ANN}, \%ann_field_data_loc,
+                $#snpeff_fields, $uid, $vcf_fields_short{ALT}, $DEFAULT );
         }
         else {
             $info_hash{ANN} = undef;
         }
 
-        unless (defined $info_hash{ANN}) {
+        unless ( defined $info_hash{ANN} ) {
             warn "[vcf2bff] WARNING: Skipping <$uid> - no INFO=<ID=ANN>\n";
             next;
         }
@@ -255,16 +250,19 @@ $prompt, $param_key, $arrow, $param{$param_key}
         ######################
         #   GENOTYPES
         ######################
-        my @genotypes = @vcf_fields[$vcf_data_loc{SAMPLES} .. $#vcf_fields];
-        my ($pruned_genotypes, $n_calls) = prune_genotypes({
-            gt        => \@genotypes,
-            sample_id => \%sample_id,
-            format    => $vcf_fields_short{FORMAT},
-        });
+        my @genotypes = @vcf_fields[ $vcf_data_loc{SAMPLES} .. $#vcf_fields ];
+        my ( $pruned_genotypes, $n_calls ) = prune_genotypes(
+            {
+                gt        => \@genotypes,
+                sample_id => \%sample_id,
+                format    => $vcf_fields_short{FORMAT},
+            }
+        );
 
         my %crg_hash;
+
         # Fill out %crg_hash{INFO}{vcf2bff} with param data
-        for my $k (keys %param) {
+        for my $k ( keys %param ) {
             $crg_hash{INFO}{vcf2bff}{$k} = $param{$k};
         }
         $crg_hash{INFO}{genome}    = $cli->{genome};
@@ -273,15 +271,16 @@ $prompt, $param_key, $arrow, $param{$param_key}
         # From config.yaml
         $crg_hash{ANNOTATED_WITH} = $annotated_with;
 
-        my $n_samples = scalar(keys %sample_id);
+        my $n_samples = scalar( keys %sample_id );
         $crg_hash{SAMPLES_ALT}     = $pruned_genotypes;
         $crg_hash{N_SAMPLES_ALT}   = $n_calls;
         $crg_hash{N_SAMPLES}       = $n_samples;
-        $crg_hash{CALLS_FREQUENCY} = sprintf "%10.8f", ($n_calls / $n_samples);
-        $crg_hash{CUSTOM_VAR_ID}   = $count;
-        $crg_hash{REFSEQ}          = $chr_name_conv{$vcf_fields_short{CHROM}};
-        $crg_hash{POS}    = $vcf_fields_short{POS};
-        $crg_hash{ENDPOS} = $crg_hash{POS};
+        $crg_hash{CALLS_FREQUENCY} = sprintf "%10.8f",
+          ( $n_calls / $n_samples );
+        $crg_hash{CUSTOM_VAR_ID} = $count;
+        $crg_hash{REFSEQ}        = $chr_name_conv{ $vcf_fields_short{CHROM} };
+        $crg_hash{POS}           = $vcf_fields_short{POS};
+        $crg_hash{ENDPOS}        = $crg_hash{POS};
 
         # 0-based
         $crg_hash{POS_ZERO_BASED}    = $crg_hash{POS} - 1;
@@ -292,15 +291,16 @@ $prompt, $param_key, $arrow, $param{$param_key}
         # Build final data structure
         my $hash_out = {};
         foreach my $key (@keys2load) {
-            $hash_out->{$uid}{$key} = ($key eq 'INFO') ? \%info_hash : $vcf_fields_short{$key};
+            $hash_out->{$uid}{$key} =
+              ( $key eq 'INFO' ) ? \%info_hash : $vcf_fields_short{$key};
         }
 
         # Serialize
         my $bff = BFF->new($hash_out);
-        print $fh_out $bff->$serialize($uid, $verbose);
+        print $fh_out $bff->$serialize( $uid, $verbose );
         print $fh_out ",\n" unless eof;
 
-        if (($debug || $verbose) && $count % 10_000 == 0) {
+        if ( ( $debug || $verbose ) && $count % 10_000 == 0 ) {
             say "$prompt Variants processed = $count";
         }
     }
@@ -310,7 +310,7 @@ $prompt, $param_key, $arrow, $param{$param_key}
     close $fh_out;
 
     say "$prompt $spacer\n$prompt VCF2BFF FINISHED OK"
-      if ($debug || $verbose);
+      if ( $debug || $verbose );
 
     return 1;
 }
@@ -322,6 +322,7 @@ sub parse_cli_args {
     my $version = shift;
 
     my %opts;
+
     # Set some defaults if you want (e.g. format => FORMAT_BFF).
     # We'll let vcf2bff() do that if needed, but you can do it here, too.
     GetOptions(
@@ -341,28 +342,28 @@ sub parse_cli_args {
     ) or pod2usage(2);
 
     # Now do usage checks
-    pod2usage(1) if $opts{help};
-    pod2usage(-verbose => 2, -exitval => 0) if $opts{man};
+    pod2usage(1)                              if $opts{help};
+    pod2usage( -verbose => 2, -exitval => 0 ) if $opts{man};
 
     # Check for input file
     pod2usage(
-        -message => "Please specify a valid input file -i <in>\n",
+        -message => "Please specify a valid input file -i <in.vcf.gz>\n",
         -exitval => 1
-    ) if (!defined $opts{filein} or !-f $opts{filein});
+    ) if ( !defined $opts{filein} or !-f $opts{filein} );
 
     # Check for genome
     pod2usage(
-        -message => "Please specify a valid reference genome --genome <hg19|hg38>\n",
+        -message =>
+          "Please specify a valid reference genome --genome <hg19|hg38>\n",
         -exitval => 1
-    ) unless ($opts{genome});
+    ) unless ( $opts{genome} );
 
     # Check for format
-    if (defined $opts{format}) {
-        unless (
-            $opts{format} eq FORMAT_BFF
+    if ( defined $opts{format} ) {
+        unless ( $opts{format} eq FORMAT_BFF
             || $opts{format} eq FORMAT_JSON
-            || $opts{format} eq FORMAT_HASH
-        ) {
+            || $opts{format} eq FORMAT_HASH )
+        {
             pod2usage(
                 -message => "Please specify a valid format -f bff|json|hash\n",
                 -exitval => 1
@@ -374,13 +375,13 @@ sub parse_cli_args {
     pod2usage(
         -message => "Please specify -dataset-id\n",
         -exitval => 1
-    ) unless ($opts{dataset_id});
+    ) unless ( $opts{dataset_id} );
 
     # Check for project-dir
     pod2usage(
         -message => "Please specify -project-dir\n",
         -exitval => 1
-    ) unless ($opts{project_dir});
+    ) unless ( $opts{project_dir} );
 
     return \%opts;
 }
@@ -394,7 +395,8 @@ sub parse_header_snpeff {
 
     # SnpEff annotation (ANN field) - parse the line from VCF header
     chomp $line;
-    $line =~ s/##INFO=<ID=ANN,Number=.,Type=String,Description="Functional annotations: //;
+    $line =~
+s/##INFO=<ID=ANN,Number=.,Type=String,Description="Functional annotations: //;
     $line =~ s/ +//g;
     $line =~ s/'//g;
     $line =~ s/">//;
@@ -422,14 +424,16 @@ sub parse_info_field {
 
     # Many fields are not key=value but we want to store them in a hash
     # If a field has no '=', give it a dummy value
-    my @info_fields      = split /;/, $info_field;
+    my @info_fields = split /;/, $info_field;
     my @info_norm_fields;
     for my $inf (@info_fields) {
         $inf .= '=dummy' if $inf !~ /=/;
         push @info_norm_fields, split /=/, $inf;
     }
+
     # Must be pairs
-    die "[vcf2bff] parse_info_field: uneven field count for $uid: @info_norm_fields"
+    die
+"[vcf2bff] parse_info_field: uneven field count for $uid: @info_norm_fields"
       if @info_norm_fields % 2 != 0;
 
     my %info_hash = @info_norm_fields;
@@ -437,7 +441,8 @@ sub parse_info_field {
 }
 
 sub parse_ann_field {
-    my ( $ann, $ann_field_data_loc, $n_snpeff_fields, $uid, $alt, $DEFAULT ) = @_;
+    my ( $ann, $ann_field_data_loc, $n_snpeff_fields, $uid, $alt, $DEFAULT ) =
+      @_;
 
     # SnpEff's ANN might have multiple alt alleles, separated by commas
     my @ann_alt_alleles = split /,/, $ann;
@@ -451,7 +456,7 @@ sub parse_ann_field {
           map { $ann_field_data_loc->{$_}, ( $ann_fields[$_] // $DEFAULT ) }
           ( 0 .. $n_snpeff_fields );
 
-        my $alt_allele = $ann_fields[0]; # The first entry is the actual ALT allele
+        my $alt_allele = $ann_fields[0];    # The first entry is the actual ALT allele
         push @{ $ann_field->{$alt_allele} }, \%ann_hash;
     }
 
@@ -477,6 +482,7 @@ sub prune_genotypes {
         my $tmp_ref;
 
         if ( $n_format == 1 ) {
+
             # e.g. just GT
             next unless $genotypes->[$i] =~ tr/1//;
             $tmp_ref = { $sample_id->{$i} => { GT => $genotypes->[$i] } };
@@ -484,9 +490,10 @@ sub prune_genotypes {
         else {
             # e.g. GT:GQ:DP
             $genotypes->[$i] =~ m/^(.*?):/;
-            next unless $1 =~ tr/1//;
+            next unless $1   =~ tr/1//;
             my @fields = split /:/, $genotypes->[$i];
             while ( my ( $key, $val ) = each %format_field ) {
+
                 # Store only fields that exist in the genotype line
                 $tmp_ref->{ $sample_id->{$i} }{$key} = $fields[$val]
                   if defined $fields[$val] && length $fields[$val];
@@ -513,6 +520,7 @@ sub split_indels {
 }
 
 sub _parse_structural_variants {
+
     # (Unused)
 }
 
@@ -557,7 +565,7 @@ The output can be:
 
 =head1 INSTALLATION
 
-This script should come preinstalled with C<beacon2-ri-tools>. Otherwise use the C<cpanfile> from ..
+This script should come preinstalled with C<beacon2-ri-tools>. Otherwise use the C<cpanfile> from ../..
 
  $ sudo apt-get install libperlio-gzip-perl
  $ cpanm --installdeps ../..

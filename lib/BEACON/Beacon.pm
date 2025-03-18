@@ -44,7 +44,6 @@ Written by Manuel Rueda, PhD
 =cut
 
 sub new {
-
     # Changes in $self performed at main
     my ( $class, $self ) = @_;
     bless $self, $class;
@@ -60,7 +59,6 @@ sub new {
 =cut
 
 sub vcf2bff {
-
     my $self       = shift;
     my $annotate   = $self->{annotate} ? 'true' : 'false';
     my $dir        = $self->{projectdir};
@@ -136,7 +134,6 @@ sub vcf2bff {
 =cut
 
 sub bff2html {
-
     my $self        = shift;
     my $jobid       = $self->{jobid};
     my $project_dir = $self->{projectdir};
@@ -192,7 +189,6 @@ sub bff2html {
 =cut
 
 sub bff2mongodb {
-
     my $self        = shift;
     my $jobid       = $self->{jobid};
     my $dir         = $self->{projectdir};
@@ -285,7 +281,6 @@ sub bff2mongodb {
 =cut
 
 sub create_dbnsfp4_fields {
-
     my ( $selection, $file ) = @_;
     my $str = '';
 
@@ -314,7 +309,6 @@ sub create_dbnsfp4_fields {
 =cut
 
 sub submit_cmd {
-
     my ( $cmd, $job, $log, $debug ) = @_;
     my $msg = "Failed to execute: $job\nPlease check this file:\n$log\n";
     {
@@ -325,14 +319,12 @@ sub submit_cmd {
 }
 
 sub write_file {
-
     my ( $file, $content ) = @_;
     path($file)->spew($$content);
     chmod 0755, $file;
 }
 
 sub check_mongoimport {
-
     my $filename     = shift;
     my $file_content = path($filename)->slurp;
     $file_content =~ m/(\d+) document(s) failed to import/;
@@ -341,7 +333,6 @@ sub check_mongoimport {
 }
 
 sub is_mongo_up {
-
     my $host_uri = shift;
     require MongoDB;    # required at runtime
     die "We could not connect to MongoDB <$host_uri>"

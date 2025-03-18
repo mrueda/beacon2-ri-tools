@@ -37,7 +37,6 @@ Written by Manuel Rueda, PhD
 =cut
 
 sub usage {
-
     my $version = shift;
 
     # Help if no args
@@ -66,7 +65,6 @@ sub usage {
 }
 
 sub info {
-
     my ( $version, $arg ) = @_;
     if ( $arg eq '-h' || $arg eq '-help' ) {
         pod2usage( -exitval => 0, -verbose => 1 );
@@ -81,7 +79,6 @@ sub info {
 }
 
 sub parse_vcf_full_options {
-
     my ($mode) = @_;
     $mode //= 'vcf';  # Default to 'vcf' if no mode provided
     my %arg = (
@@ -121,7 +118,6 @@ sub parse_vcf_full_options {
 }
 
 sub mongodb {
-
     my %arg = ( debug => 0, mode => 'mongodb' );
     GetOptions(
         'debug=i'                  => \$arg{debug},                   # numeric (integer)
@@ -143,7 +139,6 @@ sub mongodb {
 }
 
 sub usage_params {
-
     my $arg = shift;
     pod2usage(
         -exitval => 1,
@@ -179,7 +174,6 @@ sub new {
 =cut
 
 sub say_goodbye {
-
     my @words = ( <<"EOF" =~ m/^\s*(.+)/gm );
       Aavjo
       Abar Dekha-Hobe

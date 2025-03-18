@@ -43,7 +43,6 @@ Written by Manuel Rueda, PhD
 =cut
 
 sub read_config_file {
-
     my $config_file = shift;
 
     # Load variables
@@ -115,16 +114,19 @@ sub read_config_file {
     }
 
     # Below are a few internal paramaters
-    my $beacon_bin = "$root_dir/lib/BEACON/bin";    # Global $::Bin variable
+    my $beacon_internal_dir = catdir($root_dir, 'lib', 'internal');    # Global $::Bin variable
+    my $beacon_complete_dir = catdir($beacon_internal_dir, 'complete');
+    my $beacon_partial_dir = catdir($beacon_internal_dir, 'partial');
     my $java       = '/usr/bin/java';
+    $config{java} = $java;
     $config{snpeff}  = "$java -Xmx" . $config{mem} . " -jar $config{snpeff}";
     $config{snpsift} = "$java -Xmx" . $config{mem} . " -jar $config{snpsift}";
-    $config{bash4bff}     = catfile( $beacon_bin, 'run_vcf2bff.sh' );
-    $config{bash4html}    = catfile( $beacon_bin, 'run_bff2html.sh' );
-    $config{bash4mongodb} = catfile( $beacon_bin, 'run_bff2mongodb.sh' );
-    $config{vcf2bff}      = catfile( $beacon_bin, 'vcf2bff.pl' );
-    $config{bff2json}     = catfile( $beacon_bin, 'bff2json.pl' );
-    $config{json2html}    = catfile( $beacon_bin, 'bff2html.pl' );
+    $config{bash4bff}     = catfile( $beacon_partial_dir, 'run_vcf2bff.sh' );
+    $config{bash4html}    = catfile( $beacon_partial_dir, 'run_bff2html.sh' );
+    $config{bash4mongodb} = catfile( $beacon_partial_dir, 'run_bff2mongodb.sh' );
+    $config{vcf2bff}      = catfile( $beacon_complete_dir, 'vcf2bff.pl' );
+    $config{bff2json}     = catfile( $beacon_complete_dir, 'bff2json.pl' );
+    $config{json2html}    = catfile( $beacon_complete_dir, 'bff2html.pl' );
     $config{browserdir}   = catdir( $root_dir, 'browser' );
     $config{assetsdir} =
       catdir( $root_dir, 'utils', 'bff_browser', 'static', 'assets' );
@@ -146,7 +148,6 @@ sub read_config_file {
 }
 
 sub substitute_placeholders_flat {
-
     my ( $config, %replacements ) = @_;
 
     # Optional: Check that a 'base' replacement is provided if you expect one.
@@ -174,7 +175,6 @@ sub substitute_placeholders_flat {
 =cut
 
 sub read_param_file {
-
     my $arg        = shift;               # Some args will be needed for QC
     my $param_file = $arg->{paramfile};
 
@@ -297,7 +297,6 @@ sub read_param_file {
 }
 
 sub parse_yaml_file {
-
     my $yaml_file = shift;
 
     # Keeping booleans as 'true' or 'false'. Perl still handles 0 and 1 internally.
@@ -310,7 +309,6 @@ sub parse_yaml_file {
 }
 
 sub validate_config {
-
     my ( $config, $required_keys ) = @_;
 
     # Ensure required_keys is an array reference

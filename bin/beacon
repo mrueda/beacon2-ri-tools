@@ -232,7 +232,6 @@ say WHITE, $prompt, ' ', $goodbye->say_goodbye();
 
 # Function that runs a code reference with a spinner.
 sub run_with_spinner {
-
     my $code_ref = shift;
 
     # Run code directly if not interactive.

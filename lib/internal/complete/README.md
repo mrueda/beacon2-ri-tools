@@ -21,13 +21,13 @@ vcf2bff.pl -i &lt;vcf\_file> \[-arguments|-options\]
 
 # CITATION
 
-The author requests that any published work that utilizes **B2RI** includes a cite to the the following reference:
+The author requests that any published work that utilizes **B2RI** includes a cite to the following reference:
 
 Rueda, M, Ariosa R. "Beacon v2 Reference Implementation: a toolkit to enable federated sharing of genomic and phenotypic data". _Bioinformatics_, btac568, https://doi.org/10.1093/bioinformatics/btac568
 
 # SUMMARY
 
-Script to parse a VCF having SnepEff/SnpSift annotations
+Script to parse a VCF having SnepEff/SnpSift annotations.
 
 The output can be:
 
@@ -37,11 +37,10 @@ The output can be:
 
 # INSTALLATION
 
-This script should come preinstalled with `beacon2-ri-tools`. Otherwise use the `cpanfile` from ..
+This script should come preinstalled with `beacon2-ri-tools`. Otherwise use the `cpanfile` from ../..
 
-$ sudo apt-get install libperlio-gzip-perl
-
-$ cpanm --installdeps ..
+    $ sudo apt-get install libperlio-gzip-perl
+    $ cpanm --installdeps ../..
 
 # HOW TO RUN VCF2BFF
 
@@ -59,13 +58,14 @@ For executing vcf2bff you will need:
 
     String.
 
+From version \*\*2.0.8\*\* we have a `config.yaml` file with the data for `annotatedWith`.
+
 **Examples:**
 
-./vcf2bff.pl -i file.vcf.gz --dataset-id my\_id\_1 --genome hg19
+    ./vcf2bff.pl -i file.vcf.gz --dataset-id my_id_1 --genome hg19
+    ./vcf2bff.pl -i file.vcf.gz --id my_id_1 -g hg19 -verbose log 2>&1
 
-./vcf2bff.pl -i file.vcf.gz  --id my\_id\_1 -g hg19 -verbose log 2>&1
-
-nohup $path/vcf2bf.pl -i file.vcf.gz -debug 5 --dataset-id my\_id\_1 --genome hg19
+    nohup $path/vcf2bf.pl -i file.vcf.gz -debug 5 --dataset-id my_id_1 --genome hg19
 
 # AUTHOR 
 
