@@ -44,6 +44,7 @@ Written by Manuel Rueda, PhD
 =cut
 
 sub new {
+
     # Changes in $self performed at main
     my ( $class, $self ) = @_;
     bless $self, $class;
@@ -272,14 +273,9 @@ sub bff2mongodb {
     return 1;
 }
 
-=head2 create_dbnsfp4_fields
-    
-    About   : Subroutine that creates a list of annotation fields to be used with SnpSift/dbNFSP
-    Usage   :             
-    Args    : 
-    
-=cut
-
+#------------------
+# Helper functions
+#------------------
 sub create_dbnsfp4_fields {
     my ( $selection, $file ) = @_;
     my $str = '';
@@ -299,14 +295,6 @@ sub create_dbnsfp4_fields {
     }
     return $str;
 }
-
-=head2 submit_cmd
-    
-    About   : Subroutine that sends systems calls
-    Usage   :             
-    Args    : 
-    
-=cut
 
 sub submit_cmd {
     my ( $cmd, $job, $log, $debug ) = @_;

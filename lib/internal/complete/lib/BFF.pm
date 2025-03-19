@@ -10,7 +10,7 @@ use Path::Tiny;
 use JSON::XS;
 use List::MoreUtils qw(any);
 use Data::Dumper;
-use BFF::Data qw(%ensglossary);
+use BFF::Data             qw(%ensglossary %sequence_ontology);
 use Data::Structure::Util qw/unbless/;
 $Data::Dumper::Sortkeys = 1;
 
@@ -22,20 +22,23 @@ sub new {
 
 sub data2hash {
     my $self = shift;
+
     # Return the dumped structure as a string instead of printing it.
-    return Dumper(unbless $self);
+    return Dumper( unbless $self);
 }
 
 sub data2json {
     my $self = shift;
+
     # Return the encoded JSON as a string.
-    return encode_json(unbless $self);
+    return encode_json( unbless $self);
 }
 
 sub data2bff {
     my ( $self, $uid, $verbose ) = @_;
     my $data_mapped = mapping2beacon( $self, $uid, $verbose );
-    my $coder = JSON::XS->new;
+    my $coder       = JSON::XS->new;
+
     # Return the BFF-formatted string.
     return $coder->encode($data_mapped);
 }
@@ -47,7 +50,7 @@ sub mapping2beacon {
     my $cursor_uid  = $self->{$uid};
     my $cursor_info = $cursor_uid->{INFO};
     my $cursor_ann  = exists $cursor_info->{ANN} ? $cursor_info->{ANN} : undef;
-    my $cursor_internal  = $cursor_info->{INTERNAL};
+    my $cursor_internal = $cursor_info->{INTERNAL};
 
     ####################################
     # START MAPPING TO BEACON V2 TERMS #
@@ -72,12 +75,13 @@ sub mapping2beacon {
     # =============
     # caseLevelData
     # =============
-    $genomic_variations->{caseLevelData} = _map_case_level_data($cursor_internal);
+    $genomic_variations->{caseLevelData} =
+      _map_case_level_data($cursor_internal);
 
     # ======================
     # frequencyInPopulations
     # ======================
-    my $freq = _map_frequency($cursor_info, $cursor_internal);
+    my $freq = _map_frequency( $cursor_info, $cursor_internal );
     $genomic_variations->{frequencyInPopulations} = $freq if scalar(@$freq);
 
     # ===========
@@ -107,7 +111,8 @@ sub mapping2beacon {
     # ================
     # variantLevelData
     # ================
-    my $variantLevelData = _map_variant_level_data( $cursor_info, $cursor_internal );
+    my $variantLevelData =
+      _map_variant_level_data( $cursor_info, $cursor_internal );
     $genomic_variations->{variantLevelData} = $variantLevelData
       if %$variantLevelData;
 
@@ -152,7 +157,7 @@ sub _map_case_level_data {
 
     for my $sample ( @{ $cursor_internal->{SAMPLES_ALT} } ) {    # $sample is hash ref
         my $tmp_ref;
-        ( $tmp_ref->{biosampleId} ) = keys %{$sample};      # forcing array assignment
+        ( $tmp_ref->{biosampleId} ) = keys %{$sample};           # forcing array assignment
 
         # ***** zygosity
         my $tmp_sample_gt = $sample->{ $tmp_ref->{biosampleId} }{GT};
@@ -181,8 +186,10 @@ sub _map_case_level_data {
 # Helper: Map frequency in populations
 #----------------------------------------------------------------------
 sub _map_frequency {
-    my ($cursor_info, $cursor_internal) = @_;
-    my $dbNSFP_version = $cursor_internal->{ANNOTATED_WITH}{toolReferences}{databases}{dbNSFP}{version};
+    my ( $cursor_info, $cursor_internal ) = @_;
+    my $dbNSFP_version =
+      $cursor_internal->{ANNOTATED_WITH}{toolReferences}{databases}{dbNSFP}
+      {version};
     my @frequency_in_populations;
     my $source_freq = {
         source => {
@@ -378,9 +385,9 @@ sub _map_position {
     my ($cursor_internal) = @_;
     my $position = {};
 
-    $position->{assemblyId} = $cursor_internal->{INFO}{genome};                 # 'GRCh37.p1'
-    $position->{start}      = [ 0 + $cursor_internal->{POS_ZERO_BASED} ];       # coercing to number
-    $position->{end}        = [ 0 + $cursor_internal->{ENDPOS_ZERO_BASED} ];    # idem
+    $position->{assemblyId} = $cursor_internal->{INFO}{genome};                # 'GRCh37.p1'
+    $position->{start}      = [ 0 + $cursor_internal->{POS_ZERO_BASED} ];      # coercing to number
+    $position->{end}        = [ 0 + $cursor_internal->{ENDPOS_ZERO_BASED} ];   # idem
 
     # Ad hoc fix to speed up MongoDB positional queries (otherwise start/end are arrays)
     $position->{startInteger} = 0 + $cursor_internal->{POS_ZERO_BASED};
@@ -616,8 +623,12 @@ sub map_molecular_effects_id {
 
     # Ad hoc solution for catching $val='intergenic_region'
     $val = 'Intergenic_variant' if $val eq 'intergenic_region';
-    return exists $ensglossary{ ucfirst($val) }
-      ? $ensglossary{ ucfirst($val) }
-      : $default;
+
+    # First SO, then ensemnl glossary
+    return
+      exists $sequence_ontology{ ucfirst($val) }
+      ? $sequence_ontology{ ucfirst($val) }
+      : exists $ensglossary{ ucfirst($val) } ? $ensglossary{ ucfirst($val) }
+      :                                        $default;
 }
 1;

@@ -21,7 +21,7 @@ hg38dbnsfp: "{base}/databases/snpeff/v5.0/hg38/dbNSFP4.1a_hg38.txt.gz"
 # Miscellanea software
 snpeff: "{base}/pro/snpEff/snpEff.jar"
 snpsift: "{base}/pro/snpEff/SnpSift.jar"
-bcftools: "{base}/pro/NGSutils/bcftools-1.15.1/bcftools"
+bcftools: "{base}/pro/NGSutils/bcftools-1.21-103_{arch}/bcftools"
 
 # Max RAM memory for snpeff (optional)
 mem: 8G
@@ -30,10 +30,10 @@ mem: 8G
 tmpdir: /tmp
 
 # MongoDB 
-mongoimport: "{base}/pro/mongodb-database-tools-ubuntu2004-x86_64-100.5.1/bin/mongoimport"
-mongostat: "{base}/pro/mongodb-database-tools-ubuntu2004-x86_64-100.5.1/bin/mongostat"
+mongoimport: "{base}/pro/mongodb-database-tools-ubuntu2404-{arch}-100.11.0/bin/mongoimport"
+mongostat: "{base}/pro/mongodb-database-tools-ubuntu2404-{arch}-100.11.0/bin/mongostat"
 mongodburi: "mongodb://root:example@mongo:27017/beacon?authSource=admin"
-mongosh: "{base}/pro/mongosh"
+mongosh: "/usr/bin/mongosh"
 
 # Set of fields from dbSNSFP (optional)
 dbnsfpset: all

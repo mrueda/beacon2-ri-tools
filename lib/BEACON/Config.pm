@@ -72,7 +72,7 @@ sub read_config_file {
     chomp($uname);
     my $arch =
       ( $uname eq 'x86_64' )
-      ? 'amd64'
+      ? 'x86_64'
       : ( $uname eq 'aarch64' ? 'arm64' : $uname );
 
     # Load arch to config

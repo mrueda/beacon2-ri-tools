@@ -2,25 +2,28 @@ Revision history for beacon2-cbi-tools
 
 2.0.8  2025-0X-XX
 
-    - The CRG FTP site has reached end of life after three years of availability
-    - Repo renamed to 'beacon2-cbi-tools' ([C]NAG [B]iomedical [I]nformatics)
-    - Repo transferred to @CNAG-Biomedical-Informatics organization
-    - Added support for arm64 (M-based Macs) architectures
-    - New location for the external files with updated download script
-    - External datasets are now downloaded outside the container, allowing for easier data persistence
-    - Added examples directory with hg38 (GRCh38)
-    - Mongosh now installed with apt (sudo apt install mongodb-clients)
-    - 'bin/beacon' now accepts annotated VCFs via yaml "annotate: false" (providing they have the mandatory ANN fields)
-       - 'vcf2bff.pl' now reads annotatedWith from external 'config.yaml' (fixed typo toolreferences.dbSNSFP->dbNSFP)
+    - The CRG FTP site has reached end-of-life after three years of availability
+      - External files moved to a new location; download script updated accordingly
+      - External datasets are now downloaded outside the container, simplifying data persistence
+    - Repository renamed to 'beacon2-cbi-tools' ([C]NAG [B]iomedical [I]nformatics)
+    - Repository transferred to @CNAG-Biomedical-Informatics organization
+    - Added support for arm64 (Apple Silicon / M-based Macs) architectures
+    - Added an 'examples' directory featuring hg38 (GRCh38)
+    - Mongosh is now installed via apt (`sudo apt install mongodb-clients`)
+    - 'bin/beacon' now accepts pre-annotated VCFs using `annotate: false` in YAML configuration (requires mandatory ANN fields)
+      - VCF2BFF:
+        - Reads 'annotatedWith' from external 'config.yaml' (fixed typo: toolreferences.dbSNSFP -> dbNSFP)
+        - Added Sequence Ontology (SO) terms for calculated variant consequences:
+          https://www.ensembl.org/info/genome/variation/prediction/predicted_data.html
     - Added spinner for interactive execution of 'bin/beacon'
-    - Added basic tests in t/
-    - Moved internal scripts from 'lib/BEACON/bin/ to 'lib/internal/{complete,partial}
-    - Updated 'bin/config.yaml' with placeholder {base}
-    - Added $version, $java, $arch to 'log.json'
-    - Updated versions:
-       - 'bcftools' from 1.15.1 to 1.21-103
-       - 'mongo-database-tools' from ubuntu2004-100.5.1 to ubuntu2404-100.11.0
-       - 'ClinVar' from clinvar_20211218* to clinvar_20250312*
+    - Added basic tests in 't/' directory
+    - Internal scripts moved from 'lib/BEACON/bin/' to 'lib/internal/{complete,partial}/'
+    - Updated 'bin/config.yaml' with placeholder `{base}`
+    - Added $version, $java, and $arch information to 'log.json'
+    - Updated tool versions:
+      - 'bcftools': 1.15.1 -> 1.21-103
+      - 'mongo-database-tools': ubuntu2004-100.5.1 -> ubuntu2204-100.9.4
+      - 'ClinVar' from clinvar_20211218* to clinvar_20250312*
 
 2.0.7  2025-02-22
     - Moved 'browser/web' to 'utils/bff_browser/static/assets'
