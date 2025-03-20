@@ -227,7 +227,7 @@ Once we have all seven files, then we can proceed to load the data into MongoDB.
 ## KNOWN ISSUES
 
     * Some Linux distributions do not include perldoc and thus Perl's library Pod::Usage will complain.
-      Please, install it (sudo apt-get install perl-doc) if needed.
+      Please, install it (sudo apt install perl-doc) if needed.
 
 # CITATION
 

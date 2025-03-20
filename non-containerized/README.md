@@ -1,252 +1,103 @@
-# INSTALLATION
+# Non-containerized installation
 
-## Non-containerized
+## Downloading Required Databases and Software
 
-Use git clone to get the latest (stable) version:
+First, we need to download the necessary databases and software. Unlike `beacon-cbi-tools`, where the data was inside the container, we now store the data externally. This improves data persistence and allows software updates without needing to re-download everything.
 
-    git clone https://github.com/mrueda/beacon2-ri-tools.git
-    cd beacon2-ri-tools
+### Step 1: Download Required Files
 
-`beacon` is a Perl script (no compilation needed) that runs on Linux command-line. Internally, it submits multiple pipelines via customizable Bash scripts (see example [here](https://github.com/mrueda/beacon2-ri-tools/blob/main/lib/BEACON/bin/run_vcf2bff.sh)). Note that Perl and Bash are installed by default in Linux, but we will need to install a few dependencies.
+Navigate to a directory with at least **150GB** of available space and run:
 
-(For Debian and its derivatives, Ubuntu, Mint, etc.)
-
-First, we install `cpanminus` utility:
-
-    sudo apt-get install cpanminus
-
-Also, to read the documentation you'll need `perldoc` that may or may not be installed in your Linux distribution:
-
-    sudo apt-get install perl-doc
-
-Second, we use `cpanm` to install the CPAN modules. You have to choose between one of the 2 options below. Change directory into the `beacon2-ri-tools` folder and run:
-
-**Option 1:** System-level installation:
-
-    cpanm --notest --sudo --installdeps .
-
-**Option 2:** Install the dependencies at `~/perl5`:
-
-    cpanm --local-lib=~/perl5 local::lib && eval $(perl -I ~/perl5/lib/perl5/ -Mlocal::lib)
-    cpanm --notest --installdeps .
-
-To ensure Perl recognizes your local modules every time you start a new terminal, you should type:
-
-    echo 'eval $(perl -I ~/perl5/lib/perl5/ -Mlocal::lib)' >> ~/.bashrc
-
-`beacon` also needs that **bcftools**, **SnpEff**, and **MongoDB** are installed. See [external software](https://b2ri-documentation.readthedocs.io/en/latest/download-and-installation/#non-containerized-beacon2-ri-tools) for more info.
-
-The data ingestion tools need **external software** to function:
-
-* **BCFtools** (version 1.15.1)
-* **SnpEff** + databases (version 5.0)
-* **MongoDB**
-
-> **Important**: Even if you have the **external tools** already in your system, for the sake of consistency of versions, we recommend downloading them from our servers.
-
-We will download _BCFtools_, _SnpEff_ and _MongoDB_ utilities from a public `ftp` server (`ftp://xfer13.crg.eu`) located at CRG. We will use `wget` to get the five parts (~65G total). Each part should take around 20 min to download:
-
-    wget ftp://FTPuser:FTPusersPassword@xfer13.crg.eu:221/beacon2_data.md5
-    wget ftp://FTPuser:FTPusersPassword@xfer13.crg.eu:221/beacon2_data.part1
-    wget ftp://FTPuser:FTPusersPassword@xfer13.crg.eu:221/beacon2_data.part2
-    wget ftp://FTPuser:FTPusersPassword@xfer13.crg.eu:221/beacon2_data.part3
-    wget ftp://FTPuser:FTPusersPassword@xfer13.crg.eu:221/beacon2_data.part4
-    wget ftp://FTPuser:FTPusersPassword@xfer13.crg.eu:221/beacon2_data.part5
-
-Once you have downloaded the 5 parts and the checksum file (\*.md5) please check that they are complete:
-
-    md5sum beacon2_data.part? > my_beacon2_data.md5
-    diff my_beacon2_data.md5 beacon2_data.md5
-
-Now join the 5 parts by typing (note that momentarily we'll be using ~128G):
-
-    cat beacon2_data.part? > beacon2_data.tar.gz
-    rm beacon2_data.part?
-
-OK, everything ready to untar the file:
-
-``` bash
-tar -xvf beacon2_data.tar.gz
-cd snpeff/v5.0 ; ln -s GRCh38.99 hg38 # In case the symbolic link does not exist already
+```bash
+wget https://raw.githubusercontent.com/mrueda/beacon2-cbi-tools/main/scripts/01_foo_bar.py
 ```
 
-*NB*: Feel free now to erase ```beacon2_data.tar.gz``` if needed.
+Then execute the script:
 
-Great! now we recommend moving the directories to your favourite location and keep the path. We will be using the paths to **set up** some variables for **SnpEff** and for **beacon** configuration files.
-
-*NB*: SnpEff runs with `java` which you may need to install separately. See how [here](https://ubuntu.com/tutorials/install-jre).
-
-For **SnpEff**:
-
-Use the path where you have left the databases and use it to change ```data.dir``` variable in ```snpEff.config``` file (located in SnpEff installation folder).
-For instance, in my case:
-
-```
-#data.dir = ./data/
-
-data.dir = /media/mrueda/4TB/Databases/snpeff/v5.0/
+```bash
+python3 01_foo_bar.py
 ```
 
-And finally....
+> **Note:** Google Drive can sometimes restrict downloads. If you encounter an error, use the provided error URL in a browser to retrieve the file manually.
 
-For **Beacon**:
+### Step 2: Verify Download Integrity
 
-Open the file ```config.yaml``` (inside ```beacon_X.X.X``` dir installation) and change the paths to the files/exes according to your new locations. Note that `SnpSift` is part of `SnpEff` main distribution.
+Run a checksum to ensure the files were not corrupted:
 
-You can start transforming your data to BFF and loading it to the database following the [Data beaconization tutorial](https://b2ri-documentation.readthedocs.io/en/latest/tutorial-data-beaconization/).
+```bash
+md5sum -c data.tar.gz.md5
+```
 
-That's it!
+### Step 3: Reassemble Split Files
 
-## Setting up beacon
+The downloaded data is split into parts. Reassemble it into a single tar archive (**~130GB required**):
 
-Before running anything, you need to set up the **configuration file**:
+```bash
+cat data.tar.gz.part-?? > data.tar.gz
+```
 
-The configuration file is a [YAML](https://es.wikipedia.org/wiki/YAML) text file with locations for executables and files needed for the job (e.g., SnpEff jar files, dbSNSFP database).
+Once the files are successfully merged, delete the split parts to free up space:
 
-You have two options here:
+```bash
+rm data.tar.gz.part-??
+```
 
-- **RECOMMENDED:** You set the config file ONCE. This file will serve for all your jobs.
-  To set it up, go to the installation directory and modify the file `config.yaml` with your paths.
+### Step 4: Extract Data
 
-- You provide the config file with the argument `-c` when you run a job. This is useful if you want to override the "main" file (see above).
+Extract the tar archive:
 
-Below are parameters that can be modified by the user along with their default values.
-Please remember to leave a blank space between the parameter and the value.
+```bash
+tar -xzvf data.tar.gz
+```
+## From GitHub
 
-**Configuration file** (YAML):
+First, we need to install a few system components:
 
-    ---
-    # Reference assemblies (genomes)
-    hs37fasta: /path
-    hg19fasta: /path
-    hg38fasta: /path
+```bash
+sudo apt install libbz2-dev zlib1g-dev libncurses5-dev libncursesw5-dev liblzma-dev libcurl4-openssl-dev libssl-dev mongodb-clients cpanminus python3-pip perl-doc default-jre
+```
 
-    # ClinVar
-    hg19clinvar: /path
-    hg38clinvar: /path
+Use `git clone` to get the latest (stable) version:
 
-    # Cosmic
-    hg19cosmic: /path
-    hg38cosmic: /path
+```bash
+git clone https://github.com/mrueda/beacon2-cbi-tools.git
+cd beacon2-cbi-tools
+```
 
-    # dbSNSFP Academic
-    hg19dbnsfp: /path
-    hg38dbnsfp: /path
+`beacon` is a Perl script (no compilation needed) that runs on the Linux command line. Internally, it submits multiple pipelines via customizable Bash scripts (see example [here](https://github.com/mrueda/beacon2-cbi-tools/blob/main/lib/BEACON/bin/run_vcf2bff.sh)). Note that Perl and Bash are installed by default in Linux, but we need to install a few dependencies.
 
-    # Miscellaneous software
-    snpeff: /path
-    snpsift: /path
-    bcftools: /path
+We use `cpanm` to install the CPAN modules. We'll install the dependencies at `~/perl5`:
 
-    # Max RAM memory for snpeff (optional)
-    mem: 8G
+```bash
+cpanm --local-lib=~/perl5 local::lib && eval $(perl -I ~/perl5/lib/perl5/ -Mlocal::lib)
+cpanm --notest --installdeps .
+```
 
-    # MongoDB
-    mongoimport: /path
-    mongostat: /path
-    mongosh: /path
-    mongodburi: string
+To ensure Perl recognizes your local modules every time you start a new terminal, run:
 
-    # Temporary directory (optional)
-    tmpdir: /path
+```bash
+echo 'eval $(perl -I ~/perl5/lib/perl5/ -Mlocal::lib)' >> ~/.bashrc
+```
 
-Please find below a detailed description of all parameters (alphabetical order):
+We'll also need a few Python 3 modules:
 
-- **bcftools**
+```bash
+pip install -r requirements.txt
+```
 
-    Location of the bcftools executable (e.g., /home/foo/bcftools\_1.11/bcftools).
-
-- **dbnsfpset**
-
-    The set of fields to be taken from dbNSFP database.
-
-    Values: \<all> or \<ega>
-
-- **genome**
-
-    Your reference genome.
-
-    Accepted values: hg19, hg38, and hs37.
-
-    If you used GATKs GRCh37/b37 set it to hg19.
-
-    Not supported: NCBI36/hg18, NCBI35/hg17, NCBI34/hg16, hg15, and older.
-
-- **hg19{clinvar,cosmic,dbnsfp,fasta}**
-
-    Path for each of these files. COSMIC annotations are added but not used (v2.0.0).
-
-- **hg38{clinvar,cosmic,dbnsfp,fasta}**
-
-    Path for each of these files. COSMIC annotations are added but not used (v2.0.0).
-
-- **hs37**
-
-    Path for the reference genome hs37.
-
-- **mem**
-
-    RAM memory for the Java processes (e.g., 8G).
-
-- **mongoXYZ**
-
-    Parameters needed for MongoDB.
-
-- **paneldir**
-
-    A directory where you can store text files (consisting of a column with a list of genes) to be displayed by the BFF Genomic Variations Browser.
-
-- **snpeff**
-
-    Location of the java archive dir (e.g., /home/foo/snpEff/snpEff.jar).
-
-- **snpsift**
-
-    Location of the java archive dir (e.g., /home/foo/snpEff/snpSift.jar).
-
-- **tmpdir**
-
-    Use if you have a preferred tmpdir.
-
-### System requirements
+## System requirements
 
 - Ideally a Debian-based distribution (Ubuntu or Mint), but any other (e.g., CentOS, OpenSUSE) should do as well (untested).
 - Perl 5 (>= 5.10 core; installed by default in most Linux distributions). Check the version with `perl -v`
 - 4GB of RAM (ideally 16GB).
 - \>= 1 core (ideally i7 or Xeon).
 - At least 200GB HDD.
-- bcftools, SnpEff, and MongoDB
 
 The Perl itself does not need a lot of RAM (max load will reach 400MB), but external tools do (e.g., process `mongod` [MongoDB's daemon]).
 
-### MongoDB installation
+## Testing the code
 
-We're going to install it by using [docker-compose](https://docs.docker.com/compose). You need to have `docker` and `docker-compose` installed. `docker-compose` enables defining and running multi-container Docker applications.
-
-!!! Danger "About Docker"
-    It's out of the scope of this documentation to explain how to install `docker` engine and `docker-compose`.
-    Please take a look to Docker [documentation](https://docs.docker.com/engine/install) if you need help with the installation.
-
-Download ```docker-compose.yml``` file:
-
-```bash
-wget https://raw.githubusercontent.com/mrueda/beacon2-ri-tools/main/docker/docker-compose.yml
-```
-
-And then run:
-
-    docker network create my-app-network
-    docker-compose up -d
-
-Once complete you should have two Docker processes: ```mongo``` and ```mongo-express```. You can check this by typing:
-
-    docker ps -a
-
-**Mongo Express** is an [open source](https://github.com/mongo-express/mongo-express) lightweight web-based administrative interface deployed to manage MongoDB databases interactively. You can access `mongo-express` at `http://localhost:8081`.
-
-### Testing the code
-
-I am not using any CPAN modules to perform unit tests. When I modify the code, my "integration tests" are done by comparing to reference files. You can validate the installation using the files included in the [test](https://github.com/mrueda/beacon2-ri-tools/tree/main/test) directory.
+The "integration tests" are done by comparing to reference files. You can validate the installation using the files included in the [test](https://github.com/mrueda/beacon2-cbi-tools/tree/main/test) directory.
 
 You may wanna install `jq` for running tests.
 
@@ -261,11 +112,11 @@ sudo apt install jq
 
       Solution: 
 
-      `cpanm --sudo PerlIO::gzip`
+      `cpanm PerlIO::gzip`
 
          ... or ...
 
-      `sudo apt-get install libperlio-gzip-perl`
+      `sudo apt install libperlio-gzip-perl`
 
 ## References
 

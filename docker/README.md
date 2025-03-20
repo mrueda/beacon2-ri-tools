@@ -1,117 +1,187 @@
-# INSTALLATION
+# Containerized Installation
 
-## Containerized
+## Downloading Required Databases and Software
 
-### Method 1: From Docker Hub
+First, we need to download the necessary databases and software. Unlike `beacon-cbi-tools`, where the data was inside the container, we now store the data externally. This improves data persistence and allows software updates without needing to re-download everything.
 
-Download a docker image (latest version) from [Docker Hub](https://hub.docker.com/r/manuelrueda/beacon2-ri-tools) by executing:
+### Step 1: Download Required Files
 
-    docker pull manuelrueda/beacon2-ri-tools:latest
-    docker image tag manuelrueda/beacon2-ri-tools:latest cnag/beacon2-ri-tools:latest
+Navigate to a directory with at least **150GB** of available space and run:
 
-See additional instructions below.
+```bash
+wget https://raw.githubusercontent.com/mrueda/beacon2-cbi-tools/main/scripts/01_foo_bar.py
+```
 
-### Method 2: From Dockerfile
+Then execute the script:
 
-Download the `Dockerfile` from [Github](https://github.com/mrueda/beacon2-ri-tools/blob/main/Dockerfile) by typing:
+```bash
+python3 01_foo_bar.py
+```
 
-    wget https://raw.githubusercontent.com/mrueda/beacon2-ri-tools/main/docker/Dockerfile
+> **Note:** Google Drive can sometimes restrict downloads. If you encounter an error, use the provided error URL in a browser to retrieve the file manually.
 
-Then execute the following commands:
+### Step 2: Verify Download Integrity
 
-    # Docker Version 19.03 and Above (Supports buildx)
-    docker buildx build -t cnag/beacon2-ri-tools:latest . # build the container (~1.1G)
+Run a checksum to ensure the files were not corrupted:
 
-    # Docker Version Older than 19.03 (Does Not Support buildx)
-    docker build -t cnag/beacon2-ri-tools:latest . # build the container (~1.1G)
+```bash
+md5sum -c data.tar.gz.md5
+```
 
-### Additional instructions for Methods 1 and 2
+### Step 3: Reassemble Split Files
 
-If MongoDB has not been installed alongside the `beacon2-ri-api` repository, it will be necessary to install it separately. MongoDB should be deployed outside the `beacon2-ri-tools` container.
+The downloaded data is split into parts. Reassemble it into a single tar archive (**~130GB required**):
 
-Please download the `docker-compose.yml` file:
+```bash
+cat data.tar.gz.part-?? > data.tar.gz
+```
 
-    wget https://raw.githubusercontent.com/mrueda/beacon2-ri-tools/main/docker/docker-compose.yml
+Once the files are successfully merged, delete the split parts to free up space:
 
-And then execute:
+```bash
+rm data.tar.gz.part-??
+```
 
-    docker network create my-app-network
-    docker compose up -d
+### Step 4: Extract Data
 
-Mongo Express will be accessible via `http://localhost:8081` with default credentials `admin` and `pass`.
+Extract the tar archive:
 
-**IMPORTANT:** Docker containers are fully isolated. If you think you'll have to mount a volume to the container please read the section [Mounting Volumes](#mounting-volumes) before proceeding further.
+```bash
+tar -xzvf data.tar.gz
+```
 
-**IMPORTANT (BIS):** If you plan to load data into MongoDB from inside `beacon2-ri-tools` container please read the section [Access MongoDB from inside the container](#access-mongodb-from-inside-the-container) before proceeding further.
+### Step 5: Configure Paths
 
-    docker run -tid --name beacon2-ri-tools -p 8080:8000 -p 3000:3000 cnag/beacon2-ri-tools:latest # run the image detached
-    docker ps  # list your containers, beacon2-ri-tools should be there
-    docker exec -ti beacon2-ri-tools bash # connect to the container interactively
+1. **In the downloaded data:**  
+   Update the `data.dir` variable in:
 
-After the `docker exec` command, you will land at `/usr/share/beacon-ri/`, then execute:
+   ```bash
+   /path/to/downloaded/data/soft/NGSutils/snpEff_v5.0/snpEff.config
+   ```
 
-    nohup beacon2-ri-tools/lib/BEACON/bin/deploy_external_tools.sh &
+2. **In the `beacon2-cbi-tools` repository:**  
+   Update `{base}` in:
 
-...that will inject the external tools and DBs into the image and modify the [configuration](#readme-md-setting-up-beacon) files. It will also run a test to check that the installation was successful. Note that running `deploy_external_tools.sh` will take around 30 min (and disk space!!!). You can check the status by using:
+   ```bash
+   bin/config.yaml
+   ```
 
-    tail -f nohup.out
+   Ensure it points to the correct location of your downloaded data.
 
-Unfortunately, you will need to **deploy external tools each time you pull** the latest version of the container. We may change this behavior in the future, as we understand it can be inconvenient.
+---
 
-### Mounting volumes
+## Method 1: Installing from Docker Hub
 
-It's simpler to mount a volume when starting a container than to add it to an existing one. If you need to mount a volume to the container please use the following syntax (`-v host:container`). Find an example below (note that you need to change the paths to match yours):
+Pull the latest Docker image from [Docker Hub](https://hub.docker.com/r/manuelrueda/beacon-cbi-tools):
 
-    docker run -tid --volume /media/mrueda/4TBT/workdir:/workdir --name beacon2-ri-tools cnag/beacon2-ri-tools:latest
+```bash
+docker pull manuelrueda/beacon-cbi-tools:latest
+docker image tag manuelrueda/beacon-cbi-tools:latest cnag/beacon-cbi-tools:latest
+```
 
-Now you'll need to execute:
+---
 
-    docker exec -ti beacon2-ri-tools bash # connect to the container interactively
+## Method 2: Installing from Dockerfile
 
-After the `docker exec` command, you will land at `/usr/share/beacon-ri/`, then execute:
+Download the `Dockerfile` from [GitHub](https://github.com/mrueda/beacon-cbi-tools/blob/main/Dockerfile):
 
-    nohup beacon2-ri-tools/lib/BEACON/bin/deploy_external_tools.sh & # see above why
+```bash
+wget https://raw.githubusercontent.com/mrueda/beacon2-cbi-tools/main/docker/Dockerfile
+```
 
-Then, you can run commands **inside the container**, like this:
+Then build the container:
 
-    # We connect to the container interactively
-    docker exec -ti beacon2-ri-tools bash
-    # We go to the mounting point
-    cd /workdir
-    # We run the executable
-    /usr/share/beacon-ri/beacon2-ri-tools/bin/beacon vcf -i example.vcf.gz -p param.in
+- **For Docker version 19.03 and above (supports buildx):**
+
+  ```bash
+  docker buildx build -t cnag/beacon-cbi-tools:latest .
+  ```
+
+- **For Docker versions older than 19.03 (no buildx support):**
+
+  ```bash
+  docker build -t cnag/beacon-cbi-tools:latest .
+  ```
+
+---
+
+## Running the Container
+
+```bash
+docker run -tid --volume /your/path/to/beacon2-cbi-tools-data:/beacon2-cbi-tools-data --name beacon-cbi-tools cnag/beacon-cbi-tools:latest
+docker ps  # list your containers, beacon-cbi-tools should be there
+docker exec -ti beacon-cbi-tools bash  # connect to the container interactively
+```
 
 Alternatively, you can run commands **from the host**, like this:
 
-    # First we create an alias to simplify invocation
-    alias beacon='docker exec -ti beacon2-ri-tools /usr/share/beacon-ri/beacon2-ri-tools/beacon'
-    # Now we use a text editor to edit the file <params.in> to include the parameter 'projectdir'
-    projectdir /workdir/my_fav_job_id
-    # Finally we use the alias to run the command
-    beacon vcf -i /workdir/my_vcf.gz -p /workdir/param.in
+First, create an alias to simplify invocation:
 
-### Access MongoDB from inside the container
+```bash
+alias beacon='docker exec -ti beacon-cbi-tools /usr/share/beacon-cbi-tools/bin/beacon'
+```
 
-If you want to load data from **inside** the `beacon2-ri-tools` directly to `mongo` container, both containers have to be on the same network:
+Then run:
 
-    # Option A (Before running container)
-    docker run -tid --network=my-app-network --name beacon2-ri-tools cnag/beacon2-ri-tools:latest # change the network to match yours
+```bash
+beacon
+```
 
-    # Option B (After running the container)
-    docker network connect my-app-network beacon2_ri-tools
+---
 
-### System requirements
+## MongoDB Installation (Optional: Only for `mongodb/full` modes)
+
+If you don't already have MongoDB installed in a separate container, follow these steps.
+
+### Step 1: Download `docker-compose.yml`
+
+```bash
+wget https://raw.githubusercontent.com/mrueda/beacon2-cbi-tools/main/docker/docker-compose.yml
+```
+
+### Step 2: Start MongoDB
+
+```bash
+docker network create my-app-network
+docker compose up -d
+```
+
+Mongo Express will be accessible at `http://localhost:8081` with default credentials `admin` and `pass`.
+
+> **IMPORTANT:** If you plan to load data into MongoDB from inside the `beacon2-cbi-tools` container, read the section [Access MongoDB from inside the container](#access-mongodb-from-inside-the-container) before proceeding.
+
+### Access MongoDB from Inside the Container
+
+If you want to load data from **inside** the `beacon-cbi-tools` container directly into the `mongo` container, both containers must be on the same network.
+
+#### **Option A**: Before running the container
+
+```bash
+docker run -tid --network=my-app-network --name beacon-cbi-tools cnag/beacon-cbi-tools:latest
+```
+
+#### **Option B**: After running the container
+
+```bash
+docker network connect my-app-network beacon2_ri-tools
+```
+
+---
+
+## System requirements
 
 - Ideally a Debian-based distribution (Ubuntu or Mint), but any other (e.g., CentOS, OpenSUSE) should do as well (untested).
 - Docker and docker compose
-- Perl 5 (>= 5.10 core; installed by default in most Linux distributions). Check the version with `perl -v`
+- Perl 5 (>= 5.10 core; installed by default in most Linux distributions). Check the version with perl -v
 - 4GB of RAM (ideally 16GB).
 - \>= 1 core (ideally i7 or Xeon).
 - At least 200GB HDD.
 
-The Perl itself does not need a lot of RAM (max load will reach 400MB), but external tools do (e.g., process `mongod` [MongoDB's daemon]).
+Perl itself does not require much RAM (max load ~400MB), but external tools (e.g., `mongod` [MongoDB's daemon]) do.
 
-### Common errors: Symptoms and treatment
+---
+
+## Common errors: Symptoms and treatment
 
   * Dockerfile:
 
@@ -120,20 +190,20 @@ The Perl itself does not need a lot of RAM (max load will reach 400MB), but exte
             - Error: Temporary failure resolving 'foo'
 
               Solution: https://askubuntu.com/questions/91543/apt-get-update-fails-to-fetch-files-temporary-failure-resolving-error
+---
 
 ## References
 
-1. BCFtools
-    Danecek P, Bonfield JK, et al. Twelve years of SAMtools and BCFtools. Gigascience (2021) 10(2):giab008 [link](https://pubmed.ncbi.nlm.nih.gov/33590861)
+1. **BCFtools**  
+   Danecek P, Bonfield JK, et al. Twelve years of SAMtools and BCFtools. *Gigascience* (2021) 10(2):giab008. [Read more](https://pubmed.ncbi.nlm.nih.gov/33590861).
 
-2.	SnpEff
-    "A program for annotating and predicting the effects of single nucleotide polymorphisms, SnpEff: SNPs in the genome of Drosophila melanogaster strain w1118; iso-2; iso-3.", Cingolani P, Platts A, Wang le L, Coon M, Nguyen T, Wang L, Land SJ, Lu X, Ruden DM. Fly (Austin). 2012 Apr-Jun;6(2):80-92. PMID: 22728672.
+2. **SnpEff**  
+   Cingolani P, Platts A, Wang le L, Coon M, et al. *Fly (Austin)*. 2012 Apr-Jun;6(2):80-92. PMID: 22728672.
 
-3. SnpSift
-    "Using Drosophila melanogaster as a model for genotoxic chemical mutational studies with a new program, SnpSift", Cingolani, P., et. al., Frontiers in Genetics, 3, 2012.
+3. **SnpSift**  
+   Cingolani, P., et. al. *Frontiers in Genetics*, 3, 2012.
 
-4.	dbNSFP v4
-    1. Liu X, Jian X, and Boerwinkle E. 2011. dbNSFP: a lightweight database of human non-synonymous SNPs and their functional predictions. Human Mutation. 32:894-899.
-    2. Liu X, Jian X, and Boerwinkle E. 2013. dbNSFP v2.0: A Database of Human Non-synonymous SNVs and Their Functional Predictions and Annotations. Human Mutation. 34:E2393-E2402.
-    3. Liu X, Wu C, Li C, and Boerwinkle E. 2016. dbNSFP v3.0: A One-Stop Database of Functional Predictions and Annotations for Human Non-synonymous and Splice Site SNVs. Human Mutation. 37:235-241.
-    4. Liu X, Li C, Mou C, Dong Y, and Tu Y. 2020. dbNSFP v4: a comprehensive database of transcript-specific functional predictions and annotations for human nonsynonymous and splice-site SNVs. Genome Medicine. 12:103.
+4. **dbNSFP v4**  
+   - Liu X, Jian X, and Boerwinkle E. *Human Mutation*. 32:894-899.
+   - Liu X, Wu C, Li C, and Boerwinkle E. *Human Mutation*. 37:235-241.
+   - Liu X, Li C, Mou C, Dong Y, and Tu Y. *Genome Medicine*. 12:103.
