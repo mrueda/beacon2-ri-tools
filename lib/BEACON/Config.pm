@@ -65,7 +65,7 @@ sub read_config_file {
     );
 
     # Parsing config file
-    my %config = parse_yaml_file($beacon_config);
+    my %config = parse_yaml_file( $beacon_config, undef );
 
     # Determine the architecture
     my $uname = `uname -m`;
@@ -114,20 +114,21 @@ sub read_config_file {
     }
 
     # Below are a few internal paramaters
-    my $beacon_internal_dir = catdir($root_dir, 'lib', 'internal');    # Global $::Bin variable
-    my $beacon_complete_dir = catdir($beacon_internal_dir, 'complete');
-    my $beacon_partial_dir = catdir($beacon_internal_dir, 'partial');
-    my $java       = '/usr/bin/java';
-    $config{java} = $java;
-    $config{snpeff}  = "$java -Xmx" . $config{mem} . " -jar $config{snpeff}";
-    $config{snpsift} = "$java -Xmx" . $config{mem} . " -jar $config{snpsift}";
-    $config{bash4bff}     = catfile( $beacon_partial_dir, 'run_vcf2bff.sh' );
-    $config{bash4html}    = catfile( $beacon_partial_dir, 'run_bff2html.sh' );
-    $config{bash4mongodb} = catfile( $beacon_partial_dir, 'run_bff2mongodb.sh' );
-    $config{vcf2bff}      = catfile( $beacon_complete_dir, 'vcf2bff.pl' );
-    $config{bff2json}     = catfile( $beacon_complete_dir, 'bff2json.pl' );
-    $config{json2html}    = catfile( $beacon_complete_dir, 'bff2html.pl' );
-    $config{browserdir}   = catdir( $root_dir, 'browser' );
+    my $beacon_internal_dir = catdir( $root_dir, 'lib', 'internal' );    # Global $::Bin variable
+    my $beacon_complete_dir = catdir( $beacon_internal_dir, 'complete' );
+    my $beacon_partial_dir  = catdir( $beacon_internal_dir, 'partial' );
+    my $java                = '/usr/bin/java';
+    $config{java}      = $java;
+    $config{snpeff}    = "$java -Xmx" . $config{mem} . " -jar $config{snpeff}";
+    $config{snpsift}   = "$java -Xmx" . $config{mem} . " -jar $config{snpsift}";
+    $config{bash4bff}  = catfile( $beacon_partial_dir, 'run_vcf2bff.sh' );
+    $config{bash4html} = catfile( $beacon_partial_dir, 'run_bff2html.sh' );
+    $config{bash4mongodb} =
+      catfile( $beacon_partial_dir, 'run_bff2mongodb.sh' );
+    $config{vcf2bff}    = catfile( $beacon_complete_dir, 'vcf2bff.pl' );
+    $config{bff2json}   = catfile( $beacon_complete_dir, 'bff2json.pl' );
+    $config{json2html}  = catfile( $beacon_complete_dir, 'bff2html.pl' );
+    $config{browserdir} = catdir( $root_dir, 'browser' );
     $config{assetsdir} =
       catdir( $root_dir, 'utils', 'bff_browser', 'static', 'assets' );
 
@@ -180,10 +181,10 @@ sub read_param_file {
 
     # We load %param with the default values
     my %param = (
-        annotate  => 1,
-        bff       => {},
-        center    => 'CNAG',
-        datasetid => 'default_beacon_1',
+        annotate   => 1,
+        bff        => {},
+        center     => 'CNAG',
+        datasetid  => 'default_beacon_1',
         genome     => 'hg19',
         organism   => 'Homo Sapiens',
         projectdir => 'beacon',
@@ -292,13 +293,22 @@ sub read_param_file {
 }
 
 sub parse_yaml_file {
-    my $yaml_file = shift;
+    my ( $yaml_file, $allowed_keys ) = @_;
 
     # Keeping booleans as 'true' or 'false'. Perl still handles 0 and 1 internally.
     $YAML::XS::Boolean = 'JSON::PP';
 
     # Load YAML file into a Perl hash
     my $yaml = LoadFile($yaml_file);
+
+    # If allowed keys are provided, validate the top-level keys
+    if ( $allowed_keys && ref $allowed_keys eq 'ARRAY' ) {
+        my %allowed = map { $_ => 1 } @$allowed_keys;
+        foreach my $key ( keys %$yaml ) {
+            die "Invalid parameter '$key' in $yaml_file"
+              unless $allowed{$key};
+        }
+    }
 
     return wantarray ? %$yaml : $yaml;    # Return hash or hashref based on context
 }

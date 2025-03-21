@@ -2,7 +2,7 @@
 
 ## Downloading Required Databases and Software
 
-First, we need to download the necessary databases and software. Unlike `beacon-cbi-tools`, where the data was inside the container, we now store the data externally. This improves data persistence and allows software updates without needing to re-download everything.
+First, we need to download the necessary databases and software. Unlike `beacon2-ri-tools`, where the data was inside the container, we now store the data externally. This improves data persistence and allows software updates without needing to re-download everything.
 
 ### Step 1: Download Required Files
 
