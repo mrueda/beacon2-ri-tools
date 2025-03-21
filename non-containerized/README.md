@@ -9,13 +9,13 @@ First, we need to download the necessary databases and software. Unlike `beacon-
 Navigate to a directory with at least **150GB** of available space and run:
 
 ```bash
-wget https://raw.githubusercontent.com/mrueda/beacon2-cbi-tools/main/scripts/01_foo_bar.py
+wget https://raw.githubusercontent.com/mrueda/beacon2-cbi-tools/main/scripts/01_download_external_data.py
 ```
 
 Then execute the script:
 
 ```bash
-python3 01_foo_bar.py
+python3 01_download_external_data.py
 ```
 
 > **Note:** Google Drive can sometimes restrict downloads. If you encounter an error, use the provided error URL in a browser to retrieve the file manually.
@@ -49,7 +49,7 @@ Extract the tar archive:
 ```bash
 tar -xzvf data.tar.gz
 ```
-## From GitHub
+## Download from GitHub
 
 First, we need to install a few system components:
 
@@ -64,7 +64,7 @@ git clone https://github.com/mrueda/beacon2-cbi-tools.git
 cd beacon2-cbi-tools
 ```
 
-`beacon` is a Perl script (no compilation needed) that runs on the Linux command line. Internally, it submits multiple pipelines via customizable Bash scripts (see example [here](https://github.com/mrueda/beacon2-cbi-tools/blob/main/lib/BEACON/bin/run_vcf2bff.sh)). Note that Perl and Bash are installed by default in Linux, but we need to install a few dependencies.
+`beacon` is a Perl script (no compilation required) designed to run on the Linux command line. Internally, it acts as a wrapper that submits multiple pipelines through customizable Bash scripts (see an example [here](https://github.com/mrueda/beacon2-cbi-tools/blob/main/lib/BEACON/bin/run_vcf2bff.sh)). While Perl and Bash are pre-installed on most Linux systems, a few additional dependencies must be installed separately.
 
 We use `cpanm` to install the CPAN modules. We'll install the dependencies at `~/perl5`:
 

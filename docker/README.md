@@ -9,13 +9,13 @@ First, we need to download the necessary databases and software. Unlike `beacon-
 Navigate to a directory with at least **150GB** of available space and run:
 
 ```bash
-wget https://raw.githubusercontent.com/mrueda/beacon2-cbi-tools/main/scripts/01_foo_bar.py
+wget https://raw.githubusercontent.com/mrueda/beacon2-cbi-tools/main/scripts/01_download_external_data.py
 ```
 
 Then execute the script:
 
 ```bash
-python3 01_foo_bar.py
+python3 01_download_external_data.py
 ```
 
 > **Note:** Google Drive can sometimes restrict downloads. If you encounter an error, use the provided error URL in a browser to retrieve the file manually.
