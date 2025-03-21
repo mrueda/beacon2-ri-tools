@@ -7,12 +7,12 @@ use Test::More tests => 6;
 use File::Temp qw(tempdir);
 use File::Spec::Functions qw(catfile);
 use Cwd qw(abs_path);
-use BEACON::Beacon;
+use BFF::Tools;
 
 # Test new() method: create a dummy object and verify its class.
 my $dummy_args = { foo => 1 };
-my $beacon = Beacon->new($dummy_args);
-isa_ok($beacon, 'Beacon', 'Object created from Beacon->new');
+my $beacon = Tools->new($dummy_args);
+isa_ok($beacon, 'Tools', 'Object created from Tools->new');
 
 # Test create_dbnsfp4_fields in "cnag" mode.
 my @cnag_fields = qw(
@@ -27,14 +27,14 @@ my @cnag_fields = qw(
 );
 my $expected = join(',', sort @cnag_fields);
 # Call the subroutine directly (it doesn't shift off an object)
-my $fields = Beacon::create_dbnsfp4_fields('cnag', '');
+my $fields = Tools::create_dbnsfp4_fields('cnag', '');
 is($fields, $expected, 'create_dbnsfp4_fields returns expected string for "cnag" mode');
 
 # Test write_file: create a temporary file and verify file creation and permissions.
 my $temp_dir  = tempdir( CLEANUP => 1 );
 my $temp_file = catfile($temp_dir, 'test_script.sh');
 my $content   = "echo Hello World\n";
-Beacon::write_file($temp_file, \$content);
+Tools::write_file($temp_file, \$content);
 ok(-e $temp_file, 'write_file creates the file');
 my $mode = (stat($temp_file))[2] & 07777;
 is($mode, 0755, 'write_file sets permissions to 0755');
@@ -46,7 +46,7 @@ my $good_log = catfile($temp_dir, 'mongo_good.log');
     print $fh "0 documents failed to import\n";
     close $fh;
 }
-ok(Beacon::check_mongoimport($good_log), 'check_mongoimport passes with no errors');
+ok(Tools::check_mongoimport($good_log), 'check_mongoimport passes with no errors');
 
 # Test check_mongoimport: simulate a log file that reports failures.
 my $fail_log = catfile($temp_dir, 'mongo_fail.log');

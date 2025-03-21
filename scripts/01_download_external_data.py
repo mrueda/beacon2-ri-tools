@@ -2,7 +2,6 @@ import os, gdown
 
 # Dictionary mapping the desired output filenames to their Google Drive file IDs
 files = {
-https://drive.google.com/file/d/1g7bUAdOj5HWos03_dWsH0Y2V9EHx54Qe/view?usp=sharing
     'data.tar.gz.md5': '1g7bUAdOj5HWos03_dWsH0Y2V9EHx54Qe',
     'data.tar.gz.part-00': '1GOy9yUS71UP3pYhV1KZORbxA7rPDxH3a',
     'data.tar.gz.part-01': '19vTasSHcX47qSh_VvUkfnr-UHEvfjyR6',

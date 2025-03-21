@@ -1,4 +1,4 @@
-package Beacon;
+package Tools;
 
 use strict;
 use warnings;
@@ -12,37 +12,6 @@ use Data::Dumper;
 use Cwd      qw(cwd abs_path);
 use YAML::XS qw(LoadFile DumpFile);
 
-=head1 NAME
-
-    BEACON::Beacon
-
-=head1 SYNOPSIS
-
-  use BEACON::Beacon
-
-=head1 DESCRIPTION
- 
-  To do
-
-
-=head1 AUTHOR
-
-Written by Manuel Rueda, PhD
-
-=cut
-
-=head1 METHODS
-
-=cut
-
-=head2 new
-
-    About   : Using pure OO-Perl for simplicity
-    Usage   :             
-    Args    : 
-
-=cut
-
 sub new {
 
     # Changes in $self performed at main
@@ -50,14 +19,6 @@ sub new {
     bless $self, $class;
     return $self;
 }
-
-=head2 vcf2bff
-
-    About   : Method that sends the BASH pipeline vcf2bff
-    Usage   :             
-    Args    : 
-
-=cut
 
 sub vcf2bff {
     my $self       = shift;
@@ -126,14 +87,6 @@ sub vcf2bff {
     return 1;
 }
 
-=head2 bff2html
-
-    About   : Method that sends the BASH pipeline bff2html
-    Usage   :             
-    Args    : 
-
-=cut
-
 sub bff2html {
     my $self        = shift;
     my $jobid       = $self->{jobid};
@@ -180,14 +133,6 @@ sub bff2html {
     say 'Dbg' . $debug . ': *** cwd: ', cwd, ' ***' if $debug;
     return 1;
 }
-
-=head2 bff2mongodb
-
-    About   : Method that inserts the BFF data into MongoDB
-    Usage   :             
-    Args    : 
-
-=cut
 
 sub bff2mongodb {
     my $self        = shift;

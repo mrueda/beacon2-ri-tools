@@ -2,7 +2,7 @@
 
 ## Downloading Required Databases and Software
 
-First, we need to download the necessary databases and software. Unlike `beacon2-cbi-tools`, where the data was inside the container, we now store the data externally. This improves data persistence and allows software updates without needing to re-download everything.
+First, we need to download the necessary databases and software. Unlike `beacon2-ri-tools`, where the data was inside the container, we now store the data externally. This improves data persistence and allows software updates without needing to re-download everything.
 
 ### Step 1: Download Required Files
 
@@ -50,23 +50,17 @@ Extract the tar archive:
 tar -xzvf data.tar.gz
 ```
 
-### Step 5: Configure Paths
+### Step 5: Configure Path in SnpEff
 
-1. **In the downloaded data:**  
-   Update the `data.dir` variable in:
+**In the downloaded data:**  
 
-   ```bash
-   /path/to/downloaded/data/soft/NGSutils/snpEff_v5.0/snpEff.config
-   ```
+Update the `data.dir` variable in **SnpEff** config file:
 
-2. **In the `beacon2-cbi-tools` repository:**  
-   Update `{base}` in:
+```bash
+/path/to/downloaded/data/soft/NGSutils/snpEff_v5.0/snpEff.config
+```
 
-   ```bash
-   bin/config.yaml
-   ```
-
-   Ensure it points to the correct location of your downloaded data.
+Ensure it points to the correct location of your downloaded data.
 
 ---
 

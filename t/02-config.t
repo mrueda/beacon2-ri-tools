@@ -7,10 +7,10 @@ use File::Spec;
 use Cwd qw(abs_path);
 use FindBin;
 use lib "$FindBin::Bin/../lib";
-use BEACON::Config;
+use BFF::Config;
 
 # Test BEACON::Config module.
-use_ok('BEACON::Config');
+use_ok('BFF::Config');
 
 # Test parse_yaml_file by creating a temporary YAML file.
 my ( $fh, $yaml_file ) = tempfile();

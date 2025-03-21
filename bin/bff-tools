@@ -1,15 +1,15 @@
 #!/usr/bin/env perl
 #
-#   Script with multiple functions:
+#   BFF-tools: Script with multiple functions:
 #   - vcf mode: 
-#       1/ Optional(Annotates VCF
+#       1/ Optional(Annotates VCF)
 #       2/ Serializes VCF to BFF
-#   - mongodb mode: Transfers BFF data to MongoDB
-#   - full mode: Combines vcf and mongodb modes
+#   - load mode: Transfers BFF data to MongoDB
+#   - full mode: Combines vcf and load modes
 #
 #   Last Modified: Jan/23/2025
 #
-#   Version: 2.0.6
+#   Version: 2.0.8
 #
 #   Copyright (C) 2021-2022 Manuel Rueda - CRG
 #   Copyright (C) 2023-2025 Manuel Rueda - CNAG (manuel.rueda@cnag.eu)
@@ -43,15 +43,15 @@ use threads;
 use threads::shared;
 use FindBin qw($Bin);
 use lib "$Bin/../lib";
-use BEACON::Help;
-use BEACON::Config;
-use BEACON::Beacon;
+use BFF::Help;
+use BFF::Config;
+use BFF::Tools;
 
 #############################################################
 #            Variables definition                           #
 #############################################################
 
-# Beacon version
+# bff-tools version
 my $version = '2.0.8';
 
 # Initialize a few more variables
@@ -94,8 +94,8 @@ my $param = Config::read_param_file($arg);
 
 # Start printing information
 say $prompt;
-say BOLD CYAN "$prompt Beacon $version", RESET;
-say "$prompt Beacon exe: $beacon_path";
+say BOLD CYAN "$prompt bff-tools $version", RESET;
+say "$prompt bff-tools exe: $beacon_path";
 say "$prompt $author";
 say "$prompt $license\n$prompt";
 
@@ -129,7 +129,7 @@ $prompt, $l_config, $arrow, $config->{$l_config}
 
 # Printing the params to stdout according to the format below
 say WHITE "$prompt";
-say BOLD GREEN, "$prompt BEACON PARAMETERS:", RESET;
+say BOLD GREEN, "$prompt BFF-TOOLS PARAMETERS:", RESET;
 
 # Creating a tmp hash to deal with 2D hash
 my %tmp_param = %{$param};
@@ -148,9 +148,9 @@ format PARAMS =
 $prompt, $l_param, $arrow, $tmp_param{$l_param}
 .
 
-# Start Beacon
+# Start bff-tools
 say $prompt;
-say BOLD CYAN "$prompt STARTING BEACON FUN";
+say BOLD CYAN "$prompt STARTING BFF-TOOLS FUN";
 say RESET "$prompt $spacer";
 
 # Create the working dir
@@ -201,7 +201,7 @@ my $rah_beacon = {
 };
 
 # Loading the object
-my $beacon = Beacon->new($rah_beacon);
+my $beacon = Tools->new($rah_beacon);
 
 # Now submitting the pipelines (order matters) through bash scripts
 my @pipelines = ( 'vcf2bff', 'bff2html', 'bff2mongodb' );
@@ -212,9 +212,9 @@ for my $pipeline (@pipelines) {
     }
 }
 
-# End Beacon
+# End bff-tools
 say "$prompt $spacer";
-say BOLD GREEN, "$prompt BEACON FINISHED OK", RESET;
+say BOLD GREEN, "$prompt BFF-TOOLS FINISHED OK", RESET;
 
 # Optional message
 say "$prompt Date: ",            scalar localtime if $arg->{verbose};
@@ -296,21 +296,21 @@ __END__
 
 =head1 NAME
 
-C<beacon>: A script to B<annotate> and B<transform> B<VCFs> into the C<genomicVariations> entity of the Beacon v2 Models. The script also supports ingesting the data into a B<MongoDB> instance. It is part of the C<beacon2-cbi-tools> repository.
+C<bff-tools>: A script to B<annotate> and B<transform> B<VCFs> into the C<genomicVariations> entity of the Beacon v2 Models. The script also supports ingesting the data into a B<MongoDB> instance. It is part of the C<beacon2-cbi-tools> repository.
 
 =head1 SYNOPSIS
 
- beacon <mode> [-arguments] [-options]
+ bff-tools <mode> [-arguments] [-options]
 
    Mode:
      vcf
        -i | --input <file>            Requires a VCF.gz file
                                       (May require a parameters file)
 
-     mongodb
+     load
                                       (May require a parameters file)
 
-     full (vcf + mongodb)
+     full (vcf + load)
        -i | --input <file>            Requires a VCF.gz file
                                       (May require a parameters file)
 
@@ -330,9 +330,9 @@ C<beacon>: A script to B<annotate> and B<transform> B<VCFs> into the C<genomicVa
 
 =head1 DESCRIPTION
 
-=head3 C<beacon>
+=head3 C<bff-tools>
 
-C<beacon>, a script with three operational modes for diverse actions:
+C<bff-tools>, a script with three operational modes for diverse actions:
 
 =over
 
@@ -340,31 +340,31 @@ C<beacon>, a script with three operational modes for diverse actions:
 
 Converts B<genomic variation data> (VCF) into queryable MongoDB format. Extended documentation is available L<here|https://b2ri-documentation.readthedocs.io/en/latest/data-ingestion>. The VCF data are annotated and serialized into C<genomicVariationsVcf.json.gz>.
 
-=item Mode C<mongodb>
+=item Mode C<load>
 
 Facilitates loading L<BFF|/#what-is-the-beacon-friendly-format-bff> data into MongoDB.
 
-=item Mode C<full>: Combines modes C<vcf> and C<mongodb>
+=item Mode C<full>: Combines modes C<vcf> and C<load>
 
 =back
 
-=head1 HOW TO RUN C<beacon>
+=head1 HOW TO RUN C<bff-tools>
 
 We recommend following this L<tutorial|https://b2ri-documentation.readthedocs.io/en/latest/tutorial-data-beaconization>.
 
-This script has three B<modes>: C<vcf, mongodb> and C<full>
+This script has three B<modes>: C<vcf, load> and C<full>
 
 B<* Mode C<vcf>>
 
 Annotating and serializing a VCF file into a BFF file for genomic variations.
 
-B<* Mode C<mongodb>>
+B<* Mode C<load>>
 
 Loading BFF data into MongoDB.
 
 B<* Mode C<full>>
 
-Mode vcf + mode mongodb.
+Mode vcf + mode load.
 
 To perform all these taks you'll need: 
 
@@ -378,7 +378,7 @@ Note that it does not need to be bgzipped.
 
 A parameters text file that will contain specific values needed for the job.
 
-=item * BFF files (only for modes: mongodb and full)
+=item * BFF files (only for modes: load and full)
 
 (see explanation of BFF format L<here|/#what-is-the-beacon-friendly-format-bff>)
 
@@ -388,8 +388,8 @@ The number of threads/cores you want to use for the job. In this regard (since S
 
 =back
 
-C<beacon> will create an independent project directory C<projectdir> and store all needed information needed there. Thus, many concurrent calculations are supported.
-Note that C<beacon> will treat your data as I<read-only> (i.e., will not modify your original files).
+C<bff-tools> will create an independent project directory C<projectdir> and store all needed information needed there. Thus, many concurrent calculations are supported.
+Note that C<bff-tools> will treat your data as I<read-only> (i.e., will not modify your original files).
 
 B<Annex: Parameters file> (YAML)
 
@@ -400,7 +400,7 @@ Example for C<vcf> mode:
  annotate: true # default true
  bff2html: true # default false
 
-Example for C<mongodb> mode:
+Example for C<load> mode:
 
  --
  bff:
@@ -468,19 +468,19 @@ Experimental feature. Not used for now.
 
 B<Examples:>
 
-  $ bin/beacon vcf -i input.vcf.gz 
+  $ bin/bff-tools vcf -i input.vcf.gz 
 
-  $ bin/beacon vcf -i input.vcf.gz -p param.yaml -projectdir-override beacon_exome_id_123456789
+  $ bin/bff-tools vcf -i input.vcf.gz -p param.yaml -projectdir-override beacon_exome_id_123456789
 
-  $ bin/beacon mongodb -p param_file  # MongoDB load only
+  $ bin/bff-tools load -p param_file  # MongoDB load only
 
-  $ bin/beacon full -t 1 --i input.vcf.gz -p param_file  > log 2>&1
+  $ bin/bff-tools full -t 1 --i input.vcf.gz -p param_file  > log 2>&1
 
-  $ bin/beacon full -t 1 --i input.vcf.gz -p param_file -c config_file > log 2>&1
+  $ bin/bff-tools full -t 1 --i input.vcf.gz -p param_file -c config_file > log 2>&1
 
-  $ nohup $path_to_beacon/bin/beacon full -i input.vcf.gz -verbose
+  $ nohup $path_to_beacon/bin/bff-tools full -i input.vcf.gz -verbose
 
-  $ parallel "bin/beacon vcf -t 1 -i chr{}.vcf.gz  > chr{}.log 2>&1" ::: {1..22} X Y
+  $ parallel "bin/bff-tools vcf -t 1 -i chr{}.vcf.gz  > chr{}.log 2>&1" ::: {1..22} X Y
 
 I<NB>: If you don't want colors in the output use the flag C<--no-color>. If you did not use the flag and want to get rid off the colors in your printed log file use this command to parse ANSI colors:
 
@@ -496,7 +496,7 @@ The Beacon Friendly Format is a data exchange format consisting up to  7 JSON fi
 
 Six files correspond to Metadata (C<analyses.json,biosamples.json,cohorts.json,datasets.json,individuals.json,runs.json>) and one corresponds to variations (C<genomicVariations.json>).
 
-Normally, C<beacon> script is used to create C<genomicVariations> JSON file. The other 6 files are created with L<this utility|https://github.com/CNAG-Biomedical-Informatics/beacon2-cbi-tools/tree/main/utils/bff_validator> (part of the distribution). See instructions L<here|https://github.com/CNAG-Biomedical-Informatics/beacon2-cbi-tools/tree/main/utils/bff_validator/README.md>.
+Normally, C<bff-tools> script is used to create C<genomicVariations> JSON file. The other 6 files are created with L<this utility|https://github.com/CNAG-Biomedical-Informatics/beacon2-cbi-tools/tree/main/utils/bff_validator> (part of the distribution). See instructions L<here|https://github.com/CNAG-Biomedical-Informatics/beacon2-cbi-tools/tree/main/utils/bff_validator/README.md>.
 
 Once we have all seven files, then we can proceed to load the data into MongoDB.
 

@@ -7,7 +7,7 @@ echo "Info: Testing <beacon2-cbi-tools> ..."
 cd "$(dirname "$0")/../test"
 
 # Define paths and reference output
-BEACON="../bin/beacon"
+BFF_TOOLS="../bin/bff-tools"
 REFERENCE_RESULT="beacon_166403275914916"
 
 echo "Info: Cwd => $(pwd) ..."
@@ -21,8 +21,8 @@ for cmd in jq zcat; do
 done
 
 # Ensure the beacon binary exists and is executable
-if [[ ! -x "$BEACON" ]]; then
-  echo "Error: $BEACON executable not found or not executable"
+if [[ ! -x "$BFF_TOOLS" ]]; then
+  echo "Error: $BFF_TOOLS executable not found or not executable"
   exit 1
 fi
 
@@ -33,7 +33,7 @@ if [[ ! -f test_1000G.vcf.gz || ! -f param.yaml ]]; then
 fi
 
 # Run the test command and capture logs
-"$BEACON" vcf -i test_1000G.vcf.gz -p param.yaml > log.txt 2>&1
+"$BFF_TOOLS" vcf -i test_1000G.vcf.gz -p param.yaml > log.txt 2>&1
 
 # Identify the latest result directory
 TEST_RESULT=$(ls -td -- */ | head -n 1)

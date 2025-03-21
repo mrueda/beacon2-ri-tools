@@ -12,7 +12,7 @@ BEGIN {
     *CORE::GLOBAL::exit = sub { die "exit called" };
 }
 
-use BEACON::Help;
+use BFF::Help;
 
 # After loading BEACON::Help, override both Help::pod2usage and Pod::Usage::pod2usage.
 {

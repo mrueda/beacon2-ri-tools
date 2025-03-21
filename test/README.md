@@ -21,13 +21,13 @@ The test file included (`test_1000G.vcf.gz`) originates from the 1000 Genomes Pr
 # tabix -h ALL.chr1.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.vcf.gz | 1:10000-200000 | bgzip > test_1000G.vcf.gz
 ```
 
-## Run `beacon`
+## Run `bff-tools`
 
 To test your installation, please execute the command below:
 (It should take less than 1 minute to complete.)
 
 ```bash
-../bin/beacon vcf -i test_1000G.vcf.gz -p param.yaml  # Note that here we used hs37 as the reference genome
+../bin/bff-tools vcf -i test_1000G.vcf.gz -p param.yaml  # Note that here we used hs37 as the reference genome
 ```
 
 ## Test

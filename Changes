@@ -10,7 +10,8 @@ Revision history for beacon2-cbi-tools
     - Added support for arm64 (Apple Silicon / M-based Macs) architectures
     - 'mongosh' is now installed via apt.
     - Updated Dockerfile
-    - BEACON:
+    - BEACON => BFF-TOOLS:
+      - 'lib/BEACON/ => 'lib/BFF', 'Beacon.pm' => 'Tools.pm'
       - Now accepts pre-annotated VCFs using `annotate: false` in YAML configuration (requires mandatory ANN fields)
       - Added an 'examples' directory featuring hg38 (GRCh38)
       - Added spinner for interactive execution of 'bin/beacon'
