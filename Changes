@@ -8,24 +8,25 @@ Revision history for beacon2-cbi-tools
     - Repository renamed to 'beacon2-cbi-tools' ([C]NAG [B]iomedical [I]nformatics)
     - Repository transferred to @CNAG-Biomedical-Informatics organization
     - Added support for arm64 (Apple Silicon / M-based Macs) architectures
-    - Added an 'examples' directory featuring hg38 (GRCh38)
-    - Mongosh is now installed via apt (`sudo apt install mongodb-clients`)
-    - 'bin/beacon' now accepts pre-annotated VCFs using `annotate: false` in YAML configuration (requires mandatory ANN fields)
+    - 'mongosh' is now installed via apt.
+    - Updated Dockerfile
+    - BEACON:
+      - Now accepts pre-annotated VCFs using `annotate: false` in YAML configuration (requires mandatory ANN fields)
+      - Added an 'examples' directory featuring hg38 (GRCh38)
+      - Added spinner for interactive execution of 'bin/beacon'
+      - Added basic tests in 't/' directory
+      - Internal scripts moved from 'lib/BEACON/bin/' to 'lib/internal/{complete,partial}/'
+      - Updated 'bin/config.yaml' with placeholder `{base}`
+      - Added $version, $java, and $arch information to 'log.json'
+      - Updated tools versions:
+        - 'bcftools': 1.15.1 -> 1.21-103
+        - 'mongo-database-tools': ubuntu2004-100.5.1 -> ubuntu2204-100.9.4
+        - 'ClinVar' from clinvar_20211218* to clinvar_20250312*
       - VCF2BFF:
         - Reads 'annotatedWith' from external 'config.yaml' (fixed typo: toolreferences.dbSNSFP -> dbNSFP)
         - Added Sequence Ontology (SO) terms for calculated variant consequences:
-          https://www.ensembl.org/info/genome/variation/prediction/predicted_data.html
+            https://www.ensembl.org/info/genome/variation/prediction/predicted_data.html
         - Added t/ and debugging mode 'bff-pretty'
-    - Added spinner for interactive execution of 'bin/beacon'
-    - Added basic tests in 't/' directory
-    - Updated Dockerfile
-    - Internal scripts moved from 'lib/BEACON/bin/' to 'lib/internal/{complete,partial}/'
-    - Updated 'bin/config.yaml' with placeholder `{base}`
-    - Added $version, $java, and $arch information to 'log.json'
-    - Updated tools versions:
-      - 'bcftools': 1.15.1 -> 1.21-103
-      - 'mongo-database-tools': ubuntu2004-100.5.1 -> ubuntu2204-100.9.4
-      - 'ClinVar' from clinvar_20211218* to clinvar_20250312*
 
 2.0.7  2025-02-22
     - Moved 'browser/web' to 'utils/bff_browser/static/assets'
