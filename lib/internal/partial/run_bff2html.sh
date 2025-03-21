@@ -4,7 +4,7 @@
 #
 #   Last Modified: Jan/10/2025
 #
-#   Version taken from $beacon
+#   Version taken from $BEACON
 #
 #   Copyright (C) 2021-2022 Manuel Rueda - CRG
 #   Copyright (C) 2023-2025 Manuel Rueda - CNAG (manuel.rueda@cnag.eu)
@@ -31,42 +31,41 @@ export LC_ALL=C
 function usage {
 
     USAGE="""
-    Usage: $0 <../vcf/genomicVariationsVcf.json.gz> <projectdir> <id>
+    Usage: $0 <../vcf/genomicVariationsVcf.json.gz> <PROJECT_DIR> <ID>
     """
     echo "$USAGE"
     exit 1
 }
 
 # Check #arguments
-if [ $# -lt 3 ]
- then
-  usage
+if [ $# -lt 3 ]; then
+    usage
 fi
 
 # Load arguments
-input_bff=$1
-project_dir=$2
-id=$3
+INPUT_BFF=$1
+PROJECT_DIR=$2
+ID=$3
 
 # Step 1: Parse BFF according to gene panels
-echo "# Running bff2json"
-pattern='HIGH' # it only appears in field 'Annotation Impact', otherwise use awk with #col (see below)
-for panel in $panel_dir/*.lst
+echo "# Running BFF2JSON"
+PATTERN='HIGH' # it only appears in field 'Annotation Impact', otherwise use awk with #col (see below)
+for PANEL in $PANEL_DIR/*.lst
 do
- base=$(basename $panel .lst)
- # NB: 
- zgrep -F -w $pattern $input_bff | grep -F -w -f $panel > $id.$base.$pattern.json  || echo "Nothing found for $base"
- $bff2json -i $id.$base.$pattern.json -f json | jq -s . >  $base.json              || echo "Could not run $bff2json -f json for $base"  # jq needed
- $bff2json -i $id.$base.$pattern.json -f json4html      >  $base.mod.json          || echo "Could not run $bff2json -f json4html for $base"
+    BASE=$(basename $PANEL .lst)
+    # NB:
+    zgrep -F -w $PATTERN $INPUT_BFF | grep -F -w -f $PANEL > $ID.$BASE.$PATTERN.json || echo "Nothing found for $BASE"
+    $BFF2JSON -i $ID.$BASE.$PATTERN.json -f json | jq -s . > $BASE.json || echo "Could not run $BFF2JSON -f json for $BASE"  # jq needed
+    $BFF2JSON -i $ID.$BASE.$PATTERN.json -f json4html > $BASE.mod.json || echo "Could not run $BFF2JSON -f json4html for $BASE"
 done
 
 # Step 2: Create HTML for JSON
-echo "# Running json2html"
-ln -s $assets_dir assets # symbolic link for css, etc.
-$json2html --id $id --assets-dir assets --panel-dir $panel_dir --project-dir $project_dir > $id.html
+echo "# Running JSON2HTML"
+ln -s $ASSETS_DIR assets # symbolic link for css, etc.
+$JSON2HTML --id $ID --assets-dir assets --panel-dir $PANEL_DIR --project-dir $PROJECT_DIR > $ID.html
 
 cat <<EOF > README.txt
-# To visualize <$id.html>
+# To visualize <$ID.html>
 
 # 1. Go to bff_browser directory
 cd beacon2-ri-tools/utils/bff_browser

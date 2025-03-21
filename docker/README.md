@@ -127,6 +127,14 @@ Then run:
 beacon
 ```
 
+## Testing the deployment
+
+Go to directory `test` and execute:
+
+```bash
+bash 02_test_deployment.sh
+```
+
 ---
 
 ## MongoDB Installation (Optional: Only for `mongodb/full` modes)

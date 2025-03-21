@@ -140,7 +140,7 @@ sub mapping2beacon {
 }
 
 #----------------------------------------------------------------------
-# Helper: Map case-level data
+# Private Method: Map case-level data
 #----------------------------------------------------------------------
 sub _map_case_level_data {
     my ($cursor_internal) = @_;
@@ -183,7 +183,7 @@ sub _map_case_level_data {
 }
 
 #----------------------------------------------------------------------
-# Helper: Map frequency in populations
+# Private Method: Map frequency in populations
 #----------------------------------------------------------------------
 sub _map_frequency {
     my ( $cursor_info, $cursor_internal ) = @_;
@@ -243,7 +243,7 @@ sub _map_frequency {
 }
 
 #----------------------------------------------------------------------
-# Helper: Map identifiers
+# Private Method: Map identifiers
 #----------------------------------------------------------------------
 sub _map_identifiers {
     my ( $cursor_uid, $cursor_info ) = @_;
@@ -334,7 +334,7 @@ sub _map_identifiers {
 }
 
 #----------------------------------------------------------------------
-# Helper: Map molecular attributes
+# Private Method: Map molecular attributes
 #----------------------------------------------------------------------
 sub _map_molecular_attributes {
     my ( $cursor_ann, $cursor_uid ) = @_;
@@ -379,7 +379,7 @@ sub _map_molecular_attributes {
 }
 
 #----------------------------------------------------------------------
-# Helper: Map position information
+# Private Method: Map position information
 #----------------------------------------------------------------------
 sub _map_position {
     my ($cursor_internal) = @_;
@@ -398,7 +398,7 @@ sub _map_position {
 }
 
 #----------------------------------------------------------------------
-# Helper: Map variant level data (clinical interpretations)
+# Private Method: Map variant level data (clinical interpretations)
 #----------------------------------------------------------------------
 sub _map_variant_level_data {
     my ( $cursor_info, $cursor_internal ) = @_;
@@ -491,7 +491,7 @@ sub _map_variant_level_data {
 }
 
 #----------------------------------------------------------------------
-# Helper: Map variation details
+# Private Method: Map variation details
 #----------------------------------------------------------------------
 sub _map_variation {
     my ( $cursor_uid, $cursor_info, $cursor_internal, $identifiers ) = @_;
@@ -519,7 +519,7 @@ sub _map_variation {
 }
 
 #----------------------------------------------------------------------
-# Helper: Map variant quality (QUAL and FILTER)
+# Private Method: Map variant quality (QUAL and FILTER)
 #----------------------------------------------------------------------
 sub _map_variant_quality {
     my ($cursor_uid) = @_;

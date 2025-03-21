@@ -47,9 +47,9 @@ fi
 for collection in "${!collections[@]}"
 do
  echo "Loading collection...$collection"
- $mongoimport --jsonArray --uri "$mongodburi" --file ${collections[$collection]} --collection $collection || echo "Could not load <${collections[$collection]}> for <$collection>"
+ $MONGOIMPORT --jsonArray --uri "$mongodburi" --file ${collections[$collection]} --collection $collection || echo "Could not load <${collections[$collection]}> for <$collection>"
  echo "Indexing collection...$collection"
- $mongosh "$mongodburi" << EOF
+ $MONGOSH "$mongodburi" << EOF
 disableTelemetry()
 /* Single field indexes */
 db.$collection.createIndex( {"\$**": 1}, {name: "single_field_$collection"} )

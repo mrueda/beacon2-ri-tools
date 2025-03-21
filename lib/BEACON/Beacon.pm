@@ -89,13 +89,13 @@ sub vcf2bff {
 
     # Option 3 - Load the original script and create a new version with the right vars
     my @params = (
-        "export TMPDIR=$tmpdir", "zip='$zip'",
-        "snpeff='$snpeff'",      "snpsift='$snpsift'",
-        "bcftools=$bcftools",    "vcf2bff=$vcf2bff",
-        "genome='$genome'",      "ref=$ref",
-        "cosmic=$cosmic",        "dbnsfp=$dbnsfp",
-        "datasetid=$datasetid",  "projectdir=$dir",
-        "clinvar=$clinvar"
+        "export TMPDIR=$tmpdir", "ZIP='$zip'",
+        "SNPEFF='$snpeff'",      "SNPSIFT='$snpsift'",
+        "BCFTOOLS=$bcftools",    "VCF2BFF=$vcf2bff",
+        "GENOME='$genome'",      "REF=$ref",
+        "COSMIC=$cosmic",        "DBNSFP=$dbnsfp",
+        "DATASETID=$datasetid",  "PROJECTDIR=$dir",
+        "CLINVAR=$clinvar"
     );
 
     # Prepare variables
@@ -151,9 +151,9 @@ sub bff2html {
 
     # Parameters for the script
     my @params = (
-        "export TMPDIR=$tmpdir", "bff2json=$bff2json",
-        "json2html=$json2html",  "assets_dir=$assets_dir",
-        "panel_dir=$panel_dir"
+        "export TMPDIR=$tmpdir", "BFF2JSON=$bff2json",
+        "JSON2HTML=$json2html",  "ASSETS_DIR=$assets_dir",
+        "PANEL_DIR=$panel_dir"
     );
 
     # Prepare variables
@@ -214,10 +214,11 @@ sub bff2mongodb {
     # 2 - Ingestion returned no errors => via <check_mongoimport> (parses log file)
 
     # Parameters for the script
+    # Parameters for the script
     my @params = (
-        "export TMPDIR=$tmpdir",    "zip='$zip'",
-        "mongoimport=$mongoimport", "mongodburi=$mongodburi",
-        "mongosh=$mongosh"
+        "export TMPDIR=$tmpdir",    "ZIP='$zip'",
+        "MONGOIMPORT=$mongoimport", "MONGODBURI=$mongodburi",
+        "MONGOSH=$mongosh"
     );
 
     # This time having $arg is more complicated because we need constant naming for collections

@@ -20,8 +20,7 @@ Revision history for beacon2-cbi-tools
     - Internal scripts moved from 'lib/BEACON/bin/' to 'lib/internal/{complete,partial}/'
     - Updated 'bin/config.yaml' with placeholder `{base}`
     - Added $version, $java, and $arch information to 'log.json'
-    - Updated tool versions:
-      - 'bwa': 0.7.17 -> 0.7.18
+    - Updated tools versions:
       - 'bcftools': 1.15.1 -> 1.21-103
       - 'mongo-database-tools': ubuntu2004-100.5.1 -> ubuntu2204-100.9.4
       - 'ClinVar' from clinvar_20211218* to clinvar_20250312*

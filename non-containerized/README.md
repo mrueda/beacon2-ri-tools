@@ -95,14 +95,14 @@ pip install -r requirements.txt
 
 The Perl itself does not need a lot of RAM (max load will reach 400MB), but external tools do (e.g., process `mongod` [MongoDB's daemon]).
 
-## Testing the code
-
-The "integration tests" are done by comparing to reference files. You can validate the installation using the files included in the [test](https://github.com/mrueda/beacon2-cbi-tools/tree/main/test) directory.
+## Testing the deployment
 
 You may wanna install `jq` for running tests.
 
+Go to directory `test` and execute:
+
 ```bash
-sudo apt install jq
+bash 02_test_deployment.sh
 ```
 
 ### Common errors: Symptoms and treatment

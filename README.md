@@ -94,17 +94,13 @@
 
 **Latest Update: Mar-2025**
 
-This repository has been widely adopted in Beacon v2 implementations. Our plans include:
+This repository has been widely adopted in Beacon v2 implementations and is also used internally at CNAG. As a result, we plan to continue its development. Some of our upcoming plans include:
 
-- **Implement Beacon 2.1 / CBI changes**
+- **Implement Beacon 2.x specification changes**
 
     - For VCF: Adopt VRS nomenclature and transition away from LegacyVariation. Support for structural variants may be added.
     - For other entities: Align with the latest schema used in the BFF Validator and the Excel metadata template.
     - Update the **CINECA Synthetic Cohort** dataset.
-
-- **Improve BFF Browser**
-
-    Enhance capabilities for handling multiple entities and data types.
 
 # INSTALLATION
 
