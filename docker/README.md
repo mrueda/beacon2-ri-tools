@@ -2,7 +2,7 @@
 
 ## Downloading Required Databases and Software
 
-First, we need to download the necessary databases and software. Unlike `beacon-cbi-tools`, where the data was inside the container, we now store the data externally. This improves data persistence and allows software updates without needing to re-download everything.
+First, we need to download the necessary databases and software. Unlike `beacon2-cbi-tools`, where the data was inside the container, we now store the data externally. This improves data persistence and allows software updates without needing to re-download everything.
 
 ### Step 1: Download Required Files
 
@@ -72,18 +72,18 @@ tar -xzvf data.tar.gz
 
 ## Method 1: Installing from Docker Hub
 
-Pull the latest Docker image from [Docker Hub](https://hub.docker.com/r/manuelrueda/beacon-cbi-tools):
+Pull the latest Docker image from [Docker Hub](https://hub.docker.com/r/manuelrueda/beacon2-cbi-tools):
 
 ```bash
-docker pull manuelrueda/beacon-cbi-tools:latest
-docker image tag manuelrueda/beacon-cbi-tools:latest cnag/beacon-cbi-tools:latest
+docker pull manuelrueda/beacon2-cbi-tools:latest
+docker image tag manuelrueda/beacon2-cbi-tools:latest cnag/beacon2-cbi-tools:latest
 ```
 
 ---
 
 ## Method 2: Installing from Dockerfile
 
-Download the `Dockerfile` from [GitHub](https://github.com/mrueda/beacon-cbi-tools/blob/main/Dockerfile):
+Download the `Dockerfile` from [GitHub](https://github.com/mrueda/beacon2-cbi-tools/blob/main/Dockerfile):
 
 ```bash
 wget https://raw.githubusercontent.com/mrueda/beacon2-cbi-tools/main/docker/Dockerfile
@@ -94,13 +94,13 @@ Then build the container:
 - **For Docker version 19.03 and above (supports buildx):**
 
   ```bash
-  docker buildx build -t cnag/beacon-cbi-tools:latest .
+  docker buildx build -t cnag/beacon2-cbi-tools:latest .
   ```
 
 - **For Docker versions older than 19.03 (no buildx support):**
 
   ```bash
-  docker build -t cnag/beacon-cbi-tools:latest .
+  docker build -t cnag/beacon2-cbi-tools:latest .
   ```
 
 ---
@@ -108,9 +108,9 @@ Then build the container:
 ## Running the Container
 
 ```bash
-docker run -tid --volume /your/path/to/beacon2-cbi-tools-data:/beacon2-cbi-tools-data --name beacon-cbi-tools cnag/beacon-cbi-tools:latest
-docker ps  # list your containers, beacon-cbi-tools should be there
-docker exec -ti beacon-cbi-tools bash  # connect to the container interactively
+docker run -tid --volume /your/path/to/beacon2-cbi-tools-data:/beacon2-cbi-tools-data --name beacon2-cbi-tools cnag/beacon2-cbi-tools:latest
+docker ps  # list your containers, beacon2-cbi-tools should be there
+docker exec -ti beacon2-cbi-tools bash  # connect to the container interactively
 ```
 
 Alternatively, you can run commands **from the host**, like this:
@@ -118,7 +118,7 @@ Alternatively, you can run commands **from the host**, like this:
 First, create an alias to simplify invocation:
 
 ```bash
-alias beacon='docker exec -ti beacon-cbi-tools /usr/share/beacon-cbi-tools/bin/beacon'
+alias beacon='docker exec -ti beacon2-cbi-tools /usr/share/beacon2-cbi-tools/bin/beacon'
 ```
 
 Then run:
@@ -160,12 +160,12 @@ Mongo Express will be accessible at `http://localhost:8081` with default credent
 
 ### Access MongoDB from Inside the Container
 
-If you want to load data from **inside** the `beacon-cbi-tools` container directly into the `mongo` container, both containers must be on the same network.
+If you want to load data from **inside** the `beacon2-cbi-tools` container directly into the `mongo` container, both containers must be on the same network.
 
 #### **Option A**: Before running the container
 
 ```bash
-docker run -tid --network=my-app-network --name beacon-cbi-tools cnag/beacon-cbi-tools:latest
+docker run -tid --network=my-app-network --name beacon2-cbi-tools cnag/beacon2-cbi-tools:latest
 ```
 
 #### **Option B**: After running the container
