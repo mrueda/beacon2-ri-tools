@@ -108,7 +108,7 @@ Then build the container:
 ## Running the Container
 
 ```bash
-docker run -tid --volume /your/path/to/beacon2-cbi-tools-data:/beacon2-cbi-tools-data --name beacon2-cbi-tools cnag/beacon2-cbi-tools:latest
+docker run -tid --volume /media/mrueda/4TBB/beacon2-cbi-tools-data:/beacon2-cbi-tools-data --name beacon2-cbi-tools cnag/beacon2-cbi-tools:latest
 docker ps  # list your containers, beacon2-cbi-tools should be there
 docker exec -ti beacon2-cbi-tools bash  # connect to the container interactively
 ```
@@ -171,7 +171,7 @@ docker run -tid --network=my-app-network --name beacon2-cbi-tools cnag/beacon2-c
 #### **Option B**: After running the container
 
 ```bash
-docker network connect my-app-network beacon2_ri-tools
+docker network connect my-app-network beacon2-cbi-tools
 ```
 
 ---

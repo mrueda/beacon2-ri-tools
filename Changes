@@ -15,8 +15,10 @@ Revision history for beacon2-cbi-tools
         - Reads 'annotatedWith' from external 'config.yaml' (fixed typo: toolreferences.dbSNSFP -> dbNSFP)
         - Added Sequence Ontology (SO) terms for calculated variant consequences:
           https://www.ensembl.org/info/genome/variation/prediction/predicted_data.html
+        - Added t/ and debugging mode 'bff-pretty'
     - Added spinner for interactive execution of 'bin/beacon'
     - Added basic tests in 't/' directory
+    - Updated Dockerfile
     - Internal scripts moved from 'lib/BEACON/bin/' to 'lib/internal/{complete,partial}/'
     - Updated 'bin/config.yaml' with placeholder `{base}`
     - Added $version, $java, and $arch information to 'log.json'

@@ -1,5 +1,5 @@
 ---
-base: /media/mrueda/2TBS/external/beacon2-cbi-tools-data
+base: /beacon2-cbi-tools-data
 
 # Reference assemblies (genomes)
 hs37fasta: "{base}/databases/genomes/hs37d5.fa.gz"

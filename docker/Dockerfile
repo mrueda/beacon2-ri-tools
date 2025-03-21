@@ -11,19 +11,27 @@ ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && apt-get install -y \
     apt-utils wget bzip2 git cpanminus perl-doc gcc make \
     libbz2-dev zlib1g-dev libncurses5-dev libncursesw5-dev \
-    liblzma-dev libcurl4-openssl-dev pkg-config libssl-dev mongodb-clients\
+    liblzma-dev libcurl4-openssl-dev pkg-config libssl-dev \
     unzip jq vim sudo default-jre python3-pip && \
     pip install xlsx2csv flask pandas && \
+    apt-get clean && rm -rf /var/lib/apt/lists/*
+
+# Install mongosh (MongoDB Shell)
+RUN apt-get update && apt-get install -y gnupg && \
+    wget -qO - https://www.mongodb.org/static/pgp/server-6.0.asc | apt-key add - && \
+    echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu focal/mongodb-org/6.0 multiverse" \
+        | tee /etc/apt/sources.list.d/mongodb-org-6.0.list && \
+    apt-get update && apt-get install -y mongodb-mongosh && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Set working directory
 WORKDIR /usr/share/
 
 # Clone the repository (shallow clone for efficiency)
-RUN git clone --depth=1 https://github.com/mrueda/beacon2-ri-tools.git
+RUN git clone https://github.com/mrueda/beacon2-cbi-tools.git
 
 # Install Perl dependencies
-WORKDIR /usr/share/beacon2-ri-tools
+WORKDIR /usr/share/beacon2-cbi-tools
 RUN cpanm --notest --installdeps . && rm -rf /root/.cpanm/work/*
 
 # Add a non-root user
