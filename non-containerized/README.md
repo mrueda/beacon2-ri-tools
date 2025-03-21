@@ -54,7 +54,16 @@ tar -xzvf data.tar.gz
 First, we need to install a few system components:
 
 ```bash
-sudo apt install libbz2-dev zlib1g-dev libncurses5-dev libncursesw5-dev liblzma-dev libcurl4-openssl-dev libssl-dev mongodb-clients cpanminus python3-pip perl-doc default-jre
+sudo apt install libbz2-dev zlib1g-dev libncurses5-dev libncursesw5-dev liblzma-dev libcurl4-openssl-dev libssl-dev cpanminus python3-pip perl-doc default-jre
+```
+
+Let's install `mongosh` (only if you plan to load data into MongoDB)
+
+```bash
+wget -qO - https://www.mongodb.org/static/pgp/server-6.0.asc | sudo gpg --dearmor -o /usr/share/keyrings/mongodb-server-6.0.gpg
+echo "deb [signed-by=/usr/share/keyrings/mongodb-server-6.0.gpg arch=amd64,arm64] https://repo.mongodb.org/apt/ubuntu focal/mongodb-org/6.0 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-6.0.list
+sudo apt-get update
+sudo apt-get install -y mongodb-mongosh
 ```
 
 Use `git clone` to get the latest (stable) version:
