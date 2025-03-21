@@ -1,6 +1,6 @@
 # NAME
 
-`beacon`: A script to **annotate** and **transform** **VCFs** into the `genomicVariations` entity of the Beacon v2 Models. The script also supports ingesting the data into a **MongoDB** instance. It is part of the `beacon2-ri-tools` repository.
+`beacon`: A script to **annotate** and **transform** **VCFs** into the `genomicVariations` entity of the Beacon v2 Models. The script also supports ingesting the data into a **MongoDB** instance. It is part of the `beacon2-cbi-tools` repository.
 
 # SYNOPSIS
 
@@ -82,7 +82,7 @@ To perform all these taks you'll need:
 
 - (Optional) Specify the number of threads (only for VCF processing!)
 
-    The number of threads/cores you want to use for the job. In this regard (since SnpEff does not deal well with parallelization) we recommend using `-t 1` and running multiple simultaneous jobs with GNU `parallel` or the included [queue system](https://github.com/mrueda/beacon2-ri-tools/tree/main/utils/bff_queue)). The software scales linearly {O}(n) with the number of variations present in the input file. The easiest way is to run one job per chromosome, but if you are in a hurry and have many cores you can split each chromosome into smaller vcfs.
+    The number of threads/cores you want to use for the job. In this regard (since SnpEff does not deal well with parallelization) we recommend using `-t 1` and running multiple simultaneous jobs with GNU `parallel` or the included [queue system](https://github.com/CNAG-Biomedical-Informatics/beacon2-cbi-tools/tree/main/utils/bff_queue)). The software scales linearly {O}(n) with the number of variations present in the input file. The easiest way is to run one job per chromosome, but if you are in a hurry and have many cores you can split each chromosome into smaller vcfs.
 
 `beacon` will create an independent project directory `projectdir` and store all needed information needed there. Thus, many concurrent calculations are supported.
 Note that `beacon` will treat your data as _read-only_ (i.e., will not modify your original files).
@@ -188,7 +188,7 @@ The Beacon Friendly Format is a data exchange format consisting up to  7 JSON fi
 
 Six files correspond to Metadata (`analyses.json,biosamples.json,cohorts.json,datasets.json,individuals.json,runs.json`) and one corresponds to variations (`genomicVariations.json`).
 
-Normally, `beacon` script is used to create `genomicVariations` JSON file. The other 6 files are created with [this utility](https://github.com/mrueda/beacon2-ri-tools/tree/main/utils/bff_validator) (part of the distribution). See instructions [here](https://github.com/mrueda/beacon2-ri-tools/tree/main/utils/bff_validator/README.md).
+Normally, `beacon` script is used to create `genomicVariations` JSON file. The other 6 files are created with [this utility](https://github.com/CNAG-Biomedical-Informatics/beacon2-cbi-tools/tree/main/utils/bff_validator) (part of the distribution). See instructions [here](https://github.com/CNAG-Biomedical-Informatics/beacon2-cbi-tools/tree/main/utils/bff_validator/README.md).
 
 Once we have all seven files, then we can proceed to load the data into MongoDB.
 

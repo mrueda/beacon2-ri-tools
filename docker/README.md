@@ -9,7 +9,7 @@ First, we need to download the necessary databases and software. Unlike `beacon2
 Navigate to a directory with at least **150GB** of available space and run:
 
 ```bash
-wget https://raw.githubusercontent.com/mrueda/beacon2-cbi-tools/main/scripts/01_download_external_data.py
+wget https://raw.githubusercontent.com/CNAG-Biomedical-Informatics/beacon2-cbi-tools/main/scripts/01_download_external_data.py
 ```
 
 Then execute the script:
@@ -83,10 +83,10 @@ docker image tag manuelrueda/beacon2-cbi-tools:latest cnag/beacon2-cbi-tools:lat
 
 ## Method 2: Installing from Dockerfile
 
-Download the `Dockerfile` from [GitHub](https://github.com/mrueda/beacon2-cbi-tools/blob/main/Dockerfile):
+Download the `Dockerfile` from [GitHub](https://github.com/CNAG-Biomedical-Informatics/beacon2-cbi-tools/blob/main/Dockerfile):
 
 ```bash
-wget https://raw.githubusercontent.com/mrueda/beacon2-cbi-tools/main/docker/Dockerfile
+wget https://raw.githubusercontent.com/CNAG-Biomedical-Informatics/beacon2-cbi-tools/main/docker/Dockerfile
 ```
 
 Then build the container:
@@ -108,9 +108,14 @@ Then build the container:
 ## Running the Container
 
 ```bash
+# Please update '/media/mrueda/4TBB/beacon2-cbi-tools-data' with the location of your data. Do not touch the mounting point ':/beacon2-cbi-tools-data'
 docker run -tid --volume /media/mrueda/4TBB/beacon2-cbi-tools-data:/beacon2-cbi-tools-data --name beacon2-cbi-tools cnag/beacon2-cbi-tools:latest
+
+# To check the containers
 docker ps  # list your containers, beacon2-cbi-tools should be there
-docker exec -ti beacon2-cbi-tools bash  # connect to the container interactively
+
+# Connect to the container interactively
+docker exec -ti beacon2-cbi-tools bash
 ```
 
 Alternatively, you can run commands **from the host**, like this:
@@ -144,7 +149,7 @@ If you don't already have MongoDB installed in a separate container, follow thes
 ### Step 1: Download `docker-compose.yml`
 
 ```bash
-wget https://raw.githubusercontent.com/mrueda/beacon2-cbi-tools/main/docker/docker-compose.yml
+wget https://raw.githubusercontent.com/CNAG-Biomedical-Informatics/beacon2-cbi-tools/main/docker/docker-compose.yml
 ```
 
 ### Step 2: Start MongoDB

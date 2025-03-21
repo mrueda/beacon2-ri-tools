@@ -28,7 +28,7 @@ RUN apt-get update && apt-get install -y gnupg && \
 WORKDIR /usr/share/
 
 # Clone the repository (shallow clone for efficiency)
-RUN git clone https://github.com/mrueda/beacon2-cbi-tools.git
+RUN git clone https://github.com/CNAG-Biomedical-Informatics/beacon2-cbi-tools.git
 
 # Install Perl dependencies
 WORKDIR /usr/share/beacon2-cbi-tools
