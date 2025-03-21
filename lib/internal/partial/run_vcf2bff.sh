@@ -30,9 +30,6 @@ set -euo pipefail
 export LC_ALL=C
 
 #____WRAPPER_VARIABLES____#
-# All necessary variables (e.g., BCFTOOLS, REF, SNPEFF, ZIP, SNPSIFT, CLINVAR, COSMIC,
-# VCF2BFF, PROJECTDIR, DATASETID, GENOME, DBNSFP, etc.) are expected to be defined
-# by the wrapper script that calls this script.
 
 function usage {
     echo "Usage: $0 <input_vcf> [annotation:true|false]"

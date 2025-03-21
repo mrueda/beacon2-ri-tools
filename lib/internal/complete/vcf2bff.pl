@@ -3,8 +3,10 @@
 #   Script to parse a VCF having SnepEff/SnpSift ANN fields
 #   The output can be:
 #       a) genomicVariantsVcf.json.gz [bff]
-#       b) genomicVariationsVcf-dev.json.gz Standard JSON [json]
-#       c) genomicVariationsVcf-dev.hash.gz Perl hash data structure [hash]
+#       (Debugging modes):
+#       b) genomicVariationsVcf-dev.bff.gz Standard JSON [bff-pretty]
+#       c) genomicVariationsVcf-dev.json.gz Standard JSON [json]
+#       d) genomicVariationsVcf-dev.hash.gz Perl hash data structure [hash]
 #
 #   Last Modified: Mar/17/2025
 #
@@ -49,9 +51,10 @@ use BFF::Data qw(%chr_name_conv %vcf_data_loc);
 #  Named Constants for Output Formats
 # -----------------------
 use constant {
-    FORMAT_BFF  => 'bff',
-    FORMAT_JSON => 'json',
-    FORMAT_HASH => 'hash',
+    FORMAT_BFF        => 'bff',
+    FORMAT_BFF_PRETTY => 'bff-pretty',
+    FORMAT_JSON       => 'json',
+    FORMAT_HASH       => 'hash',
 };
 
 $Data::Dumper::Sortkeys = 1;
@@ -102,12 +105,17 @@ sub vcf2bff {
     my $skip_structural_variation = 1;
 
     # Decide fileout
-my %filename = (
-    (FORMAT_BFF)  => 'genomicVariationsVcf.json.gz',
-    (FORMAT_JSON) => 'genomicVariationsVcf-dev.json.gz',
-    (FORMAT_HASH) => 'genomicVariationsVcf-dev.hash.gz',
-);
-my $fileout = $filename{$cli->{format}} // 'genomicVariationsVcf.json.gz';
+    my $out_dir = $cli->{out_dir} // './';
+    my %suffix  = (
+        FORMAT_BFF()        => 'genomicVariationsVcf.json.gz',
+        FORMAT_BFF_PRETTY() => 'genomicVariationsVcf-dev.bff.gz',
+        FORMAT_JSON()       => 'genomicVariationsVcf-dev.json.gz',
+        FORMAT_HASH()       => 'genomicVariationsVcf-dev.hash.gz',
+    );
+
+    # Use the appropriate suffix or default to FORMAT_BFF
+    my $fileout =
+      catfile( $out_dir, $suffix{$format} // $suffix{ FORMAT_BFF() } );
 
     # Debug / verbose info
     my $prompt = 'Info:';
@@ -347,6 +355,7 @@ sub parse_cli_args {
         'dataset-id|d=s'  => \$opts{dataset_id},     # string
         'project-dir|p=s' => \$opts{project_dir},    # string
         'genome|g=s'      => \$opts{genome},         # string
+        'out-dir=s'       => \$opts{out_dir},        # string
         'help|?'          => \$opts{help},           # flag
         'man'             => \$opts{man},            # flag
         'debug=i'         => \$opts{debug},          # integer
@@ -398,6 +407,12 @@ sub parse_cli_args {
         -message => "Please specify -project-dir\n",
         -exitval => 1
     ) unless ( $opts{project_dir} );
+
+    # Check for out-dir
+    pod2usage(
+        -message => "Please specify a valid -out-dir\n",
+        -exitval => 1
+    ) if ( defined $opts{out_dir} && !-d $opts{out_dir} );
 
     return \%opts;
 }
@@ -571,17 +586,19 @@ vcf2bff.pl -i <vcf_file> [-arguments|-options]
 
      Arguments:                       
        -i|input                       Annotated vcf file
-       -f|format                      Output format [>bff|hash|json]
-       -p|project-dir                 Beacon project dir
        -d|dataset-id                  Dataset ID
        -g|genome                      Reference genome
+       -p|project-dir                 Beacon project dir
 
      Options:
+       -f|format                      Output format [>bff|hash|json]
+       -out-dir                       Output directory
+
+     Generic Options:
        -h|help                        Brief help message
        -man                           Full documentation
        -debug                         Print debugging (from 1 to 5, being 5 max)
        -verbose                       Verbosity on
-
 
 =head1 SUMMARY
 
@@ -590,8 +607,12 @@ Script to parse a VCF having SnepEff/SnpSift annotations (ANN fields).
 The output can be:
 
        a) genomicVariantsVcf.json.gz [bff]
-       b) genomicVariationsVcf-dev.json.gz Standard JSON [json]
-       c) genomicVariationsVcf-dev.hash.gz Perl hash data structure [hash]
+
+For development:
+
+       b) genomicVariationsVcf-dev.bff.gz Standard JSON [bff-pretty]
+       c) genomicVariationsVcf-dev.json.gz Standard JSON [json]
+       d) genomicVariationsVcf-dev.hash.gz Perl hash data structure [hash]
 
 =head1 INSTALLATION
 
@@ -618,16 +639,24 @@ String.
 
 String.
 
+=item 4 - Project dir
+
+String.
+
+Optional:
+
+=item 5 - Format
+
+[bff | bff-pretty | json | hash ]
+
 =back
 
-From version **2.0.8** we have a C<config.yaml> file with the data for C<annotatedWith>.
+From version B<2.0.8> we have a C<config.yaml> file with the data for C<annotatedWith>.
 
 B<Examples:>
 
- ./vcf2bff.pl -i file.vcf.gz --dataset-id my_id_1 --genome hg19
- ./vcf2bff.pl -i file.vcf.gz --id my_id_1 -g hg19 -verbose log 2>&1
-
- nohup $path/vcf2bf.pl -i file.vcf.gz -debug 5 --dataset-id my_id_1 --genome hg19
+ ./vcf2bff.pl -i file.vcf.gz --dataset-id my_id_1 --genome hg19 --project-dir my_project_dir
+ ./vcf2bff.pl -i file.vcf.gz --dataset-id my_id_1 --genome hg19 --project-dir my_project_dir -f json
 
 =head1 CITATION
 

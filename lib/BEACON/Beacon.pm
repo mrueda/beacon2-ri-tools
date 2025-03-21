@@ -152,8 +152,8 @@ sub bff2html {
     # Parameters for the script
     my @params = (
         "export TMPDIR=$tmpdir", "BFF2JSON=$bff2json",
-        "JSON2HTML=$json2html",  "ASSETS_DIR=$assets_dir",
-        "PANEL_DIR=$panel_dir"
+        "JSON2HTML=$json2html",  "ASSETSDIR=$assets_dir",
+        "PANELDIR=$panel_dir"
     );
 
     # Prepare variables

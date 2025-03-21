@@ -31,7 +31,7 @@ export LC_ALL=C
 function usage {
 
     USAGE="""
-    Usage: $0 <../vcf/genomicVariationsVcf.json.gz> <PROJECT_DIR> <ID>
+    Usage: $0 <../vcf/genomicVariationsVcf.json.gz> <PROJECTDIR> <ID>
     """
     echo "$USAGE"
     exit 1
@@ -44,13 +44,13 @@ fi
 
 # Load arguments
 INPUT_BFF=$1
-PROJECT_DIR=$2
+PROJECTDIR=$2
 ID=$3
 
 # Step 1: Parse BFF according to gene panels
 echo "# Running BFF2JSON"
 PATTERN='HIGH' # it only appears in field 'Annotation Impact', otherwise use awk with #col (see below)
-for PANEL in $PANEL_DIR/*.lst
+for PANEL in $PANELDIR/*.lst
 do
     BASE=$(basename $PANEL .lst)
     # NB:
@@ -61,14 +61,14 @@ done
 
 # Step 2: Create HTML for JSON
 echo "# Running JSON2HTML"
-ln -s $ASSETS_DIR assets # symbolic link for css, etc.
-$JSON2HTML --id $ID --assets-dir assets --panel-dir $PANEL_DIR --project-dir $PROJECT_DIR > $ID.html
+ln -s $ASSETSDIR assets # symbolic link for css, etc.
+$JSON2HTML --id $ID --assets-dir assets --panel-dir $PANELDIR --project-dir $PROJECTDIR > $ID.html
 
 cat <<EOF > README.txt
 # To visualize <$ID.html>
 
 # 1. Go to bff_browser directory
-cd beacon2-ri-tools/utils/bff_browser
+cd beacon2-cbi-tools/utils/bff_browser
 
 # 2. Execute BFF Browser Flask App
 python3 app.py 
