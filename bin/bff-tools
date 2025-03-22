@@ -1,12 +1,13 @@
 #!/usr/bin/env perl
 #
-#   BFF-tools: Script with multiple modes:
-#   - vcf: 
-#       1/ Optional(Annotates VCF)
-#       2/ Serializes VCF to BFF
-#   - load: Transfers BFF data to MongoDB
-#   - full: Combines vcf and load modes
-#   - validate: Resorts to utils/bff-validator
+#   BFF-tools: Script to process VCF/BFF data
+#   It has fours modes
+#   1. vcf: 
+#       a) Annotates VCF with SnpEff (optional)
+#       b) Serializes VCF to BFF
+#   2. load: Transfers BFF data to MongoDB
+#   3. full: Combines vcf and load modes
+#   4. validate: Resorts to utils/bff-validator
 #
 #   Last Modified: March/22/2025
 #
@@ -431,6 +432,17 @@ Example for C<load> mode:
    runs: runs.json
    # Note that genomicVariationsVcf is not affected by <metadatadir>
    genomicVariationsVcf: beacon_XXXX/vcf/genomicVariationsVcf.json.gz
+ projectdir: my_project
+
+Example for C<full> mode:
+
+ --
+ genome: hs37 # default hg19
+ annotate: true # default true
+ bff:
+   metadatadir: .
+   analyses: analyses.json
+   runs: runs.json
  projectdir: my_project
 
 Please find below a detailed description of all parameters (alphabetical order):

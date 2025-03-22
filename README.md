@@ -1,5 +1,4 @@
 
-<h2> Under Maintenance until March 24</h1>
 <div align="center">
     <a href="https://github.com/CNAG-Biomedical-Informatics/beacon2-cbi-tools">
         <img src="https://raw.githubusercontent.com/CNAG-Biomedical-Informatics/beacon2-cbi-tools/main/docs/img/logo.png" width="200" alt="beacon2-cbi-tools">
@@ -22,6 +21,8 @@
 ---
 
 **Legacy B2RI Documentation**: <a href="https://b2ri-documentation.readthedocs.io/" target="_blank">https://b2ri-documentation.readthedocs.io/</a>
+
+**New documentation coming soon !!**
 
 **Docker Hub Image**: <a href="https://hub.docker.com/r/manuelrueda/beacon2-cbi-tools/tags" target="_blank">https://hub.docker.com/r/manuelrueda/beacon2-cbi-tools/tags</a>
 

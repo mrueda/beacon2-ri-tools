@@ -186,7 +186,7 @@ sub bff2mongodb {
       $bff->{genomicVariationsVcf}
       ? "\n"
       . qq(echo "Loading collection...genomicVariations[Vcf]") . "\n"
-      . '$zip -dc '
+      . '$ZIP -dc '
       . abs_path( $bff->{genomicVariationsVcf} )
       . qq( | \$MONGOIMPORT --jsonArray --uri "\$MONGODBURI" --collection genomicVariations || echo "Could not load <$bff->{genomicVariationsVcf}> for <genomicVariations>")
       . "\n"

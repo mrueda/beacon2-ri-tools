@@ -1,0 +1,5 @@
+bff:
+  metadatadir: '.'
+  datasets: ../CINECA_synthetic_cohort_EUROPE_UK1/bff/datasets.json
+  # Note that genomicVariationsVcf is not affected by <metadatadir>
+  genomicVariationsVcf: beacon_174032470078487/vcf/genomicVariationsVcf.json.gz

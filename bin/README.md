@@ -121,6 +121,17 @@ Example for `load` mode:
       genomicVariationsVcf: beacon_XXXX/vcf/genomicVariationsVcf.json.gz
     projectdir: my_project
 
+Example for `full` mode:
+
+    --
+    genome: hs37 # default hg19
+    annotate: true # default true
+    bff:
+      metadatadir: .
+      analyses: analyses.json
+      runs: runs.json
+    projectdir: my_project
+
 Please find below a detailed description of all parameters (alphabetical order):
 
 - **annotate**
