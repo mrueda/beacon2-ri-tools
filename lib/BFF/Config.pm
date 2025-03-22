@@ -250,7 +250,7 @@ sub read_param_file {
         full =>
           { vcf2bff => 1, bff2html => $param{bff2html}, bff2mongodb => 1 },
         vcf => { vcf2bff => 1, bff2html => $param{bff2html}, bff2mongodb => 0 },
-        mongodb => { vcf2bff => 0, bff2html => 0, bff2mongodb => 1 },
+        load => { vcf2bff => 0, bff2html => 0, bff2mongodb => 1 },
     );
 
     die "Invalid mode: $arg->{mode}" unless exists $modes{ $arg->{mode} };
@@ -258,11 +258,11 @@ sub read_param_file {
     $param{pipeline}{bff2html}    = $modes{ $arg->{mode} }{bff2html};
     $param{pipeline}{bff2mongodb} = $modes{ $arg->{mode} }{bff2mongodb};
 
-    # Check if -f user_collections for modes [mongodb|full]
-    if ( $arg->{mode} eq 'mongodb' || $arg->{mode} eq 'full' ) {
+    # Check if -f user_collections for modes [load|full]
+    if ( $arg->{mode} eq 'load' || $arg->{mode} eq 'full' ) {
         my @collections =
           qw(runs cohorts biosamples individuals genomicVariations  analyses datasets);
-        push @collections, 'genomicVariationsVcf' if $arg->{mode} eq 'mongodb';
+        push @collections, 'genomicVariationsVcf' if $arg->{mode} eq 'load';
         my @user_collections =
           grep { $_ ne 'metadatadir' } sort keys %{ $param{bff} };
         my $metadata_dir = $param{bff}{metadatadir};

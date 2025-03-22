@@ -188,17 +188,17 @@ sub bff2mongodb {
       . qq(echo "Loading collection...genomicVariations[Vcf]") . "\n"
       . '$zip -dc '
       . abs_path( $bff->{genomicVariationsVcf} )
-      . qq( | \$mongoimport --jsonArray --uri "\$mongodburi" --collection genomicVariations || echo "Could not load <$bff->{genomicVariationsVcf}> for <genomicVariations>")
+      . qq( | \$MONGOIMPORT --jsonArray --uri "\$MONGODBURI" --collection genomicVariations || echo "Could not load <$bff->{genomicVariationsVcf}> for <genomicVariations>")
       . "\n"
       . qq(echo "Indexing collection...genomicVariations[Vcf]") . "\n"
-      . qq(\$mongosh "\$mongodburi"<<EOF\ndisableTelemetry()\n/* Single field indexes */\ndb.genomicVariations.createIndex( {"\\\$**": 1}, {name: "single_field_genomicVariations"} )\n/* Text indexes */\ndb.genomicVariations.createIndex( {"\\\$**": "text"}, {name: "text_genomicVariations"} )\nquit()\nEOF)
+      . qq(\$MONGOSH "\$MONGODBURI"<<EOF\ndisableTelemetry()\n/* Single field indexes */\ndb.genomicVariations.createIndex( {"\\\$**": 1}, {name: "single_field_genomicVariations"} )\n/* Text indexes */\ndb.genomicVariations.createIndex( {"\\\$**": "text"}, {name: "text_genomicVariations"} )\nquit()\nEOF)
       : '';
 
     # Prepare variables
     my $str .= join "\n", @params;
     my $file_content = path($filename)->slurp;
     $file_content =~ s/#____WRAPPER_VARIABLES____#/$str/;
-    $file_content =~ s/\n#__GENOMIC_VARIATIONS__/$gv_str/;
+    $file_content =~ s/\n#__WRAPPER_GENOMIC_VARIATIONS_VARIABLES__#/$gv_str/;
     my $script = basename($filename);
     ( my $script_log = $script ) =~ s/sh/log/;
     $dir = catdir( $dir, 'mongodb' );

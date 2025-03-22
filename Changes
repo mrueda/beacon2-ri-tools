@@ -8,7 +8,7 @@ Revision history for beacon2-cbi-tools
     - Repository renamed to 'beacon2-cbi-tools' ([C]NAG [B]iomedical [I]nformatics)
     - Repository transferred to @CNAG-Biomedical-Informatics organization
     - Added support for arm64 (Apple Silicon / M-based Macs) architectures
-    - 'mongosh' is now installed via apt.
+    - 'mongosh' is now installed via apt
     - Updated Dockerfile
     - BEACON => BFF-TOOLS:
       - 'lib/BEACON/ => 'lib/BFF', 'Beacon.pm' => 'Tools.pm'

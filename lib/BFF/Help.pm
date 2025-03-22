@@ -48,7 +48,7 @@ sub usage {
     # The first argument determines the mode.
     my $mode = shift @ARGV;
 
-    my %valid_modes = ( full => 1, vcf => 1, mongodb => 1 );
+    my %valid_modes = ( full => 1, vcf => 1, load => 1 );
     pod2usage(
         -exitval => 1,
         -verbose => 1,
@@ -59,8 +59,8 @@ sub usage {
     if ( $mode eq 'vcf' || $mode eq 'full' ) {
         my $options = parse_vcf_full_options($mode);
     }
-    elsif ( $mode eq 'mongodb' ) {
-        mongodb();  # The mongodb sub remains separate if it needs its own logic.
+    elsif ( $mode eq 'load' ) {
+        load();  # The load sub remains separate if it needs its own logic.
     }
 }
 
@@ -117,8 +117,8 @@ sub parse_vcf_full_options {
     return wantarray ? %arg : \%arg;
 }
 
-sub mongodb {
-    my %arg = ( debug => 0, mode => 'mongodb' );
+sub load {
+    my %arg = ( debug => 0, mode => 'load' );
     GetOptions(
         'debug=i'                  => \$arg{debug},                   # numeric (integer)
         'verbose'                  => \$arg{verbose},                 # flag

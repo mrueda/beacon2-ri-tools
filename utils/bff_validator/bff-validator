@@ -57,7 +57,7 @@ exit;
 sub validate_input_data {
 
     # Defining a few variables
-    my $version    = '2.0.7';
+    my $version    = '2.0.8';
     my $schema_dir = catdir( $Bin, 'deref_schemas' );
     my $out_dir    = '.';
 
@@ -714,8 +714,11 @@ sub program_header {
     my $version = shift;
     my $str     = <<EOF;
 ****************************************
-*  Beacon v2 Reference Implementation  *
-* - BEACON FRIENDLY FORMAT VALIDATOR - *      
+*          beacon2-cbi-tools           *
+*--------------------------------------*
+*          BFF-TOOLS VALIDATOR         *
+*   (Beacon Friendly Format Validator) *
+*--------------------------------------*
 *           Version: $version             *
 *       Author: Manuel Rueda, PhD      *
 ****************************************

@@ -177,6 +177,7 @@ docker network connect my-app-network beacon2-cbi-tools
 
 ## System requirements
 
+- Architectures supported: **x86_64** (linux/amd64) and **arm64** (linux/arm64).
 - Ideally a Debian-based distribution (Ubuntu or Mint), but any other (e.g., CentOS, OpenSUSE) should do as well (untested).
 - Docker and docker compose
 - Perl 5 (>= 5.10 core; installed by default in most Linux distributions). Check the version with perl -v

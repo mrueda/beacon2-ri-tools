@@ -47,9 +47,9 @@ fi
 for collection in "${!collections[@]}"
 do
  echo "Loading collection...$collection"
- $MONGOIMPORT --jsonArray --uri "$mongodburi" --file ${collections[$collection]} --collection $collection || echo "Could not load <${collections[$collection]}> for <$collection>"
+ $MONGOIMPORT --jsonArray --uri "$MONGODBURI" --file ${collections[$collection]} --collection $collection || echo "Could not load <${collections[$collection]}> for <$collection>"
  echo "Indexing collection...$collection"
- $MONGOSH "$mongodburi" << EOF
+ $MONGOSH "$MONGODBURI" << EOF
 disableTelemetry()
 /* Single field indexes */
 db.$collection.createIndex( {"\$**": 1}, {name: "single_field_$collection"} )
@@ -58,7 +58,7 @@ db.$collection.createIndex( {"\$**": "text"}, {name: "text_$collection"} )
 quit()
 EOF
 done
-#__GENOMIC_VARIATIONS__
+#__WRAPPER_GENOMIC_VARIATIONS_VARIABLES__#
 
 # All done
 echo "# Finished OK"

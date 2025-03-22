@@ -1,6 +1,6 @@
 # NAME
 
-`bff-tools`: A unified command-line toolkit for working with Beacon v2 data. It allows users to **annotate** and **convert** VCF files into the `genomicVariations` entity using the Beacon-Friendly Format (BFF), **load** BFF-formatted data into a **MongoDB** instance, and **validate** metadata files (XLSX or JSON) against Beacon v2 schema definitions. 
+`bff-tools`: A unified command-line toolkit for working with Beacon v2 Models data. It allows users to **annotate** and **convert** VCF files into the `genomicVariations` entity using the Beacon-Friendly Format (BFF), **validate** metadata files (XLSX or JSON) against Beacon v2 schema definitions and **load** BFF-formatted data into a **MongoDB** instance.
 
 This tool is part of the `beacon2-cbi-tools` repository and is designed to support Beacon v2 data ingestion pipelines, metadata validation workflows, and federated data sharing initiatives.
 
@@ -51,25 +51,7 @@ bff-tools &lt;mode> \[-arguments\] \[-options\]
 
 `bff-tools` is a command-line toolkit with four operational modes for working with Beacon v2 data:
 
-- **Mode `vcf`**
-
-    Converts **genomic variation data** (VCF) into Beacon-Friendly Format (BFF) for the `genomicVariations` entity. Optionally annotates the VCF using SnpEff and dbNSFP before serializing it into `genomicVariationsVcf.json.gz`.  
-    Extended documentation is available at [https://b2ri-documentation.readthedocs.io/en/latest/data-ingestion](https://b2ri-documentation.readthedocs.io/en/latest/data-ingestion).
-
-- **Mode `load`**
-
-    Loads metadata and variation data already formatted in BFF into a MongoDB instance. This includes collections such as `individuals`, `biosamples`, `cohorts`, and `genomicVariations`.
-
-- **Mode `full`**
-
-    Combines modes `vcf` and `load`: it processes a VCF file into BFF format and directly loads the resulting data into MongoDB.
-
-- **Mode `validate`**
-
-    Validates metadata files (XLSX or JSON) against the Beacon v2 schemas and serializes them into BFF JSON format.  
-    An Excel template is provided to help users correctly structure their metadata before validation.  
-    This mode does not require a parameters or configuration file.
-    See additional information at this \[page\](utils/bff\_validator/README.md).
+# HOW TO RUN `bff-tools`
 
 This script supports four **modes**: `vcf`, `load`, `full`, and `validate`.
 
@@ -79,7 +61,7 @@ Annotates a gzipped VCF file (optional) and serializes it into the Beacon-Friend
 
 **\* Mode `load`**
 
-Loads BFF-formatted JSON files — including metadata and genomic variations — into a MongoDB instance.
+Loads BFF-formatted JSON files - including metadata and genomic variations - into a MongoDB instance.
 
 **\* Mode `full`**
 
@@ -89,7 +71,6 @@ Combines `vcf` and `load`: it processes a VCF file and ingests the resulting dat
 
 Validates metadata files (XLSX or JSON) against the Beacon v2 schema definitions and serializes them into BFF JSON collections.  
 Note: This mode uses a separate internal script and does not require a parameters or configuration file.
-See extended information at [bff\_validator/README.md](https://metacpan.org/pod/bff_validator#README.md).
 
 To perform these tasks, you may need:
 
@@ -111,7 +92,7 @@ To perform these tasks, you may need:
 
 - Threads (only for `vcf` and `full` modes)
 
-    You can set the number of threads using `-t`. However, since SnpEff doesn’t parallelize efficiently, it’s best to use `-t 1` and distribute the work (e.g., by chromosome) using GNU `parallel` or the included [queue system](https://github.com/CNAG-Biomedical-Informatics/beacon2-cbi-tools/tree/main/utils/bff_queue)).
+    You can set the number of threads using `-t`. However, since SnpEff doesn't parallelize efficiently, it's best to use `-t 1` and distribute the work (e.g., by chromosome) using GNU `parallel` or the included [queue system](https://github.com/CNAG-Biomedical-Informatics/beacon2-cbi-tools/tree/main/utils/bff_queue)).
 
 `bff-tools` will create an independent project directory `projectdir` and store all needed information needed there. Thus, many concurrent calculations are supported.
 Note that `bff-tools` will treat your data as _read-only_ (i.e., will not modify your original files).
@@ -283,23 +264,3 @@ Credits:
 # COPYRIGHT and LICENSE
 
 This PERL file is copyrighted. See the LICENSE file included in this distribution.
-
-# POD ERRORS
-
-Hey! **The above document had some coding errors, which are explained below:**
-
-- Around line 384:
-
-    &#x3d;back doesn't take any parameters, but you said =back  =head1 HOW TO RUN C&lt;bff-tools>
-
-- Around line 395:
-
-    Non-ASCII character seen before =encoding in '—'. Assuming UTF-8
-
-- Around line 403:
-
-    alternative text 'bff\_validator/README.md' contains non-escaped | or /
-
-- Around line 431:
-
-    &#x3d;back doesn't take any parameters, but you said =back  =back

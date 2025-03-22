@@ -96,6 +96,7 @@ pip install -r requirements.txt
 
 ## System requirements
 
+- OS/ARCH supported: **linux/amd64** and **linux/arm64)**.
 - Ideally a Debian-based distribution (Ubuntu or Mint), but any other (e.g., CentOS, OpenSUSE) should do as well (untested).
 - Perl 5 (>= 5.10 core; installed by default in most Linux distributions). Check the version with `perl -v`
 - 4GB of RAM (ideally 16GB).

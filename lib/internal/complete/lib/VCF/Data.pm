@@ -1,4 +1,4 @@
-package BFF::Data;
+package VCF::Data;
 
 use strict;
 use warnings;

@@ -308,7 +308,7 @@ __END__
 
 =head1 NAME
 
-C<bff-tools>: A unified command-line toolkit for working with Beacon v2 data. It allows users to B<annotate> and B<convert> VCF files into the C<genomicVariations> entity using the Beacon-Friendly Format (BFF), B<load> BFF-formatted data into a B<MongoDB> instance, and B<validate> metadata files (XLSX or JSON) against Beacon v2 schema definitions. 
+C<bff-tools>: A unified command-line toolkit for working with Beacon v2 Models data. It allows users to B<annotate> and B<convert> VCF files into the C<genomicVariations> entity using the Beacon-Friendly Format (BFF), B<validate> metadata files (XLSX or JSON) against Beacon v2 schema definitions and B<load> BFF-formatted data into a B<MongoDB> instance.
 
 This tool is part of the C<beacon2-cbi-tools> repository and is designed to support Beacon v2 data ingestion pipelines, metadata validation workflows, and federated data sharing initiatives.
 
@@ -359,29 +359,6 @@ bff-tools <mode> [-arguments] [-options]
 
 C<bff-tools> is a command-line toolkit with four operational modes for working with Beacon v2 data:
 
-=over
-
-=item B<Mode C<vcf>>
-
-Converts B<genomic variation data> (VCF) into Beacon-Friendly Format (BFF) for the C<genomicVariations> entity. Optionally annotates the VCF using SnpEff and dbNSFP before serializing it into C<genomicVariationsVcf.json.gz>.  
-Extended documentation is available at L<https://b2ri-documentation.readthedocs.io/en/latest/data-ingestion>.
-
-=item B<Mode C<load>>
-
-Loads metadata and variation data already formatted in BFF into a MongoDB instance. This includes collections such as C<individuals>, C<biosamples>, C<cohorts>, and C<genomicVariations>.
-
-=item B<Mode C<full>>
-
-Combines modes C<vcf> and C<load>: it processes a VCF file into BFF format and directly loads the resulting data into MongoDB.
-
-=item B<Mode C<validate>>
-
-Validates metadata files (XLSX or JSON) against the Beacon v2 schemas and serializes them into BFF JSON format.  
-An Excel template is provided to help users correctly structure their metadata before validation.  
-This mode does not require a parameters or configuration file.
-See additional information at this [page](utils/bff_validator/README.md).
-
-=back
 =head1 HOW TO RUN C<bff-tools>
 
 This script supports four B<modes>: C<vcf>, C<load>, C<full>, and C<validate>.
@@ -392,7 +369,7 @@ Annotates a gzipped VCF file (optional) and serializes it into the Beacon-Friend
 
 B<* Mode C<load>>
 
-Loads BFF-formatted JSON files — including metadata and genomic variations — into a MongoDB instance.
+Loads BFF-formatted JSON files - including metadata and genomic variations - into a MongoDB instance.
 
 B<* Mode C<full>>
 
@@ -402,7 +379,6 @@ B<* Mode C<validate>>
 
 Validates metadata files (XLSX or JSON) against the Beacon v2 schema definitions and serializes them into BFF JSON collections.  
 Note: This mode uses a separate internal script and does not require a parameters or configuration file.
-See extended information at L<bff_validator/README.md|bff_validator/README.md>.
 
 To perform these tasks, you may need:
 
@@ -426,9 +402,8 @@ You can start with the provided Excel template and use C<--gv> or C<--ignore-val
 
 =item * Threads (only for C<vcf> and C<full> modes)
 
-You can set the number of threads using C<-t>. However, since SnpEff doesn’t parallelize efficiently, it’s best to use C<-t 1> and distribute the work (e.g., by chromosome) using GNU C<parallel> or the included L<queue system|https://github.com/CNAG-Biomedical-Informatics/beacon2-cbi-tools/tree/main/utils/bff_queue>).
+You can set the number of threads using C<-t>. However, since SnpEff doesn't parallelize efficiently, it's best to use C<-t 1> and distribute the work (e.g., by chromosome) using GNU C<parallel> or the included L<queue system|https://github.com/CNAG-Biomedical-Informatics/beacon2-cbi-tools/tree/main/utils/bff_queue>).
 
-=back
 =back
 
 C<bff-tools> will create an independent project directory C<projectdir> and store all needed information needed there. Thus, many concurrent calculations are supported.
