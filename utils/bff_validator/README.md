@@ -31,7 +31,7 @@ bff-validator: A script that validates metadata (XLSX|JSON) against Beacon v2 Mo
 
 # INSTALLATION
 
-If you got this script from `beacon2-ri-tools` no action is required from you.
+If you got this script from `beacon2-cbi-tools` no action is required from you.
 
 If you want to install ONLY this script then:
 
@@ -44,7 +44,7 @@ First we install cpanminus (with sudo privileges):
 
 Second we use cpanm to install the CPAN modules:
 
-First you need to copy the following [cpanfile](https://raw.githubusercontent.com/mrueda/beacon2-ri-tools/main/cpanfile) to your current directory.  You have two choose between one of the 2 options below:
+First you need to copy the following [cpanfile](https://raw.githubusercontent.com/mrueda/beacon2-cbi-tools/main/cpanfile) to your current directory.  You have two choose between one of the 2 options below:
 
 **Option 1:** System-level installation:
 
@@ -77,7 +77,7 @@ For executing `bff-validator` you will need:
 
     Please use the flag `--gv` should you want to validate the data in the sheet &lt;genomicVariations>.
 
-    _NB:_ If you have multiple CSV files instead of a XLSX file you can use the included utility [csv2xlsx](https://github.com/EGA-archive/beacon2-ri-tools/blob/main/utils/models2xlsx/csv2xlsx) that will join all CSVs into 1 XLSX.
+    _NB:_ If you have multiple CSV files instead of a XLSX file you can use the included utility [csv2xlsx](https://github.com/EGA-archive/beacon2-cbi-tools/blob/main/utils/models2xlsx/csv2xlsx) that will join all CSVs into 1 XLSX.
 
         $ ./csv2xlsx *csv -o out.xlsx
 

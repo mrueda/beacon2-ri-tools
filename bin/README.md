@@ -1,88 +1,119 @@
 # NAME
 
-`bff-tools`: A script to **annotate** and **transform** **VCFs** into the `genomicVariations` entity of the Beacon v2 Models. The script also supports ingesting the data into a **MongoDB** instance. It is part of the `beacon2-cbi-tools` repository.
+`bff-tools`: A unified command-line toolkit for working with Beacon v2 data. It allows users to **annotate** and **convert** VCF files into the `genomicVariations` entity using the Beacon-Friendly Format (BFF), **load** BFF-formatted data into a **MongoDB** instance, and **validate** metadata files (XLSX or JSON) against Beacon v2 schema definitions. 
+
+This tool is part of the `beacon2-cbi-tools` repository and is designed to support Beacon v2 data ingestion pipelines, metadata validation workflows, and federated data sharing initiatives.
 
 # SYNOPSIS
 
-    bff-tools <mode> [-arguments] [-options]
+bff-tools &lt;mode> \[-arguments\] \[-options\]
 
-      Mode:
-        vcf
-          -i | --input <file>            Requires a VCF.gz file
-                                         (May require a parameters file)
+    Mode:
+      vcf
+         -i | --input <file>            Requires a VCF.gz file
+                                        (May also use a parameters file)
 
-        load
-                                         (May require a parameters file)
+      load
+                                        (Requires a parameters file specifying BFF files)
 
-        full (vcf + load)
-          -i | --input <file>            Requires a VCF.gz file
-                                         (May require a parameters file)
+       full (vcf + load)
+         -i | --input <file>            Requires a VCF.gz file
+                                        (May also use a parameters file)
 
-      Options:
-          -c | --config <file>           Requires a configuration file
-          -p | --param <file>            Requires a parameters file (optional)
-          -projectdir-override <path>    Specifies a custom project directory path, overriding the default value in the configuration file
-          -t | --threads <number>        Number of threads (optional)
+         Options (for vcf / load / full):
+         -c | --config <file>           Requires a configuration file
+         -p | --param <file>            Requires a parameters file (optional)
+         -projectdir-override <path>    Custom project directory path (overrides config)
+         -t | --threads <number>        Number of threads (optional, mainly for VCF)
 
-      Info Options:
-          -h                             Brief help message
-          -man                           Full documentation
-          -v                             Display version information
-          -debug <level>                 Print debugging information (from 1 to 5, with 5 being the max) (optional)
-          -verbose                       Enable verbosity (optional)
-          -nc | --no-color               Do not print colors to STDOUT (optional)
+      validate
+         -i | --input <file(s)>         One or more XLSX/JSON metadata files
+         -s | --schema-dir <directory>  Directory containing JSON schemas
+         -o | --out-dir <directory>     Output directory for validated data
+         -gv                            Set this option if you want to process <genomicVariations> entity
+         -ignore-validation             Writes JSON collection regardless of results from validation against JSON schemas (AYOR!)
+
+         Experimental:
+         -gv-vcf                        Set this option to read <genomicVariations.json> from <beacon vcf> (with one document per line)
+
+
+       Generic Options:
+         -h                             Brief help message
+         -man                           Full documentation
+         -v                             Display version information
+         -debug <level>                 Print debugging information (1 to 5)
+         -verbose                       Enable verbosity
+         -nc | --no-color               Do not print colors to STDOUT
 
 # DESCRIPTION
 
 ### `bff-tools`
 
-`bff-tools`, a script with three operational modes for diverse actions:
+`bff-tools` is a command-line toolkit with four operational modes for working with Beacon v2 data:
 
-- Mode `vcf`
+- **Mode `vcf`**
 
-    Converts **genomic variation data** (VCF) into queryable MongoDB format. Extended documentation is available [here](https://b2ri-documentation.readthedocs.io/en/latest/data-ingestion). The VCF data are annotated and serialized into `genomicVariationsVcf.json.gz`.
+    Converts **genomic variation data** (VCF) into Beacon-Friendly Format (BFF) for the `genomicVariations` entity. Optionally annotates the VCF using SnpEff and dbNSFP before serializing it into `genomicVariationsVcf.json.gz`.  
+    Extended documentation is available at [https://b2ri-documentation.readthedocs.io/en/latest/data-ingestion](https://b2ri-documentation.readthedocs.io/en/latest/data-ingestion).
 
-- Mode `load`
+- **Mode `load`**
 
-    Facilitates loading [BFF](#what-is-the-beacon-friendly-format-bff) data into MongoDB.
+    Loads metadata and variation data already formatted in BFF into a MongoDB instance. This includes collections such as `individuals`, `biosamples`, `cohorts`, and `genomicVariations`.
 
-- Mode `full`: Combines modes `vcf` and `load`
+- **Mode `full`**
 
-# HOW TO RUN `bff-tools`
+    Combines modes `vcf` and `load`: it processes a VCF file into BFF format and directly loads the resulting data into MongoDB.
+
+- **Mode `validate`**
+
+    Validates metadata files (XLSX or JSON) against the Beacon v2 schemas and serializes them into BFF JSON format.  
+    An Excel template is provided to help users correctly structure their metadata before validation.  
+    This mode does not require a parameters or configuration file.
+    See additional information at this \[page\](utils/bff\_validator/README.md).
 
 We recommend following this [tutorial](https://b2ri-documentation.readthedocs.io/en/latest/tutorial-data-beaconization).
 
-This script has three **modes**: `vcf, load` and `full`
+This script supports four **modes**: `vcf`, `load`, `full`, and `validate`.
 
 **\* Mode `vcf`**
 
-Annotating and serializing a VCF file into a BFF file for genomic variations.
+Annotates a gzipped VCF file (optional) and serializes it into the Beacon-Friendly Format (BFF) as `genomicVariationsVcf.json.gz`.
 
 **\* Mode `load`**
 
-Loading BFF data into MongoDB.
+Loads BFF-formatted JSON files — including metadata and genomic variations — into a MongoDB instance.
 
 **\* Mode `full`**
 
-Mode vcf + mode load.
+Combines `vcf` and `load`: it processes a VCF file and ingests the resulting data into MongoDB.
 
-To perform all these taks you'll need: 
+**\* Mode `validate`**
 
-- A gzipped VCF 
+Validates metadata files (XLSX or JSON) against the Beacon v2 schema definitions and serializes them into BFF JSON collections.  
+Note: This mode uses a separate internal script and does not require a parameters or configuration file.
+See extended information at \[bff\_validator/README.md\](bff\_validator/README.md).
 
-    Note that it does not need to be bgzipped.
+To perform these tasks, you may need:
 
-- (Optional) A parameters file
+- A gzipped VCF file (for modes: `vcf` and `full`)
 
-    A parameters text file that will contain specific values needed for the job.
+    Note: It does not need to be bgzipped.
 
-- BFF files (only for modes: load and full)
+- A parameters file (optional)
 
-    (see explanation of BFF format [here](#what-is-the-beacon-friendly-format-bff))
+    YAML file with job-specific values and metadata file references. Recommended for structured processing.
 
-- (Optional) Specify the number of threads (only for VCF processing!)
+- BFF JSON files (required for modes: `load` and `full`)
 
-    The number of threads/cores you want to use for the job. In this regard (since SnpEff does not deal well with parallelization) we recommend using `-t 1` and running multiple simultaneous jobs with GNU `parallel` or the included [queue system](https://github.com/CNAG-Biomedical-Informatics/beacon2-cbi-tools/tree/main/utils/bff_queue)). The software scales linearly {O}(n) with the number of variations present in the input file. The easiest way is to run one job per chromosome, but if you are in a hurry and have many cores you can split each chromosome into smaller vcfs.
+    See [Beacon-Friendly Format (BFF)](#what-is-the-beacon-friendly-format-bff) for a detailed explanation.
+
+- Metadata files (XLSX or JSON) (for mode: `validate`)
+
+    You can start with the provided Excel template and use `--gv` or `--ignore-validation` flags if needed.
+
+- Threads (only for `vcf` and `full` modes)
+
+    You can set the number of threads using `-t`. However, since SnpEff doesn’t parallelize efficiently, it’s best to use `-t 1` and distribute the work (e.g., by chromosome) using GNU `parallel` or the included [queue system](https://github.com/CNAG-Biomedical-Informatics/beacon2-cbi-tools/tree/main/utils/bff_queue)).
 
 `bff-tools` will create an independent project directory `projectdir` and store all needed information needed there. Thus, many concurrent calculations are supported.
 Note that `bff-tools` will treat your data as _read-only_ (i.e., will not modify your original files).
@@ -170,6 +201,9 @@ Please find below a detailed description of all parameters (alphabetical order):
 
     $ bin/bff-tools full -t 1 --i input.vcf.gz -p param_file -c config_file > log 2>&1
 
+    $ bin/bff-tools validate -i my_data.xlsx -o outdir
+
+
     $ nohup $path_to_beacon/bin/bff-tools full -i input.vcf.gz -verbose
 
     $ parallel "bin/bff-tools vcf -t 1 -i chr{}.vcf.gz  > chr{}.log 2>&1" ::: {1..22} X Y
@@ -251,3 +285,19 @@ Credits:
 # COPYRIGHT and LICENSE
 
 This PERL file is copyrighted. See the LICENSE file included in this distribution.
+
+# POD ERRORS
+
+Hey! **The above document had some coding errors, which are explained below:**
+
+- Around line 384:
+
+    &#x3d;back doesn't take any parameters, but you said =back  =head1 HOW TO RUN C&lt;bff-tools>
+
+- Around line 397:
+
+    Non-ASCII character seen before =encoding in '—'. Assuming UTF-8
+
+- Around line 433:
+
+    &#x3d;back doesn't take any parameters, but you said =back  =back

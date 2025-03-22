@@ -6,7 +6,7 @@ The BFF Browser is an application that displays BFF files as interactive HTML. I
 ![BFF Dashboard](static/images/snapshot-dashboard-browser.png)
 
 ## Installation  
-If you have already installed `beacon2-ri-tools`, the App should be installed automatically. If not, ensure you have Python 3 installed and then use the provided `requirements.txt` to install necessary dependencies:
+If you have already installed `beacon2-cbi-tools`, the App should be installed automatically. If not, ensure you have Python 3 installed and then use the provided `requirements.txt` to install necessary dependencies:
 
 ```bash
 pip install -r requirements.txt

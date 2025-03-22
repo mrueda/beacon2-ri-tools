@@ -8,7 +8,7 @@
 #
 #   Last Modified: March/17/2022
 #
-#   $VERSION from beacon2-ri-tools
+#   $VERSION from beacon2-cbi-tools
 #
 #   Copyright (C) 2021-2022 Manuel Rueda - CRG
 #   Copyright (C) 2023-2025 Manuel Rueda - CNAG (manuel.rueda@cnag.eu)

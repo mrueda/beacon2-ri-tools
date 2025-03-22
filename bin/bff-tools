@@ -1,13 +1,14 @@
 #!/usr/bin/env perl
 #
-#   BFF-tools: Script with multiple functions:
-#   - vcf mode: 
+#   BFF-tools: Script with multiple modes:
+#   - vcf: 
 #       1/ Optional(Annotates VCF)
 #       2/ Serializes VCF to BFF
-#   - load mode: Transfers BFF data to MongoDB
-#   - full mode: Combines vcf and load modes
+#   - load: Transfers BFF data to MongoDB
+#   - full: Combines vcf and load modes
+#   - validate: Resorts to utils/bff-validator
 #
-#   Last Modified: Jan/23/2025
+#   Last Modified: March/22/2025
 #
 #   Version: 2.0.8
 #
@@ -54,6 +55,21 @@ use BFF::Tools;
 # bff-tools version
 my $version = '2.0.8';
 
+# Personalize warn and die functions
+$SIG{__WARN__} = sub { warn BOLD YELLOW "Warn: ", @_ };
+$SIG{__DIE__}  = sub { die BOLD RED "Error: ", @_ };
+
+# -----------------------------------------------------------
+# ADD THIS “VALIDATE” HANDLER:
+my $first_arg = $ARGV[0] // '';
+if ($first_arg eq 'validate') {
+    shift @ARGV;
+    system("$Bin/../utils/bff_validator/bff-validator", @ARGV) == 0
+      or die RED "Error: could not run bff-validator: $!" . RESET;
+    exit($? >> 8);
+}
+# -----------------------------------------------------------
+
 # Initialize a few more variables
 my $prompt      = 'Info:';
 my $warn        = 'Warn:';
@@ -63,11 +79,7 @@ my $arrow       = '=>';
 my $cmd         = '';
 my $author      = 'Author: Manuel Rueda, PhD';
 my $license     = 'License: GNU General Public License v3';
-my $beacon_path = abs_path($0);
-
-# Personalize warn and die functions
-$SIG{__WARN__} = sub { warn BOLD YELLOW "Warn: ", @_ };
-$SIG{__DIE__}  = sub { die BOLD RED "Error: ", @_ };
+my $bfftools_path = abs_path($0);
 
 # We tell Perl to flush right away STDOUT data
 $| = 1;
@@ -94,8 +106,8 @@ my $param = Config::read_param_file($arg);
 
 # Start printing information
 say $prompt;
-say BOLD CYAN "$prompt bff-tools $version", RESET;
-say "$prompt bff-tools exe: $beacon_path";
+say BOLD CYAN "$prompt BFF-Tools $version", RESET;
+say "$prompt bff-tools exe: $bfftools_path";
 say "$prompt $author";
 say "$prompt $license\n$prompt";
 
@@ -296,96 +308,129 @@ __END__
 
 =head1 NAME
 
-C<bff-tools>: A script to B<annotate> and B<transform> B<VCFs> into the C<genomicVariations> entity of the Beacon v2 Models. The script also supports ingesting the data into a B<MongoDB> instance. It is part of the C<beacon2-cbi-tools> repository.
+C<bff-tools>: A unified command-line toolkit for working with Beacon v2 data. It allows users to B<annotate> and B<convert> VCF files into the C<genomicVariations> entity using the Beacon-Friendly Format (BFF), B<load> BFF-formatted data into a B<MongoDB> instance, and B<validate> metadata files (XLSX or JSON) against Beacon v2 schema definitions. 
+
+This tool is part of the C<beacon2-cbi-tools> repository and is designed to support Beacon v2 data ingestion pipelines, metadata validation workflows, and federated data sharing initiatives.
 
 =head1 SYNOPSIS
 
- bff-tools <mode> [-arguments] [-options]
+bff-tools <mode> [-arguments] [-options]
 
-   Mode:
-     vcf
+  Mode:
+    vcf
        -i | --input <file>            Requires a VCF.gz file
-                                      (May require a parameters file)
+                                      (May also use a parameters file)
 
-     load
-                                      (May require a parameters file)
+    load
+                                      (Requires a parameters file specifying BFF files)
 
      full (vcf + load)
        -i | --input <file>            Requires a VCF.gz file
-                                      (May require a parameters file)
+                                      (May also use a parameters file)
 
-   Options:
+       Options (for vcf / load / full):
        -c | --config <file>           Requires a configuration file
        -p | --param <file>            Requires a parameters file (optional)
-       -projectdir-override <path>    Specifies a custom project directory path, overriding the default value in the configuration file
-       -t | --threads <number>        Number of threads (optional)
+       -projectdir-override <path>    Custom project directory path (overrides config)
+       -t | --threads <number>        Number of threads (optional, mainly for VCF)
 
-   Info Options:
+    validate
+       -i | --input <file(s)>         One or more XLSX/JSON metadata files
+       -s | --schema-dir <directory>  Directory containing JSON schemas
+       -o | --out-dir <directory>     Output directory for validated data
+       -gv                            Set this option if you want to process <genomicVariations> entity
+       -ignore-validation             Writes JSON collection regardless of results from validation against JSON schemas (AYOR!)
+
+       Experimental:
+       -gv-vcf                        Set this option to read <genomicVariations.json> from <beacon vcf> (with one document per line)
+
+
+     Generic Options:
        -h                             Brief help message
        -man                           Full documentation
        -v                             Display version information
-       -debug <level>                 Print debugging information (from 1 to 5, with 5 being the max) (optional)
-       -verbose                       Enable verbosity (optional)
-       -nc | --no-color               Do not print colors to STDOUT (optional)
+       -debug <level>                 Print debugging information (1 to 5)
+       -verbose                       Enable verbosity
+       -nc | --no-color               Do not print colors to STDOUT
 
 =head1 DESCRIPTION
 
 =head3 C<bff-tools>
 
-C<bff-tools>, a script with three operational modes for diverse actions:
+C<bff-tools> is a command-line toolkit with four operational modes for working with Beacon v2 data:
 
 =over
 
-=item Mode C<vcf>
+=item B<Mode C<vcf>>
 
-Converts B<genomic variation data> (VCF) into queryable MongoDB format. Extended documentation is available L<here|https://b2ri-documentation.readthedocs.io/en/latest/data-ingestion>. The VCF data are annotated and serialized into C<genomicVariationsVcf.json.gz>.
+Converts B<genomic variation data> (VCF) into Beacon-Friendly Format (BFF) for the C<genomicVariations> entity. Optionally annotates the VCF using SnpEff and dbNSFP before serializing it into C<genomicVariationsVcf.json.gz>.  
+Extended documentation is available at L<https://b2ri-documentation.readthedocs.io/en/latest/data-ingestion>.
 
-=item Mode C<load>
+=item B<Mode C<load>>
 
-Facilitates loading L<BFF|/#what-is-the-beacon-friendly-format-bff> data into MongoDB.
+Loads metadata and variation data already formatted in BFF into a MongoDB instance. This includes collections such as C<individuals>, C<biosamples>, C<cohorts>, and C<genomicVariations>.
 
-=item Mode C<full>: Combines modes C<vcf> and C<load>
+=item B<Mode C<full>>
+
+Combines modes C<vcf> and C<load>: it processes a VCF file into BFF format and directly loads the resulting data into MongoDB.
+
+=item B<Mode C<validate>>
+
+Validates metadata files (XLSX or JSON) against the Beacon v2 schemas and serializes them into BFF JSON format.  
+An Excel template is provided to help users correctly structure their metadata before validation.  
+This mode does not require a parameters or configuration file.
+See additional information at this [page](utils/bff_validator/README.md).
 
 =back
-
 =head1 HOW TO RUN C<bff-tools>
 
 We recommend following this L<tutorial|https://b2ri-documentation.readthedocs.io/en/latest/tutorial-data-beaconization>.
 
-This script has three B<modes>: C<vcf, load> and C<full>
+This script supports four B<modes>: C<vcf>, C<load>, C<full>, and C<validate>.
 
 B<* Mode C<vcf>>
 
-Annotating and serializing a VCF file into a BFF file for genomic variations.
+Annotates a gzipped VCF file (optional) and serializes it into the Beacon-Friendly Format (BFF) as C<genomicVariationsVcf.json.gz>.
 
 B<* Mode C<load>>
 
-Loading BFF data into MongoDB.
+Loads BFF-formatted JSON files — including metadata and genomic variations — into a MongoDB instance.
 
 B<* Mode C<full>>
 
-Mode vcf + mode load.
+Combines C<vcf> and C<load>: it processes a VCF file and ingests the resulting data into MongoDB.
 
-To perform all these taks you'll need: 
+B<* Mode C<validate>>
+
+Validates metadata files (XLSX or JSON) against the Beacon v2 schema definitions and serializes them into BFF JSON collections.  
+Note: This mode uses a separate internal script and does not require a parameters or configuration file.
+See extended information at [bff_validator/README.md](bff_validator/README.md).
+
+To perform these tasks, you may need:
 
 =over
 
-=item * A gzipped VCF 
+=item * A gzipped VCF file (for modes: C<vcf> and C<full>)
 
-Note that it does not need to be bgzipped.
+Note: It does not need to be bgzipped.
 
-=item * (Optional) A parameters file
+=item * A parameters file (optional)
 
-A parameters text file that will contain specific values needed for the job.
+YAML file with job-specific values and metadata file references. Recommended for structured processing.
 
-=item * BFF files (only for modes: load and full)
+=item * BFF JSON files (required for modes: C<load> and C<full>)
 
-(see explanation of BFF format L<here|/#what-is-the-beacon-friendly-format-bff>)
+See L<Beacon-Friendly Format (BFF)|/#what-is-the-beacon-friendly-format-bff> for a detailed explanation.
 
-=item * (Optional) Specify the number of threads (only for VCF processing!)
+=item * Metadata files (XLSX or JSON) (for mode: C<validate>)
 
-The number of threads/cores you want to use for the job. In this regard (since SnpEff does not deal well with parallelization) we recommend using C<-t 1> and running multiple simultaneous jobs with GNU C<parallel> or the included L<queue system|https://github.com/CNAG-Biomedical-Informatics/beacon2-cbi-tools/tree/main/utils/bff_queue>). The software scales linearly {O}(n) with the number of variations present in the input file. The easiest way is to run one job per chromosome, but if you are in a hurry and have many cores you can split each chromosome into smaller vcfs.
+You can start with the provided Excel template and use C<--gv> or C<--ignore-validation> flags if needed.
 
+=item * Threads (only for C<vcf> and C<full> modes)
+
+You can set the number of threads using C<-t>. However, since SnpEff doesn’t parallelize efficiently, it’s best to use C<-t 1> and distribute the work (e.g., by chromosome) using GNU C<parallel> or the included L<queue system|https://github.com/CNAG-Biomedical-Informatics/beacon2-cbi-tools/tree/main/utils/bff_queue>).
+
+=back
 =back
 
 C<bff-tools> will create an independent project directory C<projectdir> and store all needed information needed there. Thus, many concurrent calculations are supported.
@@ -477,6 +522,9 @@ B<Examples:>
   $ bin/bff-tools full -t 1 --i input.vcf.gz -p param_file  > log 2>&1
 
   $ bin/bff-tools full -t 1 --i input.vcf.gz -p param_file -c config_file > log 2>&1
+
+  $ bin/bff-tools validate -i my_data.xlsx -o outdir
+
 
   $ nohup $path_to_beacon/bin/bff-tools full -i input.vcf.gz -verbose
 

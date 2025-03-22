@@ -1,10 +1,10 @@
-# `beacon2-ri-tools` - Utilities
+# `beacon2-cbi-tools` - Utilities
 
 This directory contains utility tools for data management, validation, and interaction with the Beacon Friendly Format (BFF).
 
 ## Utilities Overview
 
-### 1. **bff_browser**
+### 1. **bff-browser**
 A lightweight, client-based tool for browsing and interacting with BFF data.
 
 - **Purpose:** Provides a user-friendly frontend for querying and visualizing Beacon datasets.  
@@ -13,7 +13,7 @@ A lightweight, client-based tool for browsing and interacting with BFF data.
   - Data visualization and search functionality  
   - Intended for researchers and non-technical users  
 
-### 2. **bff_portal**
+### 2. **bff-portal**
 An API and web-based portal interface for browsing and querying Beacon v2 data **stored in MongoDB**.
 
 - **Purpose:** Enables quick and flexible exploration of the MongoDB database through a web-based interface or API.  
@@ -22,7 +22,7 @@ An API and web-based portal interface for browsing and querying Beacon v2 data *
   - Supports collection browsing  
   - Designed for quick data inspection  
 
-### 3. **bff_queue**
+### 3. **bff-queue**
 A utility for managing and monitoring CLI tasks.
 
 - **Purpose:** Handles asynchronous operations and task queues for data processing or integration workflows.  
@@ -31,7 +31,7 @@ A utility for managing and monitoring CLI tasks.
   - Monitors background jobs  
   - Enhances system scalability  
 
-### 4. **bff_validator**
+### 4. **bff-validator**
 A tool for validating datasets against the Beacon v2 schema.
 
 - **Purpose:** Ensures that submitted data conforms to the Beacon v2 model schema.  

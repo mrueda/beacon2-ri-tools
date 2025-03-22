@@ -12,6 +12,7 @@ Revision history for beacon2-cbi-tools
     - Updated Dockerfile
     - BEACON => BFF-TOOLS:
       - 'lib/BEACON/ => 'lib/BFF', 'Beacon.pm' => 'Tools.pm'
+      - 'mongodb' mode renamed to 'load'
       - Now accepts pre-annotated VCFs using `annotate: false` in YAML configuration (requires mandatory ANN fields)
       - Added an 'examples' directory featuring hg38 (GRCh38)
       - Added spinner for interactive execution of 'bin/beacon'

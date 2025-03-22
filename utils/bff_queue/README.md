@@ -102,7 +102,7 @@ Then, submit a job from there:
 (Please update the paths to match your environment)
 
 ```bash
-/usr/share/beacon2-ri/beacon2-ri-tools/utils/bff_queue/bff-queue minion job -q beacon -e beacon_task -a '["cd /home/mrueda/beacon ; /usr/share/beacon2-ri/beacon2-ri-tools/bin/beacon vcf -i test_1000G.vcf.gz -p param.yaml -n 1 > beacon.log 2>&1"]'
+/usr/share/beacon2-ri/beacon2-cbi-tools/utils/bff_queue/bff-queue minion job -q beacon -e beacon_task -a '["cd /home/mrueda/beacon ; /usr/share/beacon2-ri/beacon2-cbi-tools/bin/beacon vcf -i test_1000G.vcf.gz -p param.yaml -n 1 > beacon.log 2>&1"]'
 ```
 
 **Note:** If you encounter any issues, simply delete the `minion.db` file in the `bff_queue` directory.
