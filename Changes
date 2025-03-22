@@ -13,6 +13,7 @@ Revision history for beacon2-cbi-tools
     - BEACON => BFF-TOOLS:
       - 'lib/BEACON/ => 'lib/BFF', 'Beacon.pm' => 'Tools.pm'
       - 'mongodb' mode renamed to 'load'
+      - Added 'validate' mode runs 'utils/bff_validator/bff-validator'
       - Now accepts pre-annotated VCFs using `annotate: false` in YAML configuration (requires mandatory ANN fields)
       - Added an 'examples' directory featuring hg38 (GRCh38)
       - Added spinner for interactive execution of 'bin/beacon'

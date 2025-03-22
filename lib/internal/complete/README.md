@@ -32,9 +32,9 @@ The output can be:
 
 For development:
 
-       b) genomicVariationsVcf-dev.bff.gz Standard JSON [bff-pretty]
-       c) genomicVariationsVcf-dev.json.gz Standard JSON [json]
-       d) genomicVariationsVcf-dev.hash.gz Perl hash data structure [hash]
+       b) genomicVariationsVcf-dev-bff.json.gz [bff-pretty]
+       c) genomicVariationsVcf-dev.json.gz     [json] Standard JSON 
+       d) genomicVariationsVcf-dev.hash.gz     [hash] Perl hash data structure
 
 # INSTALLATION
 

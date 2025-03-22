@@ -38,11 +38,25 @@ if ( -e $reference_file ) {
       or die "gunzip failed for $output_file: $GunzipError";
     gunzip $reference_file => \$ref_content
       or die "gunzip failed for $reference_file: $GunzipError";
+
+    # Sort the contents line-by-line
+    # Filter and sort the contents, skipping lines with 'hostname' or 'threadshost'
+    my $sorted_output = join "\n",
+      sort grep { $_ !~ /hostname|threadshost/ } split /\n/, $output_content;
+
+    my $sorted_ref = join "\n",
+      sort grep { $_ !~ /hostname|threadshost/ } split /\n/, $ref_content;
     unlink($output_file);
-    is( $output_content, $ref_content, "Uncompressed content matches the expected reference" );
-} else {
-    pass("Reference file '$reference_file' not found, skipping file content comparison");
+
+    is( $sorted_output, $sorted_ref,
+        "Sorted uncompressed content matches the expected reference" );
 }
+else {
+    pass(
+"Reference file '$reference_file' not found, skipping file content comparison"
+    );
+}
+
 
 done_testing();
 

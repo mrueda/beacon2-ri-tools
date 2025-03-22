@@ -2,7 +2,7 @@
 
 ## Downloading Required Databases and Software
 
-First, we need to download the necessary databases and software. Unlike `beacon2-ri-tools`, where the data was inside the container, we now store the data externally. This improves data persistence and allows software updates without needing to re-download everything.
+First, we need to download the necessary databases and software. In contrast to `beacon2-ri-tools`, where **the data was bundled inside the container to provide a zero-configuration experience for users, we now store the data externally**. This change improves data persistence and allows software updates without requiring a full re-download of all data.
 
 ### Step 1: Download Required Files
 
@@ -117,13 +117,13 @@ Alternatively, you can run commands **from the host**, like this:
 First, create an alias to simplify invocation:
 
 ```bash
-alias beacon='docker exec -ti beacon2-cbi-tools /usr/share/beacon2-cbi-tools/bin/beacon'
+alias bff-tools='docker exec -ti beacon2-cbi-tools /usr/share/beacon2-cbi-tools/bin/bff-tools'
 ```
 
 Then run:
 
 ```bash
-beacon
+bff-tools
 ```
 
 ## Testing the deployment

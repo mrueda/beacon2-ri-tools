@@ -71,8 +71,6 @@ bff-tools &lt;mode> \[-arguments\] \[-options\]
     This mode does not require a parameters or configuration file.
     See additional information at this \[page\](utils/bff\_validator/README.md).
 
-We recommend following this [tutorial](https://b2ri-documentation.readthedocs.io/en/latest/tutorial-data-beaconization).
-
 This script supports four **modes**: `vcf`, `load`, `full`, and `validate`.
 
 **\* Mode `vcf`**
@@ -91,7 +89,7 @@ Combines `vcf` and `load`: it processes a VCF file and ingests the resulting dat
 
 Validates metadata files (XLSX or JSON) against the Beacon v2 schema definitions and serializes them into BFF JSON collections.  
 Note: This mode uses a separate internal script and does not require a parameters or configuration file.
-See extended information at \[bff\_validator/README.md\](bff\_validator/README.md).
+See extended information at [bff\_validator/README.md](https://metacpan.org/pod/bff_validator#README.md).
 
 To perform these tasks, you may need:
 
@@ -294,10 +292,14 @@ Hey! **The above document had some coding errors, which are explained below:**
 
     &#x3d;back doesn't take any parameters, but you said =back  =head1 HOW TO RUN C&lt;bff-tools>
 
-- Around line 397:
+- Around line 395:
 
     Non-ASCII character seen before =encoding in '—'. Assuming UTF-8
 
-- Around line 433:
+- Around line 403:
+
+    alternative text 'bff\_validator/README.md' contains non-escaped | or /
+
+- Around line 431:
 
     &#x3d;back doesn't take any parameters, but you said =back  =back

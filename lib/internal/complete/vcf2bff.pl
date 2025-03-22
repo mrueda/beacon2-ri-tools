@@ -4,9 +4,9 @@
 #   The output can be:
 #       a) genomicVariantsVcf.json.gz [bff]
 #       (Debugging modes):
-#       b) genomicVariationsVcf-dev.bff.gz Standard JSON [bff-pretty]
-#       c) genomicVariationsVcf-dev.json.gz Standard JSON [json]
-#       d) genomicVariationsVcf-dev.hash.gz Perl hash data structure [hash]
+#       b) genomicVariationsVcf-dev-bff.json.gz [bff-pretty]
+#       c) genomicVariationsVcf-dev.json.gz     [json] Standard JSON
+#       d) genomicVariationsVcf-dev.hash.gz     [hash] Perl hash data structure
 #
 #   Last Modified: Mar/17/2025
 #
@@ -44,8 +44,8 @@ use FindBin               qw($Bin);
 use YAML::XS              qw(LoadFile);
 use File::Spec::Functions qw(catfile);
 use lib "$Bin/lib";
-use BFF;
-use BFF::Data qw(%chr_name_conv %vcf_data_loc);
+use VCF::GenomicVariations;
+use VCF::Data qw(%chr_name_conv %vcf_data_loc);
 
 # -----------------------
 #  Named Constants for Output Formats
@@ -108,7 +108,7 @@ sub vcf2bff {
     my $out_dir = $cli->{out_dir} // './';
     my %suffix  = (
         FORMAT_BFF()        => 'genomicVariationsVcf.json.gz',
-        FORMAT_BFF_PRETTY() => 'genomicVariationsVcf-dev.bff.gz',
+        FORMAT_BFF_PRETTY() => 'genomicVariationsVcf-dev-bff.json.gz',
         FORMAT_JSON()       => 'genomicVariationsVcf-dev.json.gz',
         FORMAT_HASH()       => 'genomicVariationsVcf-dev.hash.gz',
     );
@@ -137,9 +137,10 @@ sub vcf2bff {
 
     # Output format subroutines
     my %serialize = (
-        FORMAT_BFF()  => 'data2bff',
-        FORMAT_JSON() => 'data2json',
-        FORMAT_HASH() => 'data2hash',
+        FORMAT_BFF()        => 'data2bff',
+        FORMAT_BFF_PRETTY() => 'data2bff_pretty',
+        FORMAT_JSON()       => 'data2json',
+        FORMAT_HASH()       => 'data2hash',
     );
     my $serialize = $serialize{$format};
 
@@ -319,7 +320,7 @@ $prompt, $param_key, $arrow, $param{$param_key}
         my $serialize = $serialize{$format};
 
         # Inside your loop, after processing each variant:
-        my $bff    = BFF->new($hash_out);
+        my $bff    = VCF::GenomicVariations->new($hash_out);
         my $output = $bff->$serialize( $uid, $verbose );    # Capture the string
         print $fh_out $output;
         print $fh_out ",\n" unless eof;
@@ -386,11 +387,13 @@ sub parse_cli_args {
     # Check for format
     if ( defined $opts{format} ) {
         unless ( $opts{format} eq FORMAT_BFF
+            || $opts{format} eq FORMAT_BFF_PRETTY
             || $opts{format} eq FORMAT_JSON
             || $opts{format} eq FORMAT_HASH )
         {
             pod2usage(
-                -message => "Please specify a valid format -f bff|json|hash\n",
+                -message =>
+                  "Please specify a valid format -f bff|json|hash|bff-pretty\n",
                 -exitval => 1
             );
         }
@@ -610,9 +613,9 @@ The output can be:
 
 For development:
 
-       b) genomicVariationsVcf-dev.bff.gz Standard JSON [bff-pretty]
-       c) genomicVariationsVcf-dev.json.gz Standard JSON [json]
-       d) genomicVariationsVcf-dev.hash.gz Perl hash data structure [hash]
+       b) genomicVariationsVcf-dev-bff.json.gz [bff-pretty]
+       c) genomicVariationsVcf-dev.json.gz     [json] Standard JSON 
+       d) genomicVariationsVcf-dev.hash.gz     [hash] Perl hash data structure
 
 =head1 INSTALLATION
 

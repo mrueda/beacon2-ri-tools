@@ -1,4 +1,4 @@
-package BFF;
+package VCF::GenomicVariations;
 
 use strict;
 use warnings;
@@ -10,9 +10,13 @@ use Path::Tiny;
 use JSON::XS;
 use List::MoreUtils qw(any);
 use Data::Dumper;
-use BFF::Data             qw(%ensglossary %sequence_ontology);
+use VCF::Data             qw(%ensglossary %sequence_ontology);
 use Data::Structure::Util qw/unbless/;
+
+# Globals
 $Data::Dumper::Sortkeys = 1;
+my $coder        = JSON::XS->new;
+my $coder_pretty = JSON::XS->new->canonical(1)->pretty(1);
 
 sub new {
     my ( $class, $self ) = @_;
@@ -29,19 +33,19 @@ sub data2hash {
 
 sub data2json {
     my $self = shift;
+    return $coder_pretty->encode(unbless $self);
+}
 
-    # Return the encoded JSON as a string.
-    return encode_json( unbless $self);
+sub data2bff_pretty {
+    my ( $self, $uid, $verbose ) = @_;
+    return $coder_pretty->encode( mapping2beacon( $self, $uid, $verbose ));
 }
 
 sub data2bff {
     my ( $self, $uid, $verbose ) = @_;
-    my $data_mapped = mapping2beacon( $self, $uid, $verbose );
-    my $coder       = JSON::XS->new;
-
-    # Return the BFF-formatted string.
-    return $coder->encode($data_mapped);
+    return $coder->encode( mapping2beacon( $self, $uid, $verbose ));
 }
+
 
 sub mapping2beacon {
     my ( $self, $uid, $verbose ) = @_;

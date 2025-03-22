@@ -384,8 +384,6 @@ See additional information at this [page](utils/bff_validator/README.md).
 =back
 =head1 HOW TO RUN C<bff-tools>
 
-We recommend following this L<tutorial|https://b2ri-documentation.readthedocs.io/en/latest/tutorial-data-beaconization>.
-
 This script supports four B<modes>: C<vcf>, C<load>, C<full>, and C<validate>.
 
 B<* Mode C<vcf>>
@@ -404,7 +402,7 @@ B<* Mode C<validate>>
 
 Validates metadata files (XLSX or JSON) against the Beacon v2 schema definitions and serializes them into BFF JSON collections.  
 Note: This mode uses a separate internal script and does not require a parameters or configuration file.
-See extended information at [bff_validator/README.md](bff_validator/README.md).
+See extended information at L<bff_validator/README.md|bff_validator/README.md>.
 
 To perform these tasks, you may need:
 
