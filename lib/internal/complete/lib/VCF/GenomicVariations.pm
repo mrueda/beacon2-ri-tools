@@ -46,7 +46,6 @@ sub data2bff {
     return $coder->encode( mapping2beacon( $self, $uid, $verbose ));
 }
 
-
 sub mapping2beacon {
     my ( $self, $uid, $verbose ) = @_;
 

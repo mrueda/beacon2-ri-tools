@@ -1,6 +1,6 @@
 Revision history for beacon2-cbi-tools
 
-2.0.8  2025-0X-XX
+2.0.8  2025-03-22
 
     - The CRG FTP site has reached end-of-life after three years of availability
       - External files moved to a new location; download script updated accordingly

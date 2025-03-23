@@ -1,13 +1,13 @@
 #!/usr/bin/env perl
 #
 #   BFF-tools: Script to process VCF/BFF data
-#   It has fours modes
-#   1. vcf: 
-#       a) Annotates VCF with SnpEff (optional)
-#       b) Serializes VCF to BFF
-#   2. load: Transfers BFF data to MongoDB
-#   3. full: Combines vcf and load modes
-#   4. validate: Resorts to utils/bff-validator
+#   It has four modes:
+#     1. vcf: 
+#         a) Annotates VCF with SnpEff (optional)
+#         b) Serializes VCF to BFF
+#     2. load: Transfers BFF data to MongoDB
+#     3. full: Combines vcf and load modes
+#     4. validate: Resorts to utils/bff-validator
 #
 #   Last Modified: March/22/2025
 #
@@ -40,10 +40,10 @@ use Term::ANSIColor qw(:constants);
 use JSON::XS;
 use Path::Tiny;
 use Data::Dumper;
-use Time::HiRes qw(time sleep);
+use Time::HiRes     qw(time sleep);
 use threads;
 use threads::shared;
-use FindBin qw($Bin);
+use FindBin         qw($Bin);
 use lib "$Bin/../lib";
 use BFF::Help;
 use BFF::Config;
@@ -53,23 +53,17 @@ use BFF::Tools;
 #            Variables definition                           #
 #############################################################
 
-# bff-tools version
-my $version = '2.0.8';
-
 # Personalize warn and die functions
 $SIG{__WARN__} = sub { warn BOLD YELLOW "Warn: ", @_ };
 $SIG{__DIE__}  = sub { die BOLD RED "Error: ", @_ };
 
-# -----------------------------------------------------------
-# ADD THIS “VALIDATE” HANDLER:
-my $first_arg = $ARGV[0] // '';
-if ($first_arg eq 'validate') {
-    shift @ARGV;
-    system("$Bin/../utils/bff_validator/bff-validator", @ARGV) == 0
-      or die RED "Error: could not run bff-validator: $!" . RESET;
-    exit($? >> 8);
+# Check if the first argument is "validate" and call the subroutine if so.
+if (($ARGV[0] // '') eq 'validate') {
+    handle_validate();
 }
-# -----------------------------------------------------------
+
+# bff-tools version
+my $version = '2.0.8';
 
 # Initialize a few more variables
 my $prompt      = 'Info:';
@@ -241,7 +235,19 @@ say WHITE, $prompt, ' ', $goodbye->say_goodbye();
 #                   Code ends here                           #
 ##############################################################
 
-# Helper functions
+#------------------------------------------------------------
+#                  Helper functions                         #
+#------------------------------------------------------------
+
+sub handle_validate {
+    # Remove the "validate" argument
+    shift @ARGV;
+    # Execute the bff-validator utility with remaining arguments
+    system("$Bin/../utils/bff_validator/bff-validator", @ARGV) == 0
+      or die RED "Error: could not run bff-validator: $!" . RESET;
+    # Exit with the return code from the system call
+    exit($? >> 8);
+}
 
 # Function that runs a code reference with a spinner.
 sub run_with_spinner {
