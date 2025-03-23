@@ -193,7 +193,6 @@ Please find below a detailed description of all parameters (alphabetical order):
 
     $ bin/bff-tools validate -i my_data.xlsx -o outdir
 
-
     $ nohup $path_to_beacon/bin/bff-tools full -i input.vcf.gz -verbose
 
     $ parallel "bin/bff-tools vcf -t 1 -i chr{}.vcf.gz  > chr{}.log 2>&1" ::: {1..22} X Y
