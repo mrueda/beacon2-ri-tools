@@ -136,7 +136,7 @@ bash 02_test_deployment.sh
 
 ---
 
-## MongoDB Installation (Optional: Only for `mongodb/full` modes)
+## MongoDB Installation (Optional: Only for `load/full` modes)
 
 If you don't already have MongoDB installed in a separate container, follow these steps.
 
@@ -164,7 +164,7 @@ If you want to load data from **inside** the `beacon2-cbi-tools` container direc
 #### **Option A**: Before running the container
 
 ```bash
-docker run -tid --network=my-app-network --name beacon2-cbi-tools cnag/beacon2-cbi-tools:latest
+docker run -tid --network=my-app-network --volume /media/mrueda/4TBB/beacon2-cbi-tools-data:/beacon2-cbi-tools-data --name beacon2-cbi-tools cnag/beacon2-cbi-tools:latest
 ```
 
 #### **Option B**: After running the container
@@ -177,7 +177,7 @@ docker network connect my-app-network beacon2-cbi-tools
 
 ## System requirements
 
-- Architectures supported: **x86_64** (linux/amd64) and **arm64** (linux/arm64).
+- OS/ARCH supported: **linux/amd64** and **linux/arm64)**.
 - Ideally a Debian-based distribution (Ubuntu or Mint), but any other (e.g., CentOS, OpenSUSE) should do as well (untested).
 - Docker and docker compose
 - Perl 5 (>= 5.10 core; installed by default in most Linux distributions). Check the version with perl -v
