@@ -20,11 +20,12 @@
 
 ---
 
-**Legacy B2RI Documentation**: <a href="https://b2ri-documentation.readthedocs.io/" target="_blank">https://b2ri-documentation.readthedocs.io/</a>
 
-**New documentation coming soon !!**
+✨ **New documentation:** <a href="https://cnag-biomedical-informatics.github.io/beacon2-cbi-tools" target="_blank">https://cnag-biomedical-informatics.github.io/beacon2-cbi-tools</a>
 
-**Docker Hub Image**: <a href="https://hub.docker.com/r/manuelrueda/beacon2-cbi-tools/tags" target="_blank">https://hub.docker.com/r/manuelrueda/beacon2-cbi-tools/tags</a>
+🐳 **Docker Hub Image:** <a href="https://hub.docker.com/r/manuelrueda/beacon2-cbi-tools/tags" target="_blank">https://hub.docker.com/r/manuelrueda/beacon2-cbi-tools/tags</a>
+
+🚫 **Legacy B2RI Documentation:** <a href="https://b2ri-documentation.readthedocs.io/" target="_blank">https://b2ri-documentation.readthedocs.io/</a>
 
 ---
 
