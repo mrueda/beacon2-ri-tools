@@ -1,0 +1,122 @@
+site_name: 'Beacon v2 CBI Tools Documentation'
+site_description: 'Beacon v2 CBI Tools Documentation'
+site_author: 'Manuel Rueda, PhD'
+copyright: '&copy; Copyright 2023-2025, Manuel Rueda, CNAG'
+repo_name: 'beacon2-cbi-tools'
+repo_url: https://github.com/mrueda/beacon2-cbi-tools
+edit_uri: edit/main/docs/
+
+extra_css: [css/theme_overrides.css]
+extra_javascript: [js/theme_overrides.js]
+
+plugins:
+  - search
+  - macros
+  - include-markdown:
+#      dedent: true
+#      preserve_includer_indent: true
+#  - external-markdown # did not work
+  - mermaid2:
+      arguments:
+        startOnLoad: true
+
+markdown_extensions:
+    - toc:
+        toc_depth: 2-3
+        permalink: true
+    - admonition
+    - attr_list
+    - footnotes
+    - md_in_html
+    - pymdownx.critic
+    - pymdownx.caret
+    - pymdownx.details
+    - pymdownx.keys
+    - pymdownx.mark
+    - pymdownx.tilde
+    - pymdownx.saneheaders
+    - pymdownx.magiclink:
+        hide_protocol: true
+    - pymdownx.tabbed:
+        alternate_style: true
+    - pymdownx.tasklist:
+        custom_checkbox: true
+    - tables
+    - mdx_gh_links:
+        user: CNAG-Biomedical-Informatics
+        repo: beacon2-cbi-tools
+    - pymdownx.emoji:
+        emoji_index: !!python/name:material.extensions.emoji.twemoji
+        emoji_generator: !!python/name:material.extensions.emoji.to_svg
+    - pymdownx.highlight:
+        anchor_linenums: true
+        line_spans: __span
+        pygments_lang_class: true
+    - pymdownx.inlinehilite
+    - pymdownx.snippets:
+        base_path: ["docs", "non-containerized", "docker", "examples", "bin"]
+        url_download: true
+    - pymdownx.superfences:
+        custom_fences:
+            - name: mermaid
+              class: mermaid
+              format: !!python/name:mermaid2.fence_mermaid
+
+nav:
+  - "🏠 Introduction": index.md
+  - "⬇️  Download & Installation":
+      - "🐳 Docker-based": download-and-installation/docker-based.md
+      - "🛠️ Non-containerized": download-and-installation/non-containerized.md
+  - "🚀 Quick Start": quick-start.md
+  - "🧪 Examples": 
+      - "🧬 GRCh38 / hg38": examples/hg38.md
+  - "📚 Tutorial": data-beaconization.md
+  - "📊 CINECA cohort": https://github.com/CNAG-Biomedical-Informatics/beacon2-cbi-tools/tree/main/CINECA_synthetic_cohort_EUROPE_UK1
+  - "🛠️  Utilities": https://github.com/CNAG-Biomedical-Informatics/beacon2-cbi-tools/blob/main/utils/README.md
+  - "🆘 Help": 
+      - "❓ FAQ": help/faq.md
+      - "🧯 Troubleshooting": help/troubleshooting.md
+  - "ℹ️ About":
+      - "📄 About": about/about.md
+      - "📖 Citation": about/citation.md
+
+theme:
+  name: material
+  #custom_dir: overrides
+  palette:
+  - media: '(prefers-color-scheme: dark)'
+    scheme: default
+    primary: blue grey
+    accent: amber
+    toggle:
+      icon: material/lightbulb
+      name: Switch to light mode
+  - media: '(prefers-color-scheme: light)'
+    scheme: slate
+    primary: blue grey
+    accent: amber
+    toggle:
+      icon: material/lightbulb-outline
+      name: Switch to dark mode
+  logo: img/logo.png
+  icon:
+      repo: fontawesome/brands/github-alt 
+  features:
+        - content.code.select
+        - content.code.copy
+        - content.tabs.link
+        - search.highlight
+        - search.share
+        # - navigation.instant # otherwise blocks rendering of mermaid on page load
+        #- navigation.tabs
+        - navigation.tracking
+        - navigation.sections
+        - toc.integrate
+
+# Options
+extra:
+  social:
+    - icon: fontawesome/brands/github 
+      link: https://github.com/mrueda
+
+# https://pypi.org/project/mkdocs-with-pdf/ for more PDF configuration ...

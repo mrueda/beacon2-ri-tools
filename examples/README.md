@@ -1,6 +1,6 @@
 # hs37 (1000 Genomes Project version of GRCh37)
 
-See the [test directory](../test/README.md).
+See the [test directory](https://github.com/CNAG-Biomedical-Informatics/beacon2-cbi-tools/tree/main/test).
 
 # hg38 (GRCh38)
 
@@ -34,6 +34,28 @@ tabix -h ALL.chr22.shapeit2_integrated_snvindels_v2a_27022019.GRCh38.phased.vcf.
 
 ## Run `bff-tools`
 
+The simplest task is to convert a `VCF` file to the `BFF` format. The resulting files will be located in the `beacon_*/vcf/` directory.
+
 ```bash
-../bin/bff-tools vcf -i test_1000G_hg38.vcf.gz -p param_hg38.yaml  # Note that here we used hg38 as the reference genome
+../bin/bff-tools vcf -i test_1000G_hg38.vcf.gz -p param_hg38.yaml
+# Here we're using 'hg38' as the reference genome.
+```
+
+### Alternative `bff-tools` modes
+
+If your `mongo` container is set up and running, you can convert the `VCF` and load the data into MongoDB in a single step using the `full` mode:
+
+```bash
+../bin/bff-tools full -i test_1000G_hg38.vcf.gz -p param_hg38.yaml
+# This runs both 'vcf' and 'load' steps together.
+```
+
+The result of the MongoDB import will be located in the `beacon_*/mongodb/` directory.
+
+### Loading other Beacon v2 Model entities
+
+To import other Beacon v2 Model entities into MongoDB (without converting VCFs), use the `load` mode with a YAML file:
+
+```bash
+../bin/bff-tools load -p load.yaml
 ```

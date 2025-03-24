@@ -716,7 +716,7 @@ sub program_header {
 ****************************************
 *          beacon2-cbi-tools           *
 *--------------------------------------*
-*          BFF-TOOLS VALIDATOR         *
+*          BFF-TOOLS VALIDATE          *
 *   (Beacon Friendly Format Validator) *
 *--------------------------------------*
 *           Version: $version             *

@@ -34,6 +34,8 @@
 
 # Table of contents
 - [Description](#description)
+  - [Overview](#overview)
+  - [Tools included](#tools-included)
   - [System Diagram](#system-diagram)
   - [Roadmap](#roadmap)
 - [Installation](#installation)
@@ -45,29 +47,50 @@
 
 # DESCRIPTION
 
-**beacon2-cbi-tools** is a suite of tools originally developed as part of the ELIXIR–Beacon v2 Reference Implementation, now continuing under CNAG Biomedical Informatics. It provides essential functionality around the Beacon Friendly Format (BFF), including:
+<!--description-start-->
 
-- Converting VCF data into BFF (genomicVariations)
-- Loading BFF data (metadata and genomic variations) into MongoDB
-- Validating XLSX/JSON files against Beacon v2 schemas
+## Overview
+
+**beacon2-cbi-tools** is a suite of tools originally developed as part of the ELIXIR–Beacon v2 Reference Implementation, now continuing under [CNAG](https://www.cnag.eu) Biomedical Informatics. It provides essential functionality around the Beacon Friendly Format (BFF) data exchange format, including:
+
+- **Validating XLSX/JSON** files against Beacon v2 schemas
+- **Converting VCF** files into BFF (genomicVariations)
+- **Loading BFF** data (metadata and genomic variations) **into MongoDB**
 
 This toolkit streamlines data preparation, validation, and ingestion for federated genomic and phenotypic data sharing under Beacon v2. The resulting BFF-formatted data **can be used with any implementation of the [Beacon v2 API specification](https://docs.genomebeacons.org/) that operates on MongoDB**.
 
-### Tools Included:
-- **[BFF-Tools script](https://github.com/CNAG-Biomedical-Informatics/beacon2-cbi-tools/tree/main/bin/README.md)** (`bin/bff-tools`): A command-line tool for converting VCF data into BFF format. It also supports inserting the resulting BFF data into a MongoDB instance. The tool offers four modes:
+## Tools Included
 
-  - **vcf**: Convert a VCF.gz file into BFF format.
-  - **load**: Load BFF-formatted data into a MongoDB instance.
-  - **full**: Perform both VCF conversion and MongoDB loading.
-  - **validate**: Validate XLSX or JSON metadata files against Beacon v2 schemas and serialize them into BFF format. An [Excel template](utils/bff_validator/Beacon-v2-Models_template.xlsx) is provided to help structure your metadata.
+### [BFF-Tools script](https://github.com/CNAG-Biomedical-Informatics/beacon2-cbi-tools/tree/main/bin/README.md) (`bin/bff-tools`):  
+  A command-line tool for converting VCF data into BFF format and inserting the resulting BFF data into a MongoDB instance.
 
-- **[Utility Suite](utils/README.md)**: A collection of support tools to aid in data ingestion. Key among them:
-  - **[BFF-Browser](https://github.com/CNAG-Biomedical-Informatics/beacon2-cbi-tools/tree/main/utils/bff_browser)**: A web application for interactive visualization of BFF data, particularly `genomicVariations` and `individuals`.
-  - **[BFF-Portal](https://github.com/CNAG-Biomedical-Informatics/beacon2-cbi-tools/tree/main/utils/bff_portal)**: A simple API and web application to query BFF data via MongoDB.
+The tool offers four modes:
 
-- **[CINECA Synthetic Cohort - EUROPE_UK1](https://github.com/CNAG-Biomedical-Informatics/beacon2-cbi-tools/tree/main/CINECA_synthetic_cohort_EUROPE_UK1)**: A synthetic dataset for testing and demonstration purposes.
+  1. **vcf**: Convert a VCF.gz file into BFF format.
 
-### System Diagram
+  2. **load**: Load BFF-formatted data into a MongoDB instance.
+
+  3. **full**: Perform both VCF conversion and MongoDB loading.
+
+  4. **validate**: Validate XLSX or JSON metadata against Beacon v2 schemas and serialize into BFF. An [Excel template](https://github.com/CNAG-Biomedical-Informatics/beacon2-cbi-tools/blob/main/CINECA_synthetic_cohort_EUROPE_UK1/Beacon-v2-Models_CINECA_UK1.xlsx) is provided to help structure your metadata.
+
+### [Utility Suite](https://github.com/CNAG-Biomedical-Informatics/beacon2-cbi-tools/tree/main/utils):  
+
+A collection of support tools to aid in data ingestion. Key among them:
+
+  - **[BFF-Browser](https://github.com/CNAG-Biomedical-Informatics/beacon2-cbi-tools/tree/main/utils/bff_browser)**:  
+
+    A web application for interactive visualization of BFF data, particularly `genomicVariations` and `individuals`.
+
+  - **[BFF-Portal](https://github.com/CNAG-Biomedical-Informatics/beacon2-cbi-tools/tree/main/utils/bff_portal)**:  
+
+    A simple API and web application to query BFF data via MongoDB.
+
+### [CINECA Synthetic Cohort - EUROPE_UK1](https://github.com/CNAG-Biomedical-Informatics/beacon2-cbi-tools/tree/main/CINECA_synthetic_cohort_EUROPE_UK1):  
+
+A synthetic dataset for testing and demonstration purposes.
+
+## System Diagram
 
                 * Beacon v2 - CBI Tools *
 
@@ -102,6 +125,8 @@ This toolkit streamlines data preparation, validation, and ingestion for federat
                                                                beacon2-pi-api
                                                                java-beacon-v2.api   
                                                                ...
+<!--description-end-->
+
 ## Roadmap 
 
 **Latest Update: Mar-2025**

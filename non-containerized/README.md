@@ -73,6 +73,12 @@ git clone https://github.com/CNAG-Biomedical-Informatics/beacon2-cbi-tools.git
 cd beacon2-cbi-tools
 ```
 
+If you only new to update to the lastest version do:
+
+```bash
+git pull
+```
+
 `bff-tools` is a Perl script (no compilation required) designed to run on the Linux command line. Internally, it acts as a wrapper that submits multiple pipelines through customizable Bash scripts (see an example [here](https://github.com/CNAG-Biomedical-Informatics/beacon2-cbi-tools/blob/main/lib/BEACON/bin/run_vcf2bff.sh)). While Perl and Bash are pre-installed on most Linux systems, a few additional dependencies must be installed separately.
 
 We use `cpanm` to install the CPAN modules. We'll install the dependencies at `~/perl5`:
