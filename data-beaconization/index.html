@@ -1,0 +1,1016 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Beacon v2 CBI Tools Documentation">
+      
+      
+        <meta name="author" content="Manuel Rueda, PhD">
+      
+      
+      
+        <link rel="prev" href="../examples/hg38/">
+      
+      
+        <link rel="next" href="../help/faq/">
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.9">
+    
+    
+      
+        <title>📚 Tutorial - Beacon v2 CBI Tools Documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.4af4bdda.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../css/theme_overrides.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="blue-grey" data-md-color-accent="amber">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#previous-steps" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Beacon v2 CBI Tools Documentation" class="md-header__button md-logo" aria-label="Beacon v2 CBI Tools Documentation" data-md-component="logo">
+      
+  <img src="../img/logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Beacon v2 CBI Tools Documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              📚 Tutorial
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="default" data-md-color-primary="blue-grey" data-md-color-accent="amber"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 0-7 7c0 2.38 1.19 4.47 3 5.74V17a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-2.26c1.81-1.27 3-3.36 3-5.74a7 7 0 0 0-7-7M9 21a1 1 0 0 0 1 1h4a1 1 0 0 0 1-1v-1H9z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="slate" data-md-color-primary="blue-grey" data-md-color-accent="amber"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 1 7 7c0 2.38-1.19 4.47-3 5.74V17a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1v-2.26C6.19 13.47 5 11.38 5 9a7 7 0 0 1 7-7M9 21v-1h6v1a1 1 0 0 1-1 1h-4a1 1 0 0 1-1-1m3-17a5 5 0 0 0-5 5c0 2.05 1.23 3.81 3 4.58V16h4v-2.42c1.77-.77 3-2.53 3-4.58a5 5 0 0 0-5-5"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="Share" aria-label="Share" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/mrueda/beacon2-cbi-tools" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M186.1 328.7c0 20.9-10.9 55.1-36.7 55.1s-36.7-34.2-36.7-55.1 10.9-55.1 36.7-55.1 36.7 34.2 36.7 55.1M480 278.2c0 31.9-3.2 65.7-17.5 95-37.9 76.6-142.1 74.8-216.7 74.8-75.8 0-186.2 2.7-225.6-74.8-14.6-29-20.2-63.1-20.2-95 0-41.9 13.9-81.5 41.5-113.6-5.2-15.8-7.7-32.4-7.7-48.8 0-21.5 4.9-32.3 14.6-51.8 45.3 0 74.3 9 108.8 36 29-6.9 58.8-10 88.7-10 27 0 54.2 2.9 80.4 9.2 34-26.7 63-35.2 107.8-35.2 9.8 19.5 14.6 30.3 14.6 51.8 0 16.4-2.6 32.7-7.7 48.2 27.5 32.4 39 72.3 39 114.2m-64.3 50.5c0-43.9-26.7-82.6-73.5-82.6-18.9 0-37 3.4-56 6-14.9 2.3-29.8 3.2-45.1 3.2-15.2 0-30.1-.9-45.1-3.2-18.7-2.6-37-6-56-6-46.8 0-73.5 38.7-73.5 82.6 0 87.8 80.4 101.3 150.4 101.3h48.2c70.3 0 150.6-13.4 150.6-101.3m-82.6-55.1c-25.8 0-36.7 34.2-36.7 55.1s10.9 55.1 36.7 55.1 36.7-34.2 36.7-55.1-10.9-55.1-36.7-55.1"/></svg>
+  </div>
+  <div class="md-source__repository">
+    beacon2-cbi-tools
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--integrated" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Beacon v2 CBI Tools Documentation" class="md-nav__button md-logo" aria-label="Beacon v2 CBI Tools Documentation" data-md-component="logo">
+      
+  <img src="../img/logo.png" alt="logo">
+
+    </a>
+    Beacon v2 CBI Tools Documentation
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/mrueda/beacon2-cbi-tools" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M186.1 328.7c0 20.9-10.9 55.1-36.7 55.1s-36.7-34.2-36.7-55.1 10.9-55.1 36.7-55.1 36.7 34.2 36.7 55.1M480 278.2c0 31.9-3.2 65.7-17.5 95-37.9 76.6-142.1 74.8-216.7 74.8-75.8 0-186.2 2.7-225.6-74.8-14.6-29-20.2-63.1-20.2-95 0-41.9 13.9-81.5 41.5-113.6-5.2-15.8-7.7-32.4-7.7-48.8 0-21.5 4.9-32.3 14.6-51.8 45.3 0 74.3 9 108.8 36 29-6.9 58.8-10 88.7-10 27 0 54.2 2.9 80.4 9.2 34-26.7 63-35.2 107.8-35.2 9.8 19.5 14.6 30.3 14.6 51.8 0 16.4-2.6 32.7-7.7 48.2 27.5 32.4 39 72.3 39 114.2m-64.3 50.5c0-43.9-26.7-82.6-73.5-82.6-18.9 0-37 3.4-56 6-14.9 2.3-29.8 3.2-45.1 3.2-15.2 0-30.1-.9-45.1-3.2-18.7-2.6-37-6-56-6-46.8 0-73.5 38.7-73.5 82.6 0 87.8 80.4 101.3 150.4 101.3h48.2c70.3 0 150.6-13.4 150.6-101.3m-82.6-55.1c-25.8 0-36.7 34.2-36.7 55.1s10.9 55.1 36.7 55.1 36.7-34.2 36.7-55.1-10.9-55.1-36.7-55.1"/></svg>
+  </div>
+  <div class="md-source__repository">
+    beacon2-cbi-tools
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    🏠 Introduction
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    ⬇️  Download & Installation
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            ⬇️  Download & Installation
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../download-and-installation/docker-based/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    🐳 Docker-based
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../download-and-installation/non-containerized/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    🛠️ Non-containerized
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../quick-start/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    🚀 Quick Start
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    🧪 Examples
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            🧪 Examples
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../examples/hg38/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    🧬 GRCh38 / hg38
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    📚 Tutorial
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    📚 Tutorial
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#previous-steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      Previous steps
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-1" class="md-nav__link">
+    <span class="md-ellipsis">
+      STEP 1
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-2" class="md-nav__link">
+    <span class="md-ellipsis">
+      STEP 2
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#step-3" class="md-nav__link">
+    <span class="md-ellipsis">
+      STEP 3
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://github.com/CNAG-Biomedical-Informatics/beacon2-cbi-tools/tree/main/CINECA_synthetic_cohort_EUROPE_UK1" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    📊 CINECA cohort
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="https://github.com/CNAG-Biomedical-Informatics/beacon2-cbi-tools/blob/main/utils/README.md" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    🛠️  Utilities
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    🆘 Help
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            🆘 Help
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../help/faq/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    ❓ FAQ
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../help/troubleshooting/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    🧯 Troubleshooting
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9" >
+        
+          
+          <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    ℹ️ About
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9">
+            <span class="md-nav__icon md-icon"></span>
+            ℹ️ About
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../about/about/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    📄 About
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../about/citation/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    📖 Citation
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="tutorial-data-beaconization">Tutorial (Data "beaconization")<a class="headerlink" href="#tutorial-data-beaconization" title="Permanent link">&para;</a></h1>
+<p>In this tutorial it is expected to already have the Data ingestion tools downloaded, installed and set up following the instructions in <a href="../download-and-installation/docker-based/">Installation</a>.</p>
+<p>Let's start by the simplest case. Imagine that you have:</p>
+<ul>
+<li><strong>Metadata</strong> (including phenotypic data) in your system, labelled according to your internal nomenclature.</li>
+<li>A <strong>VCF</strong> file.</li>
+</ul>
+<h2 id="previous-steps">Previous steps<a class="headerlink" href="#previous-steps" title="Permanent link">&para;</a></h2>
+<h4 id="connect-to-the-container">Connect to the container<a class="headerlink" href="#connect-to-the-container" title="Permanent link">&para;</a></h4>
+<p>The beacon2-cbi-tools container is running in detached mode or in the background. To connect, you should invoke from your terminal:</p>
+<p><div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>docker<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-ti<span class="w"> </span>beacon2-cbi-tools<span class="w"> </span>bash
+</span></code></pre></div>
+Now you should be inside the <code>beacon2-cbi-tools</code> container to start the Data beaconization.</p>
+<h2 id="step-1">STEP 1<a class="headerlink" href="#step-1" title="Permanent link">&para;</a></h2>
+<p>First, we are going to convert your metadata (sequencing methodology, bioinformatics tools, phenotypic data, etc.) to the format of the <a href="http://docs.genomebeacons.org/schemas-md/analyses_defaultSchema">Beacon v2 Models</a>. As <strong>input</strong>, we will be using this <a href="https://github.com/mrueda/beacon2-cbi-tools/blob/main/utils/bff_validator/Beacon-v2-Models_template.xlsx">XLSX</a> template.</p>
+<div class="admonition important">
+<p class="admonition-title">About the XLSX template</p>
+<p>The XLSX template consists of <strong>seven sheets</strong> that match the <a href="http://docs.genomebeacons.org/">Beacon v2 Models</a>.
+The template has the purpose of facilitating users' transformation of the data (likely in tabular form) to the hierarchical structure that we have in the <a href="http://docs.genomebeacons.org/schemas-md/analyses_defaultSchema">Beacon v2 Models</a>.
+The header nomenclature gives a hint about if the data will be later stored as an <code>object</code> (naming contains <code>.</code>) or as an <code>array</code> (naming contains <code>_</code>).
+Each column has its own format (e.g., string, date, <a href="https://en.wikipedia.org/wiki/CURIE">CURIE</a>). These formats can browsed in the <a href="http://docs.genomebeacons.org/schemas-md/analyses_defaultSchema">documentation</a>. 
+We recommend using the provided XLSX for the <a href="https://github.com/mrueda/beacon2-cbi-tools/blob/main/CINECA_synthetic_cohort_EUROPE_UK1/Beacon-v2-Models_CINECA_UK1.xlsx">synthetic data</a> as a reference.</p>
+</div>
+<p>The first thing you need to do is <strong>manually map/convert your metadata</strong> to match the syntax of the provided <a href="https://github.com/mrueda/beacon2-cbi-tools/blob/main/utils/bff_validator/Beacon-v2-Models_template.xlsx">XLSX file</a>, ensuring you fill it out accurately.</p>
+<p><img alt="Excel template" src="../img/excel-template.png" /></p>
+<div class="admonition warning">
+<p class="admonition-title">Note</p>
+<p>Normally, people don't fill out the sheet (tab) named <code>genomicVariations</code> as this info will be taken from the annotated VCF (see STEP 2).</p>
+</div>
+<p>Once you have completed filling out the Excel file, you can proceed to validate it. At this stage, it’s common to have uncertainties about your mapping to Beacon v2 syntax. Luckily, the B2RI utility <code>bff-validator</code> is there to assist you with this task. The validator <strong>ensures that all values in the XLSX file conform to the specifications outlined in the Beacon v2 Models default schemas</strong>. Technically, this process is referred to as <em>validating data against JSON Schemas</em>.</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>bin/bff-tools<span class="w"> </span>validate<span class="w"> </span>-i<span class="w"> </span>your_xlsx_file.xlsx<span class="w"> </span>--out-dir<span class="w"> </span>your_bff_dir
+</span></code></pre></div>
+<p>When you run it, it's highly probable that you'll encounter errors or warnings related to your data. The <code>bff-tools validate</code> tool is designed to detect these errors and provide explanations for the validation failures. Please ensure to <strong>address all the issues</strong> within the XLSX file. Feel free to run the script as many times as needed. :-)</p>
+<details class="warning">
+<summary>Example Errors</summary>
+<p><strong>Example 1:</strong></p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>Row 1:
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>/ethnicity/id: String does not match ^\w[^:]+:.+$.
+</span></code></pre></div>
+<p>This error indicates that the <code>id</code> within <code>ethnicity</code> does not conform to the <a href="https://github.com/ga4gh-beacon/beacon-v2/blob/main/framework/json/common/beaconCommonComponents.json">CURIE convention</a>. The expected format is a string that matches the specified regular expression.</p>
+<p><strong>Example 2:</strong></p>
+<p><div class="language-text highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>Row 1:
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>/id: Missing property.
+</span></code></pre></div>
+This error suggests that the <code>id</code> attribute is missing for the individual in question.</p>
+<p><strong>Example 3: (Non-error)</strong></p>
+<p>As the specification is currently under development, warnings may appear for fields that appear correct. An example is the <code>oneOf</code> <a href="https://github.com/ga4gh-beacon/beacon-v2/issues/49">error</a>, as shown below:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>Row 1:
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>/diseases/0/ageOfOnset: oneOf rules 0, 1 match.
+</span></code></pre></div>
+</details>
+<div class="admonition danger">
+<p class="admonition-title">About Unicode</p>
+<p><a href="https://en.wikipedia.org/wiki/UTF-8">Unicode characters</a> are permitted as values in cells. However, be cautious when copying and pasting from external sources, as this can introduce unexpected characters in unintended places. If the <code>bff-validator</code> generates errors that are difficult to diagnose, consider using the <code>--ignore-validation</code> flag to proceed and then examine the generated JSON files for errors. After identifying and correcting the errors in the original Excel file, rerun the validation process without the <code>--ignore-validation</code> flag. For more detailed information, please visit <a href="https://github.com/mrueda/beacon2-cbi-tools/tree/main/utils/bff_validator">this page</a>.</p>
+</div>
+<p>At some point, you won't encounter any validation errors. By then, the script should have generated 6 text files, which we refer to as the <strong>Beacon Friendly Format</strong>. These files are in <strong>JSON</strong> format (specifically, JSON arrays) and will be utilized later in <strong>STEP 3</strong>.</p>
+<p><img alt="BFF validator" src="../img/bff-tools-validate.png" /></p>
+<p>Congratulations! Now you can go to STEP 2.</p>
+<h2 id="step-2">STEP 2<a class="headerlink" href="#step-2" title="Permanent link">&para;</a></h2>
+<p>Now that you have processed the metadata, it's time to process the <strong>VCF</strong> file.</p>
+<div class="admonition important">
+<p class="admonition-title">About VCF types</p>
+<p>Currently, the B2RI only handles VCFs coming from <strong>DNAseq</strong> experiments (e.g., WES, WGS, gene panels, etc.). The VCFs can be either <em>single</em> or <em>multisample</em>. <br />
+As of this writing, <strong>structural variants</strong> in VCF files are not being parsed. (There is a Scout working group currently developing Beacon v2 specifications for structural variants.) We hope to implement this feature in future versions. <strong>Copy Number Variations</strong> are not supported. The <code>variation</code> property uses the <code>LegacyVariation</code> sub-property.</p>
+</div>
+<p>The VCF file has to be gzipped (or bgzipped). What we are going to do it's to annotate it (or re-annotate it if your file already has annotations) with <strong>SnpEff and SnpSift</strong> and transform the format so that it becames the 7th BFF file (i.e., <code>genomicVariationsVcf.json</code>). </p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>bin/bff-tools<span class="w"> </span>vcf<span class="w">   </span>-t<span class="w"> </span><span class="m">4</span><span class="w">       </span>-i<span class="w"> </span>input.vcf.gz<span class="w"> </span>-p<span class="w"> </span>param_file.yaml
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="w">     </span><span class="p">|</span><span class="w">         </span><span class="p">|</span><span class="w">      </span><span class="p">|</span><span class="w">         </span><span class="p">|</span><span class="w">              </span><span class="p">|</span>
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="w">    </span>exe<span class="w">      </span>mode<span class="w">   </span><span class="c1">#threads   &lt;vcf&gt;           parameters file (optional)</span>
+</span></code></pre></div>
+<p>Here we are using <code>bff-tools</code> script in mode <strong><em>vcf</em></strong>. This mode is one of the four available [vcf|load|full|validate]. </p>
+<p>The parameters file is optional if you want to use the default value (hg19) but it is needed if you want to change them. Note that you must provide the <strong>reference genome</strong> (unless you're using <code>hg19</code> which is the default one) that was used to create your VCF. See all the script options <a href="https://github.com/mrueda/beacon2-cbi-tools#how-to-run-beacon">here</a>.</p>
+<p>The <code>param_file</code> (<code>YAML</code>) should look something like this:</p>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="nn">---</span>
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="nt">genome</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">hs37</span>
+</span></code></pre></div>
+<p>If you want to create an <code>HTML</code> file to be later viewed with the <strong>BFF Browser</strong> utility your <code>YAML</code> file should look like this:</p>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="nn">---</span>
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="nt">genome</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">hs37</span>
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="nt">bff2html</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+</span></code></pre></div>
+<div class="admonition important">
+<p class="admonition-title">Note about timing</p>
+<p>We made the script <em>as fast as we possibly could</em> with a scripting language. In this regard, the processing time scales linearly with the #variants, but it's also affected by the #samples. For instance, 1M variants with 2,500 samples will take around ~20-25 min.</p>
+</div>
+<p>If something is wrong with the input files, the script will complain and provide <a href="https://b2ri-documentation.readthedocs.io/en/latest/faq/#data-ingestion-tools">possible solutions</a>.</p>
+<p><img alt="Beacon to VCF" src="../img/bff-tools-vcf.png" /></p>
+<p>Once completed, you will end up with a dir like this one <code>beacon_XXXXXXX/vcf</code>. Inside, you will find <code>genomicVariationsVcf.json.gz</code>, the 7th BFF file.</p>
+<div class="admonition warning">
+<p class="admonition-title">About disk usage</p>
+<p>During the annotation process, <strong>multiple intermediate VCF files are created (and kept)</strong>. They're all compressed, but still they will be <strong>as big as your original VCF</strong>. On top of that, <code>genomicVariationsVcf.json.gz</code> file can be huge. In summary, <strong>please allocate up to 10x times the space of your original VCF</strong>. Feel free to erase the temporary VCF files <code>beacon_XXXXXXX/vcf/*vcf.gz</code> once the job is completed.</p>
+</div>
+<p>Now that you have the 7 JSON files it's time to go to the STEP 3.</p>
+<h2 id="step-3">STEP 3<a class="headerlink" href="#step-3" title="Permanent link">&para;</a></h2>
+<p>The objective of this step is to load (a.k.a. ingest) the 7 JSON files into <strong>MongoDB</strong>. Once loaded in MongoDB, they are named <strong>collections</strong>.</p>
+<p>For doing this we will use again <code>bff-tools</code> script, but this time in mode <code>load</code>.</p>
+<p>Let's assume that we have the 6 files from STEP 1 in the directory <code>my_bff_dir</code> and the file from STEP 2 at <code>beacon_XXXXXXX</code>. </p>
+<p>We will add these values to a new parameters (YAML) file:</p>
+<div class="language-yaml highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="nn">---</span>
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="nt">bff</span><span class="p">:</span>
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="w">  </span><span class="nt">metadatadir</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">my_bff_dir</span>
+</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="w">  </span><span class="c1"># You can change the name of the JSON files</span>
+</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="w">  </span><span class="nt">runs</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">runs.json</span>
+</span><span id="__span-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a><span class="w">  </span><span class="nt">cohorts</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">cohorts.json</span>
+</span><span id="__span-8-7"><a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a><span class="w">  </span><span class="nt">biosamples</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">biosamples.json</span>
+</span><span id="__span-8-8"><a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a><span class="w">  </span><span class="nt">individuals</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">individuals.json</span>
+</span><span id="__span-8-9"><a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a><span class="w">  </span><span class="nt">analyses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">analyses.json</span>
+</span><span id="__span-8-10"><a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a><span class="w">  </span><span class="nt">datasets</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">datasets.json</span>
+</span><span id="__span-8-11"><a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a><span class="w">  </span><span class="c1"># Note that genomicVariationsVcf is not affected by &lt;metadatadir&gt;</span>
+</span><span id="__span-8-12"><a id="__codelineno-8-12" name="__codelineno-8-12" href="#__codelineno-8-12"></a><span class="w">  </span><span class="nt">genomicVariationsVcf</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">beacon_XXXXXXX/vcf/genomicVariationsVcf.json.gz</span>
+</span></code></pre></div>
+<p>Finally, you execute this command</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>bin/bff-tools<span class="w"> </span>load<span class="w"> </span>-p<span class="w"> </span>param_file.yaml
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="w">       </span><span class="p">|</span><span class="w">       </span><span class="p">|</span><span class="w">        </span><span class="p">|</span>
+</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="w">      </span>exe<span class="w">     </span>mode<span class="w">     </span>paramaters<span class="w"> </span>file
+</span></code></pre></div>
+<p>If everything goes well, all your data should be loaded into an instance of MongoDB.</p>
+<div class="admonition warning">
+<p class="admonition-title">Note</p>
+<p>To exit this container you just need to type "exit".</p>
+</div>
+<div class="admonition hint">
+<p class="admonition-title">Using <code>mongoimport</code> for data ingestion</p>
+<p>As mentioned in STEP 3, the <code>bff-tools</code> script in <code>load</code> mode is responsible for loading the data (<strong>ingestion</strong> and <strong>indexing</strong>) in MongoDB. You can view the detailed indexing process executed by <code>beacon2-cbi-tools</code> <a href="https://github.com/mrueda/beacon2-cbi-tools/blob/main/BEACON/bin/run_bff2mongodb.sh">here</a>. The system utilizes both <strong>single field</strong> and <strong>text</strong> indices. Notably, when new data is introduced to MongoDB, the existing indexes are automatically updated to include this new data.</p>
+<p>If you choose to handle data ingestion personally using a CLI tool, the <code>beacon2-cbi-tools</code> container provides the MongoDB utility <code>mongoimport</code> for this purpose. Below is an example of how to execute it:</p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>mongoimport<span class="w"> </span>--jsonArray<span class="w"> </span>--uri<span class="w"> </span><span class="s2">&quot;mongodb://root:example@127.0.0.1:27017/beacon?authSource=admin&quot;</span><span class="w"> </span>--file<span class="w"> </span>analyses.json<span class="w"> </span>--collection<span class="w"> </span>analyses<span class="w"> </span>
+</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>mongoimport<span class="w"> </span>--jsonArray<span class="w"> </span>--uri<span class="w"> </span><span class="s2">&quot;mongodb://root:example@127.0.0.1:27017/beacon?authSource=admin&quot;</span><span class="w"> </span>--file<span class="w"> </span>biosamples.json<span class="w"> </span>--collection<span class="w"> </span>biosamples<span class="w"> </span>
+</span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>mongoimport<span class="w"> </span>--jsonArray<span class="w"> </span>--uri<span class="w"> </span><span class="s2">&quot;mongodb://root:example@127.0.0.1:27017/beacon?authSource=admin&quot;</span><span class="w"> </span>--file<span class="w"> </span>cohorts.json<span class="w"> </span>--collection<span class="w"> </span>cohorts<span class="w"> </span>
+</span><span id="__span-10-4"><a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>mongoimport<span class="w"> </span>--jsonArray<span class="w"> </span>--uri<span class="w"> </span><span class="s2">&quot;mongodb://root:example@127.0.0.1:27017/beacon?authSource=admin&quot;</span><span class="w"> </span>--file<span class="w"> </span>datasets.json<span class="w"> </span>--collection<span class="w"> </span>datasets<span class="w"> </span>
+</span><span id="__span-10-5"><a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a>mongoimport<span class="w"> </span>--jsonArray<span class="w"> </span>--uri<span class="w"> </span><span class="s2">&quot;mongodb://root:example@127.0.0.1:27017/beacon?authSource=admin&quot;</span><span class="w"> </span>--file<span class="w"> </span>individuals.json<span class="w"> </span>--collection<span class="w"> </span>individuals<span class="w"> </span>
+</span><span id="__span-10-6"><a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a>mongoimport<span class="w"> </span>--jsonArray<span class="w"> </span>--uri<span class="w"> </span><span class="s2">&quot;mongodb://root:example@127.0.0.1:27017/beacon?authSource=admin&quot;</span><span class="w"> </span>--file<span class="w"> </span>runs.json<span class="w"> </span>--collection<span class="w"> </span>runs<span class="w"> </span>
+</span><span id="__span-10-7"><a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a>mongoimport<span class="w"> </span>--jsonArray<span class="w"> </span>--uri<span class="w"> </span><span class="s2">&quot;mongodb://root:example@127.0.0.1:27017/beacon?authSource=admin&quot;</span><span class="w"> </span>--file<span class="w"> </span>genomicVariationsVcf.json<span class="w"> </span>--collection<span class="w"> </span>genomicVariations<span class="w">   </span>
+</span></code></pre></div>
+<p>Again, remember that if you follow this alternative path, you will have to <strong>index your MongoDB data</strong>. Indexes can affect the performance of your Beacon v2 API.</p>
+</div>
+<div class="admonition important">
+<p class="admonition-title">Note about MongoDB</p>
+<p>As with any other database, it is possible to perform queries directly to <strong>MongoDB</strong>. In our case, the database is named <em>beacon</em> and contains the ingested <em>collections</em>. For doing so, you will need to use one of the many UI (we have included <strong>Mongo Express</strong>), the <code>mongosh</code> (also included) or use any of the <a href="https://docs.mongodb.com/drivers">MongoDB drivers</a> that exist for most programming languages. As an example, we have included an utility <code>bff-portal</code> that enables you to make <strong>simple queries</strong> (see instructions <a href="https://github.com/mrueda/beacon2-cbi-tools/tree/main/utils/bff_portal">here</a>). For a more comprehensive description check <a href="https://www.mongodb.com">MongoDB</a> literature.</p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      &copy; Copyright 2023-2025, Manuel Rueda, CNAG
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        <div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/mrueda" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8M97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "..", "features": ["content.code.select", "content.code.copy", "content.tabs.link", "search.highlight", "search.share", "navigation.tracking", "navigation.sections", "toc.integrate"], "search": "../assets/javascripts/workers/search.f8cc74c7.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.c8b220af.min.js"></script>
+      
+        <script src="../js/theme_overrides.js"></script>
+      
+    
+  </body>
+</html>
