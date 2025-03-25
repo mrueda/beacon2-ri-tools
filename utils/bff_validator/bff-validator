@@ -29,22 +29,27 @@ use strict;
 use warnings;
 use feature qw(say);
 use autodie;
+use utf8;
 use Getopt::Long;
 use Pod::Usage;
 use Data::Dumper;
 use FindBin qw($Bin);
 use Text::CSV_XS;
+
 #use Text::Unidecode;
 use JSON::XS;
 use JSON::Validator;
 use File::Basename;
 use File::Spec::Functions qw(catdir catfile);
-use File::Which qw(which);
-use List::MoreUtils qw(any);
-use Scalar::Util qw(looks_like_number);
+use File::Which           qw(which);
+use List::MoreUtils       qw(any);
+use Scalar::Util          qw(looks_like_number);
 use Path::Tiny;
 use Term::ANSIColor qw(:constants);
 $Data::Dumper::Sortkeys = 1;
+
+# Set STDOUT to output UTF-8
+binmode STDOUT, ':encoding(UTF-8)';
 
 my $debug   = 0;
 my $verbose = 0;
@@ -63,17 +68,17 @@ sub validate_input_data {
 
     # Reading arguments
     GetOptions(
-        'input|i=s{1,7}'    => \my @in_files,                          # array
-        'schema-dir|s=s'    => \$schema_dir,                           # string
-        'out-dir|o=s'       => \$out_dir,                              # string
-        'help|?'            => \my $help,                              # flag
-        'man'               => \my $man,                               # flag
-        'gv'                => \my $gv_flag,                           # flag
-        'gv-vcf'            => \my $gv_vcf_flag,                       # flag
-        'ignore-validation' => \my $ignore_validation,                 # flag
-        'debug=i'           => \$debug,                                # integer
-        'verbose'           => \$verbose,                              # flag
-        'no-color|nc'       => \my $no_color,                          # flag
+        'input|i=s{1,7}'    => \my @in_files,                             # array
+        'schema-dir|s=s'    => \$schema_dir,                              # string
+        'out-dir|o=s'       => \$out_dir,                                 # string
+        'help|?'            => \my $help,                                 # flag
+        'man'               => \my $man,                                  # flag
+        'gv'                => \my $gv_flag,                              # flag
+        'gv-vcf'            => \my $gv_vcf_flag,                          # flag
+        'ignore-validation' => \my $ignore_validation,                    # flag
+        'debug=i'           => \$debug,                                   # integer
+        'verbose'           => \$verbose,                                 # flag
+        'no-color|nc'       => \my $no_color,                             # flag
         'version|v'         => sub { say "$0 Version $version"; exit; }
     ) or pod2usage(2);
     pod2usage(1)                              if $help;
@@ -93,6 +98,15 @@ sub validate_input_data {
 
     # Turning color off if argument <--no-color>
     $ENV{'ANSI_COLORS_DISABLED'} = 1 if $no_color;
+
+    my %schema_emoji = (
+        analyses    => "🗂 ",    # collection of results
+        biosamples  => "🧪",     # biological samples
+        cohorts     => "👥",     # group of individuals
+        datasets    => "📦",     # package of data
+        individuals => "🧍",     # individual person
+        runs        => "🧫",     # sequencing run
+    );
 
     # Define a few more variables
     my @schemas =
@@ -127,7 +141,8 @@ sub validate_input_data {
     # START DATA VALIDATION AGAINST JSON SCHEMAs #
     ##############################################
     for my $schema (@schemas) {
-        say BOLD BLUE '==== SCHEMA: ', uc($schema), ' ====', RESET;
+        say BOLD BLUE '==== SCHEMA: ', uc($schema), ' ',
+          $schema_emoji{$schema}, ' ====', RESET;
         my $location = $input{$schema}{location};
         say "Validating  <$schema> data against => $location JSON schema"
           if $verbose;
@@ -142,7 +157,7 @@ sub validate_input_data {
                 $ok = 1;
                 print "Ignoring JSON Validation->";
             }
-            say "Writing <$out> file\n" and write_json( $out, $json ) if $ok;
+            say "📝 Writing <$out> file\n" and write_json( $out, $json ) if $ok;
         }
 
         # Route 2 - JSON
@@ -299,7 +314,7 @@ sub validate_json {
     ####################################################
 
     my $errors = [];
-    my $count = 1; # Starting in 1 to facilitate awk 'NR == i + 1' (yet being an array)
+    my $count  = 1;    # Starting in 1 to facilitate awk 'NR == i + 1' (yet being an array)
 
     # Problem:
     #
@@ -324,7 +339,7 @@ sub validate_json {
             chomp $line;                     # \
             chop $line if $line =~ m/,$/;    #  (last line does not have comma)
 
-            my $row = decode_json($line); # Decode to Perl data structure (input must be UTF-8)
+            my $row = decode_json($line);    # Decode to Perl data structure (input must be UTF-8)
 
             # Validation with JSON::Validator
             my $error = validate_against_json_schema(
@@ -382,7 +397,7 @@ sub say_errors {
         say BOLD RED( join "\n", @{$errors} ), RESET;
     }
     else {
-        say BOLD GREEN 'Hurray! No errors found', RESET;
+        say BOLD GREEN '🎉 Hurray! No errors found', RESET;
     }
     return 1;
 }
@@ -468,9 +483,9 @@ sub row2hash {
         if ( check_non_empty_val( \$excel{$key} ) ) {
 
             # Example of HoHoA: datasets => dataUseConditions.duoDatause_[]
-            my $tmp_ref =
-              $excel{$key} =~ m/^\[/
-              ? decode_json(  $excel{$key} ) 
+            my $tmp_ref = $excel{$key} =~ m/^\[/
+              ? decode_json( $excel{$key} )
+
               #? decode_json( unidecode( $excel{$key} ) ) # mrueda 052324
               : \$excel{$key};
             $json = array2hash( $json, $terms, $tmp_ref );
@@ -510,9 +525,9 @@ sub row2hash {
             #  1 - $excel{$key} =~ m/^\[ ====> decode_json( $excel{$key}
             #  2 - $excel{$key} != m/^\[ ====> we have to split by ','
             # NB: We store references ($values) for both <strings> and <json>
-            my $values =
-              $excel{$key} =~ m/^\[/
-              ? decode_json(  $excel{$key}  )
+            my $values = $excel{$key} =~ m/^\[/
+              ? decode_json( $excel{$key} )
+
               #? decode_json( unidecode( $excel{$key} ) ) # mrueda 052324
               : [ split /,/, $excel{$key} ];
 
@@ -661,8 +676,8 @@ sub validate_against_json_schema {
 sub read_json {
 
     my $file = shift;
-    my $str       = path($file)->slurp;
-    my $json      = decode_json($str);
+    my $str  = path($file)->slurp;
+    my $json = decode_json($str);
     return decode_json($str);    # Decode (utf-8) to Perl data structure
 }
 
@@ -680,7 +695,7 @@ sub check_input_type {
     my ( $in_files, $schemas ) = @_;
 
     my @suffixes = qw(.json .xlsx);
-    my ( $name, $path, $suffix ) = fileparse( $in_files->[0], @suffixes ); # WARNING => Checking $suffix on 1st file only!!!
+    my ( $name, $path, $suffix ) = fileparse( $in_files->[0], @suffixes );    # WARNING => Checking $suffix on 1st file only!!!
     my %bff;
     if ( $suffix eq '.xlsx' ) {
         $bff{xlsx} = $in_files->[0];
@@ -714,13 +729,13 @@ sub program_header {
     my $version = shift;
     my $str     = <<EOF;
 ****************************************
-*          beacon2-cbi-tools           *
+*       🧬  beacon2-cbi-tools 🧬       *
 *--------------------------------------*
-*          BFF-TOOLS VALIDATE          *
+*       ✅ BFF-TOOLS VALIDATE  ✅      *
 *   (Beacon Friendly Format Validator) *
 *--------------------------------------*
-*           Version: $version             *
-*       Author: Manuel Rueda, PhD      *
+*       🔢  Version: $version  🚀         *
+*    🧙 Author: Manuel Rueda, PhD 🐧   *
 ****************************************
 EOF
     return $str;
