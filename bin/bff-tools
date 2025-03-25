@@ -215,7 +215,7 @@ my $rah_beacon = {
 my $beacon = Tools->new($rah_beacon);
 
 # Define the hash with emoji values
-my %emoji = (
+my %pipeline_emoji = (
     vcf2bff     => "🧬",
     bff2mongodb => "💾",
     bff2html    => "🌐",
@@ -225,7 +225,7 @@ my %emoji = (
 my @pipelines = ( 'vcf2bff', 'bff2html', 'bff2mongodb' );
 for my $pipeline (@pipelines) {
     if ( $param->{pipeline}{$pipeline} ) {
-        say "$prompt Running the pipeline $emoji{$pipeline} ",
+        say "$prompt Running the pipeline $pipeline_emoji{$pipeline} ",
           uc($pipeline), '...';
         run_with_spinner( sub { $beacon->$pipeline() } );
     }
