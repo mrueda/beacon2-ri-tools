@@ -2,7 +2,7 @@
 #
 #   BFF-tools: Script to process VCF/BFF data
 #   It has four modes:
-#     1. vcf: 
+#     1. vcf:
 #         a) Annotates VCF with SnpEff (optional)
 #         b) Serializes VCF to BFF
 #     2. load: Transfers BFF data to MongoDB
@@ -34,16 +34,17 @@
 use strict;
 use warnings;
 use autodie;
+use utf8;
 use feature         qw(say);
 use Cwd             qw(abs_path);
 use Term::ANSIColor qw(:constants);
 use JSON::XS;
 use Path::Tiny;
 use Data::Dumper;
-use Time::HiRes     qw(time sleep);
+use Time::HiRes qw(time sleep);
 use threads;
 use threads::shared;
-use FindBin         qw($Bin);
+use FindBin qw($Bin);
 use lib "$Bin/../lib";
 use BFF::Help;
 use BFF::Config;
@@ -53,12 +54,15 @@ use BFF::Tools;
 #            Variables definition                           #
 #############################################################
 
+# Set STDOUT to output UTF-8
+binmode STDOUT, ':encoding(UTF-8)';
+
 # Personalize warn and die functions
 $SIG{__WARN__} = sub { warn BOLD YELLOW "Warn: ", @_ };
 $SIG{__DIE__}  = sub { die BOLD RED "Error: ", @_ };
 
 # Check if the first argument is "validate" and call the subroutine if so.
-if (($ARGV[0] // '') eq 'validate') {
+if ( ( $ARGV[0] // '' ) eq 'validate' ) {
     handle_validate();
 }
 
@@ -66,14 +70,14 @@ if (($ARGV[0] // '') eq 'validate') {
 my $version = '2.0.8';
 
 # Initialize a few more variables
-my $prompt      = 'Info:';
-my $warn        = 'Warn:';
-my $error       = 'Error:';
-my $spacer      = '*' x 32;
-my $arrow       = '=>';
-my $cmd         = '';
-my $author      = 'Author: Manuel Rueda, PhD';
-my $license     = 'License: GNU General Public License v3';
+my $prompt        = 'Info:';
+my $warn          = 'Warn:';
+my $error         = 'Error:';
+my $spacer        = '*' x 32;
+my $arrow         = '=>';
+my $cmd           = '';
+my $author        = 'Author: Manuel Rueda, PhD';
+my $license       = 'License: GNU General Public License v3';
 my $bfftools_path = abs_path($0);
 
 # We tell Perl to flush right away STDOUT data
@@ -101,13 +105,13 @@ my $param = Config::read_param_file($arg);
 
 # Start printing information
 say $prompt;
-say BOLD CYAN "$prompt BFF-Tools $version", RESET;
-say "$prompt bff-tools exe: $bfftools_path";
-say "$prompt $author";
-say "$prompt $license\n$prompt";
+say BOLD CYAN "$prompt 🚀 BFF-Tools $version", RESET;
+say "$prompt 🖥️ bff-tools exe: $bfftools_path";
+say "$prompt ✍️ $author";
+say "$prompt 📜 $license\n$prompt";
 
 # Print arguments to stdout
-say BOLD YELLOW, "$prompt ARGUMENTS USED:", RESET;
+say BOLD YELLOW, "$prompt 🔧 ARGUMENTS USED:", RESET;
 say WHITE "$prompt mode: $arg->{mode}";
 my @tmp_keys =
   qw (inputfile configfile paramfile threads debug verbose nocolor projectdir-override);
@@ -121,7 +125,7 @@ for my $argument ( sort keys %argument ) {
 
 # Printing the config values to stdout according to the format below
 say WHITE "$prompt";
-say BOLD BLUE, "$prompt CONFIGURATION VALUES:", RESET;
+say BOLD BLUE, "$prompt ⚙️  CONFIGURATION VALUES:", RESET;
 
 $~ = "CONFIG";
 my $l_config = '';
@@ -136,7 +140,7 @@ $prompt, $l_config, $arrow, $config->{$l_config}
 
 # Printing the params to stdout according to the format below
 say WHITE "$prompt";
-say BOLD GREEN, "$prompt BFF-TOOLS PARAMETERS:", RESET;
+say BOLD GREEN, "$prompt 🎬 BFF-TOOLS PARAMETERS:", RESET;
 
 # Creating a tmp hash to deal with 2D hash
 my %tmp_param = %{$param};
@@ -157,7 +161,7 @@ $prompt, $l_param, $arrow, $tmp_param{$l_param}
 
 # Start bff-tools
 say $prompt;
-say BOLD CYAN "$prompt STARTING BFF-TOOLS FUN";
+say BOLD CYAN "$prompt 🚦 STARTING BFF-TOOLS FUN";
 say RESET "$prompt $spacer";
 
 # Create the working dir
@@ -210,18 +214,26 @@ my $rah_beacon = {
 # Loading the object
 my $beacon = Tools->new($rah_beacon);
 
+# Define the hash with emoji values
+my %emoji = (
+    vcf2bff     => "🧬",
+    bff2mongodb => "💾",
+    bff2html    => "🌐",
+);
+
 # Now submitting the pipelines (order matters) through bash scripts
 my @pipelines = ( 'vcf2bff', 'bff2html', 'bff2mongodb' );
 for my $pipeline (@pipelines) {
     if ( $param->{pipeline}{$pipeline} ) {
-        say "$prompt Running the pipeline ", uc($pipeline), '...';
+        say "$prompt Running the pipeline $emoji{$pipeline} ",
+          uc($pipeline), '...';
         run_with_spinner( sub { $beacon->$pipeline() } );
     }
 }
 
 # End bff-tools
 say "$prompt $spacer";
-say BOLD GREEN, "$prompt BFF-TOOLS FINISHED OK", RESET;
+say BOLD GREEN, "$prompt ✅ BFF-TOOLS FINISHED OK", RESET;
 
 # Optional message
 say "$prompt Date: ",            scalar localtime if $arg->{verbose};
@@ -229,7 +241,7 @@ say "$prompt Running time(s): ", time - $^T       if $arg->{verbose};
 
 # Say goodbye message
 my $goodbye = GoodBye->new();
-say WHITE, $prompt, ' ', $goodbye->say_goodbye();
+say WHITE, $prompt, ' 👋 ', $goodbye->say_goodbye();
 
 ##############################################################
 #                   Code ends here                           #
@@ -240,13 +252,16 @@ say WHITE, $prompt, ' ', $goodbye->say_goodbye();
 #------------------------------------------------------------
 
 sub handle_validate {
+
     # Remove the "validate" argument
     shift @ARGV;
+
     # Execute the bff-validator utility with remaining arguments
-    system("$Bin/../utils/bff_validator/bff-validator", @ARGV) == 0
+    system( "$Bin/../utils/bff_validator/bff-validator", @ARGV ) == 0
       or die RED "Error: could not run bff-validator: $!" . RESET;
+
     # Exit with the return code from the system call
-    exit($? >> 8);
+    exit( $? >> 8 );
 }
 
 # Function that runs a code reference with a spinner.
@@ -279,7 +294,7 @@ sub run_with_spinner {
                 my $message =
                     BOLD
                   . WHITE
-                  . " Please be patient - this job may take a while (elapsed: $elapsed_str)..."
+                  . " Please be patient - this job may take a while ⏳ (elapsed: $elapsed_str)..."
                   . RESET;
                 print "\r$spinner_char$message";
                 $i++;
