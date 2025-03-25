@@ -27,7 +27,16 @@ bff-validator: A script that validates metadata (XLSX|JSON) against Beacon v2 Mo
 
 # SUMMARY
 
-bff-validator: A script that validates metadata (XLSX|JSON) against Beacon v2 Models and serializes it to BFF (JSON)
+bff-validator: A tool for validating datasets against the Beacon v2 schema.
+
+\- **Purpose:** Ensures that submitted data conforms to the Beacon v2 model schema.
+
+\- **Key Features:**
+  - Provides a template Excel input file
+  - Also accepts JSON as input
+  - Schema validation for data integrity
+  - Detects structural and format inconsistencies
+  - Essential for data ingestion workflows
 
 # INSTALLATION
 
@@ -64,6 +73,8 @@ Also, we're using _xlsx2csv_, which is a python script.
     $ pip install xlsx2csv
 
 # HOW TO RUN BFF-VALIDATOR
+
+    <!--how-to-run-start-->
 
 For executing `bff-validator` you will need:
 
@@ -128,6 +139,8 @@ For executing `bff-validator` you will need:
       Solution: Make sure you have the right amount of opening or closing keys/brackets.
 
 _NB:_ You can use the flag `--ignore-validation` and check the temporary files at `-o` directory.
+
+    <!--how-to-run-end-->
 
 # CITATION
 

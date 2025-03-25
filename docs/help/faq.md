@@ -6,7 +6,7 @@
     ##### last change 2025-03-23 by Manuel Rueda [:fontawesome-brands-github:](https://github.com/mrueda)
 
 ??? faq "I have an error when attempting to use `beacon vcf`, what should I do?"
-    * In 9 out of 10 cases, the error comes from **BCFtools** and is related to the **reference genome** specified in the **parameters** [file](https://github.com/mrueda/beacon2-cbi-tools). The options are typically _hg19_, _hg38_ (which use `chr` prefixes), and _hs37_ (which do not). Ensure that your VCF’s contigs match the FASTA file or modify your `config.yaml` accordingly.
+    * In 9 out of 10 cases, the error comes from **BCFtools** and is related to the **reference genome** specified in the **parameters** [file](https://github.com/cnag-biomedical-informatics/beacon2-cbi-tools). The options are typically _hg19_, _hg38_ (which use `chr` prefixes), and _hs37_ (which do not). Ensure that your VCF’s contigs match the FASTA file or modify your `config.yaml` accordingly.
     
     * Additionally, **BCFtools** may complain about the number of fields (for example, in the INFO field). In such cases, you can try fixing the VCF manually or use:
     
@@ -48,18 +48,18 @@
     
      in the parameters file. Do it at your own risk :smile:
     
-    If you have internal annotations of value, you can add alternative genomic variations by completing the corresponding _tab_ in the provided [XLSX](https://github.com/mrueda/beacon2-cbi-tools/blob/main/utils/bff_validator/Beacon-v2-Models_template.xlsx). The resulting file (`genomicVariations.json`), together with `genomicVariationsVcf.json.gz`, will be loaded into the MongoDB collection _genomicVariations_. See [this tutorial](./tutorial-data-beaconization.md) for more details.
+    If you have internal annotations of value, you can add alternative genomic variations by completing the corresponding _tab_ in the provided [XLSX](https://github.com/cnag-biomedical-informatics/beacon2-cbi-tools/blob/main/utils/bff_validator/Beacon-v2-Models_template.xlsx). The resulting file (`genomicVariations.json`), together with `genomicVariationsVcf.json.gz`, will be loaded into the MongoDB collection _genomicVariations_. See [this tutorial](../data-beaconization.md) for more details.
     
     ##### last change 2025-03-23 by Manuel Rueda [:fontawesome-brands-github:](https://github.com/mrueda)
 
 ??? faq "Is there an alternative to the Excel file for generating metadata/phenotypic data?"
-    Yes. You can use CSV or JSON files directly as input for the `bff-validator` (a.k.a., `bff-tools validate`) utility. For detailed instructions, refer to the [bff-validator manual](https://github.com/mrueda/beacon2-cbi-tools/tree/main/utils/bff_validator).
+    Yes. You can use CSV or JSON files directly as input for the `bff-tools validate` (a.k.a., `bff-validator`) utility. For detailed instructions, refer to the [bff-validator manual](https://github.com/cnag-biomedical-informatics/beacon2-cbi-tools/tree/main/utils/bff_validator).
     
     Alternatively, if your clinical data is in REDCap, OMOP CDM, Phenopackets v2, or raw CSV format, consider using the [Convert-Pheno](https://github.com/CNAG-Biomedical-Informatics/convert-pheno) tool.
     
     ##### last change 2025-03-23 by Manuel Rueda [:fontawesome-brands-github:](https://github.com/mrueda)
 
-??? faq "`bff-validator` (a.k.a., `bff-tools validate)` specification mismatches"
+??? faq "`bff-tool validate` (a.k.a., `bff-validator)` specification mismatches"
     By default, `bff-validator` validates your data against the schemas bundled with your `beacon2-cbi-tools` version. If you encounter warnings (e.g., objects matching multiple possibilities in `oneOf` keywords), simply use the flag `--ignore-validation` when generating your `.json` files.
     
     ##### last change 2025-03-23 by Manuel Rueda [:fontawesome-brands-github:](https://github.com/mrueda)
@@ -87,7 +87,7 @@
          zcat input.vcf.gz | awk '/^#/ || $1=="chr1"' | bgzip > chr1.vcf.gz
          ```
     
-    2. **Use [parallel processing](https://github.com/mrueda/beacon2-cbi-tools/tree/main/utils/bff_queue)** to submit jobs.
+    2. **Use [parallel processing](https://github.com/cnag-biomedical-informatics/beacon2-cbi-tools/tree/main/utils/bff_queue)** to submit jobs.
     
     ##### last change 2025-03-23 by Manuel Rueda [:fontawesome-brands-github:](https://github.com/mrueda)
 
@@ -102,7 +102,7 @@
     ##### last change 2025-03-23 by Manuel Rueda [:fontawesome-brands-github:](https://github.com/mrueda)
 
 ??? faq "Where do I get full WGS VCF for the CINECA synthetic cohort EUROPE UK1?"
-    For full WGS data (≈20 GB for 2,504 synthetic individuals), request access and download from the [EGA](https://ega-archive.org/datasets/EGAD00001006673). See [this document](./synthetic-dataset.md) for details.
+    For full WGS data (≈20 GB for 2,504 synthetic individuals), request access and download from the [EGA](https://ega-archive.org/datasets/EGAD00001006673). See [this document](https://github.com/CNAG-Biomedical-Informatics/beacon2-cbi-tools/tree/main/CINECA_synthetic_cohort_EUROPE_UK1) for details.
     
     ##### last change 2025-03-23 by Manuel Rueda [:fontawesome-brands-github:](https://github.com/mrueda)
 
@@ -112,7 +112,7 @@
     ##### last change 2025-03-23 by Manuel Rueda [:fontawesome-brands-github:](https://github.com/mrueda)
 
 ??? faq "Should I update to the `latest` version?"
-    Yes. We recommend checking our GitHub repositories ([beacon2-cbi-tools](https://github.com/mrueda/beacon2-cbi-tools) and [beacon2-cbi-api](https://github.com/EGA-archive/beacon2-cbi-api)) for the latest updates.
+    Yes. We recommend checking our GitHub repositories ([beacon2-cbi-tools](https://github.com/mrueda/beacon2-cbi-tools) for the latest updates.
     
     ##### last change 2025-03-23 by Manuel Rueda [:fontawesome-brands-github:](https://github.com/mrueda)
 

@@ -1,6 +1,6 @@
 # About
 
-## beacon2-cbi-call documentation author:
+## Documentation author:
 
  * [Manuel Rueda, PhD](https://github.com/mrueda)
 

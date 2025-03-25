@@ -31,17 +31,6 @@ A utility for managing and monitoring CLI tasks.
   - Monitors background jobs  
   - Enhances system scalability  
 
-### 4. **bff-validator**
-A tool for validating datasets against the Beacon v2 schema.
-
-- **Purpose:** Ensures that submitted data conforms to the Beacon v2 model schema.  
-- **Key Features:**  
-  - Provides a template Excel input file  
-  - Also accepts JSON as input  
-  - Schema validation for data integrity  
-  - Detects structural and format inconsistencies  
-  - Essential for data ingestion workflows  
-
 ## How BFF Browser Differs from BFF Portal
 
 The **BFF Browser** and **BFF Portal** serve different purposes within the BFF ecosystem. Below is a detailed comparison to clarify their distinct functionalities:
