@@ -100,6 +100,11 @@ sub read_config_file {
     $config{hs37dbnsfp}  = $config{hg19dbnsfp};
     $config{hs37clinvar} = $config{hg19clinvar};
 
+    # Set defaults for the optional keys
+    $config{tmpdir} = $config{tmpdir} // '/tmp';
+    $config{mem} = $config{mem} // '8G';
+    $config{dbnsfpset} = $config{dbnsfpset} // 'all';
+
     #print Dumper \%config and die;
     #Check that DB exes/files and tmpdir exist
     while ( my ( $key, $val ) = each %config ) {

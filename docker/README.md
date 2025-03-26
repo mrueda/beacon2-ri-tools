@@ -52,15 +52,21 @@ tar -xzvf data.tar.gz
 
 ### Step 5: Configure Path in SnpEff
 
-**In the downloaded data:**  
-
-Update the `data.dir` variable in **SnpEff** config file:
+1. Navigate to your downloaded data and locate the **SnpEff configuration file**. It is located at:
 
 ```bash
 /path/to/downloaded/data/soft/NGSutils/snpEff_v5.0/snpEff.config
 ```
 
-Ensure it points to the correct location of your downloaded data.
+2. Open `snpEff.config` with a text editor and find the line containing the `data.dir` variable.
+
+3. Update the `data.dir` variable to reflect the correct path to your downloaded data directory. It should look similar to this:
+
+```bash
+data.dir = /path/to/downloaded/data/soft/NGSutils/snpEff_v5.0/data
+```
+
+**Important:** Ensure that you use an absolute path and verify that the directory exists to avoid any errors during subsequent analyses.
 
 ---
 
@@ -202,16 +208,17 @@ Perl itself does not require much RAM (max load ~400MB), but external tools (e.g
 
 ## References
 
-1. **BCFtools**  
-   Danecek P, Bonfield JK, et al. Twelve years of SAMtools and BCFtools. *Gigascience* (2021) 10(2):giab008. [Read more](https://pubmed.ncbi.nlm.nih.gov/33590861).
+1. BCFtools
+    Danecek P, Bonfield JK, et al. Twelve years of SAMtools and BCFtools. Gigascience (2021) 10(2):giab008 [link](https://pubmed.ncbi.nlm.nih.gov/33590861)
 
-2. **SnpEff**  
-   Cingolani P, Platts A, Wang le L, Coon M, et al. *Fly (Austin)*. 2012 Apr-Jun;6(2):80-92. PMID: 22728672.
+2.  SnpEff
+    "A program for annotating and predicting the effects of single nucleotide polymorphisms, SnpEff: SNPs in the genome of Drosophila melanogaster strain w1118; iso-2; iso-3.", Cingolani P, Platts A, Wang le L, Coon M, Nguyen T, Wang L, Land SJ, Lu X, Ruden DM. Fly (Austin). 2012 Apr-Jun;6(2):80-92. PMID: 22728672.
 
-3. **SnpSift**  
-   Cingolani, P., et. al. *Frontiers in Genetics*, 3, 2012.
-
-4. **dbNSFP v4**  
-   - Liu X, Jian X, and Boerwinkle E. *Human Mutation*. 32:894-899.
-   - Liu X, Wu C, Li C, and Boerwinkle E. *Human Mutation*. 37:235-241.
-   - Liu X, Li C, Mou C, Dong Y, and Tu Y. *Genome Medicine*. 12:103.
+3. SnpSift
+    "Using Drosophila melanogaster as a model for genotoxic chemical mutational studies with a new program, SnpSift", Cingolani, P., et. al., Frontiers in Genetics, 3, 2012. PMID: 22435069.                
+4.  dbNSFP v4
+    1. Liu X, Jian X, and Boerwinkle E. 2011. dbNSFP: a lightweight database of human non-synonymous SNPs and their functional predictions. Human Mutation. 32:894-899.
+    2. Liu X, Jian X, and Boerwinkle E. 2013. dbNSFP v2.0: A Database of Human Non-synonymous SNVs and Their Functional Predictions and Annotations. Human Mutation. 34:E2393-E2402.
+    3. Liu X, Wu C, Li C, and Boerwinkle E. 2016. dbNSFP v3.0: A One-Stop Database of Functional Predictions and Annotations for Human Non-synonymous and Splice Site SNVs. Human Mutation. 37:235-241.
+    4. Liu X, Li C, Mou C, Dong Y, and Tu Y. 2020. dbNSFP v4: a comprehensive database of transcript-specific functional predictions and annotations for human nonsynonymous and splice-site SNVs. Genome Medicine. 12:103.
+~                          
