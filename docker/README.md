@@ -183,7 +183,7 @@ docker network connect my-app-network beacon2-cbi-tools
 
 ## System requirements
 
-- OS/ARCH supported: **linux/amd64** and **linux/arm64)**.
+- OS/ARCH supported: **linux/amd64** and **linux/arm64**.
 - Ideally a Debian-based distribution (Ubuntu or Mint), but any other (e.g., CentOS, OpenSUSE) should do as well (untested).
 - Docker and docker compose
 - Perl 5 (>= 5.10 core; installed by default in most Linux distributions). Check the version with perl -v
@@ -221,4 +221,3 @@ Perl itself does not require much RAM (max load ~400MB), but external tools (e.g
     2. Liu X, Jian X, and Boerwinkle E. 2013. dbNSFP v2.0: A Database of Human Non-synonymous SNVs and Their Functional Predictions and Annotations. Human Mutation. 34:E2393-E2402.
     3. Liu X, Wu C, Li C, and Boerwinkle E. 2016. dbNSFP v3.0: A One-Stop Database of Functional Predictions and Annotations for Human Non-synonymous and Splice Site SNVs. Human Mutation. 37:235-241.
     4. Liu X, Li C, Mou C, Dong Y, and Tu Y. 2020. dbNSFP v4: a comprehensive database of transcript-specific functional predictions and annotations for human nonsynonymous and splice-site SNVs. Genome Medicine. 12:103.
-~                          

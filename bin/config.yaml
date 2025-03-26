@@ -23,10 +23,10 @@ snpeff: "{base}/soft/snpEff/snpEff.jar"
 snpsift: "{base}/soft/snpEff/SnpSift.jar"
 bcftools: "{base}/soft/NGSutils/bcftools-1.21-103_{arch}/bcftools"
 
-# Max RAM memory for snpeff (optional)
+# Optional: Maximum RAM for SnpEff (default: 8G)
 mem: 8G
 
-# Temporary directory (optional)
+# Optional: Temporary directory (default: /tmp)
 tmpdir: "{base}/tmp"
 
 # MongoDB 
@@ -35,5 +35,5 @@ mongostat: "{base}/soft/mongodb-database-tools-ubuntu2404-{arch}-100.11.0/bin/mo
 mongodburi: "mongodb://root:example@mongo:27017/beacon?authSource=admin"
 mongosh: "/usr/bin/mongosh"
 
-# Set of fields from dbSNSFP (optional)
+# Optional: Set of fields from dbNSFP. Values: all | cnag (default: all)
 dbnsfpset: all
