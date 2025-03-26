@@ -73,7 +73,7 @@ my $version = '2.0.8';
 my $prompt        = 'Info:';
 my $warn          = 'Warn:';
 my $error         = 'Error:';
-my $spacer        = '*' x 32;
+my $spacer        = '*' x 34;
 my $arrow         = '=>';
 my $cmd           = '';
 my $author        = 'Author: Manuel Rueda, PhD';
