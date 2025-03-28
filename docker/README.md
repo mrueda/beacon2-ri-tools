@@ -111,9 +111,15 @@ Then build the container:
 
 We now provide an extended Docker Compose file (`docker-compose.all.yml`) to launch **beacon2-cbi-tools**, **MongoDB**, and **Mongo Express** together in one command. This is recommended if you're deploying the full data-loading and querying stack.
 
-#### Usage
 
-1. **Configure the Data Directory**
+1. **Download** `docker-compose.yml`
+
+```bash
+wget https://raw.githubusercontent.com/CNAG-Biomedical-Informatics/beacon2-cbi-tools/main/docker/docker-compose.all.yml
+```
+
+
+2. **Configure the Data Directory**
 
    Ensure you have a directory containing the required data for beacon2-cbi-tools. You can set this directory in the compose file using an environment variable or by editing the volume mapping directly. For example, the volume is defined as:
 
@@ -124,7 +130,7 @@ We now provide an extended Docker Compose file (`docker-compose.all.yml`) to lau
 
    You can set the `BEACON2_DATA_DIR` variable in a `.env` file or in your shell, or replace the default path with the actual absolute path.
 
-2. **Deploy the Complete Stack**
+3. **Deploy the Complete Stack**
 
    Run the following command from your project directory:
 
@@ -134,7 +140,7 @@ We now provide an extended Docker Compose file (`docker-compose.all.yml`) to lau
 
    This command will pull the required images from Docker Hub (if not available locally) and start containers for MongoDB, Mongo Express, and beacon2-cbi-tools, all connected on the same network.
 
-3. **Verify and Interact**
+4. **Verify and Interact**
 
    Check that all containers are running with:
 
