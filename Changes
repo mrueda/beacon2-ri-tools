@@ -4,7 +4,7 @@ Revision history for beacon2-cbi-tools
 
     - Added docs
     - Made STDOUT friendlier with UTF-8 emoji
-    - Restore defaults: mem=8GB, tmpdir=/tmp, dbnsfpset=all.
+    - Restored defaults: mem=8GB, tmpdir=/tmp, dbnsfpset=all
 
 2.0.8  2025-03-22
 

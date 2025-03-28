@@ -1,0 +1,41 @@
+services:
+  mongo:
+    image: mongo
+    hostname: mongo
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+    networks:
+      - my-app-network
+
+  mongo-express:
+    image: mongo-express
+    restart: always
+    ports:
+      - "8081:8081"
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: root
+      ME_CONFIG_MONGODB_ADMINPASSWORD: example
+      ME_CONFIG_MONGODB_URL: mongodb://root:example@mongo:27017/
+    networks:
+      - my-app-network
+
+  beacon2-cbi-tools:
+    image: manuelrueda/beacon2-cbi-tools:latest
+    container_name: beacon2-cbi-tools
+    volumes:
+      # Use an environment variable for flexibility; replace the default with your actual path
+      - ${BEACON2_DATA_DIR:-/absolute/path/to/beacon2-cbi-tools-data}:/beacon2-cbi-tools-data
+    networks:
+      - my-app-network
+    restart: always
+    # If beacon2-cbi-tools depends on mongo being available, you can uncomment the following line:
+    # depends_on:
+    #   - mongo
+
+networks:
+  my-app-network:
+    driver: bridge
+

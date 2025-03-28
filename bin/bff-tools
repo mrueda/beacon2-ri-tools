@@ -217,7 +217,7 @@ my $beacon = Tools->new($rah_beacon);
 # Define the hash with emoji values
 my %pipeline_emoji = (
     vcf2bff     => "🧬",
-    bff2mongodb => "💾",
+    bff2mongodb => "📥",
     bff2html    => "🌐",
 );
 

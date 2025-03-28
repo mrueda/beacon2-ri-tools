@@ -70,7 +70,9 @@ data.dir = /path/to/downloaded/data/soft/NGSutils/snpEff_v5.0/data
 
 ---
 
-## Method 1: Installing from Docker Hub
+## Installation Options
+
+### Method 1: Installing from Docker Hub
 
 Pull the latest Docker image from [Docker Hub](https://hub.docker.com/r/manuelrueda/beacon2-cbi-tools):
 
@@ -81,7 +83,7 @@ docker image tag manuelrueda/beacon2-cbi-tools:latest cnag/beacon2-cbi-tools:lat
 
 ---
 
-## Method 2: Installing from Dockerfile
+### Method 2: Installing from Dockerfile
 
 Download the `Dockerfile` from [GitHub](https://github.com/CNAG-Biomedical-Informatics/beacon2-cbi-tools/blob/main/Dockerfile):
 
@@ -105,46 +107,104 @@ Then build the container:
 
 ---
 
-## Running the Container
+### Method 3: Full Stack with Docker Compose
+
+We now provide an extended Docker Compose file (`docker-compose.all.yml`) to launch **beacon2-cbi-tools**, **MongoDB**, and **Mongo Express** together in one command. This is recommended if you're deploying the full data-loading and querying stack.
+
+#### Usage
+
+1. **Configure the Data Directory**
+
+   Ensure you have a directory containing the required data for beacon2-cbi-tools. You can set this directory in the compose file using an environment variable or by editing the volume mapping directly. For example, the volume is defined as:
+
+   ```yaml
+   volumes:
+     - ${BEACON2_DATA_DIR:-/absolute/path/to/beacon2-cbi-tools-data}:/beacon2-cbi-tools-data
+   ```
+
+   You can set the `BEACON2_DATA_DIR` variable in a `.env` file or in your shell, or replace the default path with the actual absolute path.
+
+2. **Deploy the Complete Stack**
+
+   Run the following command from your project directory:
+
+   ```bash
+   docker-compose -f docker-compose.all.yml up -d
+   ```
+
+   This command will pull the required images from Docker Hub (if not available locally) and start containers for MongoDB, Mongo Express, and beacon2-cbi-tools, all connected on the same network.
+
+3. **Verify and Interact**
+
+   Check that all containers are running with:
+
+   ```bash
+   docker ps
+   ```
+
+   You can then connect to the beacon2-cbi-tools container or interact with the services as needed.
+
+---
+
+## Running and Interacting with the Container
+
+### 🔹 If You Used Method 1 or 2 (Docker Hub or Dockerfile)
 
 ```bash
-# Please update '/media/mrueda/4TBB/beacon2-cbi-tools-data' with the location of your data. Do not touch the mounting point ':/beacon2-cbi-tools-data'
-docker run -tid --volume /media/mrueda/4TBB/beacon2-cbi-tools-data:/beacon2-cbi-tools-data --name beacon2-cbi-tools cnag/beacon2-cbi-tools:latest
+# Please update '/absolute/path/to/beacon2-cbi-tools-data' with your actual local data path
+docker run -tid --volume /absolute/path/to/beacon2-cbi-tools-data:/beacon2-cbi-tools-data --name beacon2-cbi-tools cnag/beacon2-cbi-tools:latest
+```
 
-# To check the containers
-docker ps  # list your containers, beacon2-cbi-tools should be there
+To connect to the container:
 
-# Connect to the container interactively
+```bash
 docker exec -ti beacon2-cbi-tools bash
 ```
 
-Alternatively, you can run commands **from the host**, like this:
-
-First, create an alias to simplify invocation:
+Or, to run tools directly from the host:
 
 ```bash
 alias bff-tools='docker exec -ti beacon2-cbi-tools /usr/share/beacon2-cbi-tools/bin/bff-tools'
-```
-
-Then run:
-
-```bash
 bff-tools
 ```
 
-## Testing the deployment
+---
 
-Go to directory `test` and execute:
+### 🔹 If You Used Method 3 (Docker Compose)
+
+Your container should already be running if you used:
 
 ```bash
+docker-compose -f docker-compose.all.yml up -d
+```
+
+To connect:
+
+```bash
+docker exec -ti beacon2-cbi-tools bash
+```
+
+To run tools from the host (optional):
+
+```bash
+alias bff-tools='docker exec -ti beacon2-cbi-tools /usr/share/beacon2-cbi-tools/bin/bff-tools'
+bff-tools
+```
+
+---
+
+### ✅ Test the Deployment
+
+```bash
+cd test
 bash 02_test_deployment.sh
 ```
 
 ---
 
-## MongoDB Installation (Optional: Only for `load/full` modes)
+## MongoDB: Manual Setup (Optional)
 
-If you don't already have MongoDB installed in a separate container, follow these steps.
+> ⚠️ This section is only needed if you're **not** using `docker-compose.all.yml`, or want to run MongoDB manually.
 
 ### Step 1: Download `docker-compose.yml`
 
@@ -161,19 +221,17 @@ docker compose up -d
 
 Mongo Express will be accessible at `http://localhost:8081` with default credentials `admin` and `pass`.
 
-> **IMPORTANT:** If you plan to load data into MongoDB from inside the `beacon2-cbi-tools` container, read the section [Access MongoDB from inside the container](#access-mongodb-from-inside-the-container) before proceeding.
+> **IMPORTANT:** If you plan to load data into MongoDB from inside the `beacon2-cbi-tools` container, read the section below.
 
 ### Access MongoDB from Inside the Container
 
-If you want to load data from **inside** the `beacon2-cbi-tools` container directly into the `mongo` container, both containers must be on the same network.
-
-#### **Option A**: Before running the container
+#### Option A: Before running the container
 
 ```bash
 docker run -tid --network=my-app-network --volume /media/mrueda/4TBB/beacon2-cbi-tools-data:/beacon2-cbi-tools-data --name beacon2-cbi-tools cnag/beacon2-cbi-tools:latest
 ```
 
-#### **Option B**: After running the container
+#### Option B: After running the container
 
 ```bash
 docker network connect my-app-network beacon2-cbi-tools
