@@ -135,7 +135,7 @@ wget https://raw.githubusercontent.com/CNAG-Biomedical-Informatics/beacon2-cbi-t
    Run the following command from your project directory:
 
    ```bash
-   docker-compose -f docker-compose.all.yml up -d
+   docker compose -f docker-compose.all.yml up -d
    ```
 
    This command will pull the required images from Docker Hub (if not available locally) and start containers for MongoDB, Mongo Express, and beacon2-cbi-tools, all connected on the same network.
@@ -181,7 +181,7 @@ bff-tools
 Your container should already be running if you used:
 
 ```bash
-docker-compose -f docker-compose.all.yml up -d
+docker compose -f docker-compose.all.yml up -d
 ```
 
 To connect:

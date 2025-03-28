@@ -28,9 +28,11 @@ services:
     volumes:
       # Use an environment variable for flexibility; replace the default with your actual path
       - ${BEACON2_DATA_DIR:-/absolute/path/to/beacon2-cbi-tools-data}:/beacon2-cbi-tools-data
+      #- ${BEACON2_DATA_DIR:-/media/mrueda/4TBB/beacon2-cbi-tools-data}:/beacon2-cbi-tools-data
     networks:
       - my-app-network
     restart: always
+    command: ["bash", "-c", "while true; do sleep 3600; done"]
     # If beacon2-cbi-tools depends on mongo being available, you can uncomment the following line:
     # depends_on:
     #   - mongo
