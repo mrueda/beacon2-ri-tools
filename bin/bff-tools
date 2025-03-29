@@ -339,31 +339,32 @@ This tool is part of the C<beacon2-cbi-tools> repository and is designed to supp
 bff-tools <mode> [-arguments] [-options]
 
   Mode:
-    vcf
+  * vcf
        -i | --input <file>            Requires a VCF.gz file
                                       (May also use a parameters file)
 
-    load
+  * load
                                       (Requires a parameters file specifying BFF files)
 
-     full (vcf + load)
+  * full (vcf + load)
        -i | --input <file>            Requires a VCF.gz file
                                       (May also use a parameters file)
 
-       Options (for vcf / load / full):
+     Options [vcf|load|full]
        -c | --config <file>           Requires a configuration file
        -p | --param <file>            Requires a parameters file (optional)
        -projectdir-override <path>    Custom project directory path (overrides config)
        -t | --threads <number>        Number of threads (optional, mainly for VCF)
 
-    validate
+  * validate
+     Options [validate]
        -i | --input <file(s)>         One or more XLSX/JSON metadata files
        -s | --schema-dir <directory>  Directory containing JSON schemas
        -o | --out-dir <directory>     Output directory for validated data
        -gv                            Set this option if you want to process <genomicVariations> entity
        -ignore-validation             Writes JSON collection regardless of results from validation against JSON schemas (AYOR!)
 
-       Experimental:
+      Experimental:
        -gv-vcf                        Set this option to read <genomicVariations.json> from <beacon vcf> (with one document per line)
 
 
