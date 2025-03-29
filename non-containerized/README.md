@@ -54,7 +54,7 @@ tar -xzvf data.tar.gz
 First, we need to install a few system components:
 
 ```bash
-sudo apt install libbz2-dev zlib1g-dev libncurses5-dev libncursesw5-dev liblzma-dev libcurl4-openssl-dev libssl-dev cpanminus python3-pip perl-doc default-jre
+sudo apt install gcc make libperl-dev libbz2-dev zlib1g-dev libncurses5-dev libncursesw5-dev liblzma-dev libcurl4-openssl-dev libssl-dev cpanminus python3-pip perl-doc default-jre
 ```
 
 Let's install `mongosh` (only if you plan to load data into MongoDB)
